@@ -31,8 +31,8 @@
     fancybox: false,
     mediumzoom: false,
     lazyload: false,
-    pangu: false,
-    comments: {"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null},
+    pangu: true,
+    comments: {"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},
     algolia: {
       appID: '',
       apiKey: '',
@@ -250,6 +250,7 @@
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -363,6 +364,7 @@
 
   
   <script src="/lib/anime.min.js"></script>
+  <script src="true"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 
@@ -398,6 +400,28 @@
   
 
   
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: 'ddbb59d37878690e0e14# GitHub Application Client ID',
+      clientSecret: '13a61d6d6f9bb6f952b73077da21765a9337b760# GitHub Application Client Secret',
+      repo: 'boyyongxin.github.io# Repository name to store issues',
+      owner: 'CoderYang# GitHub repo owner',
+      admin: ['germey# GitHub repo owner and collaborators, only these guys can initialize gitHub issues'],
+      id: '651dfc7e8f07e4a4304bf4895321dd66',
+        language: 'zh-CN',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>
