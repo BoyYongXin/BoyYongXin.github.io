@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-12-23T07:32:18.226Z</updated>
+  <updated>2019-12-31T08:05:47.947Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>某日报搜索参数securitykey加密破解</title>
+    <link href="http://yoursite.com/2019/12/31/people-app/"/>
+    <id>http://yoursite.com/2019/12/31/people-app/</id>
+    <published>2019-12-31T07:49:35.000Z</published>
+    <updated>2019-12-31T08:05:47.947Z</updated>
+    
+    <content type="html"><![CDATA[<p>感觉好久没发文章了，最近小编基本处于放养状态，言归正传</p> <a id="more"></a><p>最近遇到一个app，怎么遇到的呢，还用说么，公司来活了，给你的任务</p><p><strong>任务要求：</strong></p><p>给定一批关键词，进行搜索，把搜索结果近期的数据，进行，提取、入库。</p><p>接到这个app，首先进行常规操作，配置好手机代理，进行fiddler抓包，于是乎，抓到包了，拿下来，使用postman进行模拟请求</p><p>数据返回成功，ok完事了？？</p><p>根本不可能，更换一个关键词；不换关键词，请求下一页；都不能用，分析一下请求结构</p><p><img src="https://img-blog.csdnimg.cn/20191231151029774.png" alt="img"></p><p>我们看到是post请求，一起看看他的form表单</p><p><img src="https://img-blog.csdnimg.cn/20191231151224429.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0JpZ0JveV9Db2Rlcg==,size_16,color_FFFFFF,t_70" alt="img"></p><p>如何确定那个参数是校验加密，反复抓包几次，对比信息即可，对比发现：</p><p>securitykey ：主要校验参数<br>longitude，latitude 经纬度，暂时不重要<br>province_code 时间戳，十位时间戳，后面跟000</p><p>开始下一个步骤，反编译APP，看他的源码，找到加密参数的方法</p><p>小坑出现了，使用apktool反编译失败，有点猫腻，jadx直接打开apk，如图所示</p><p><img src="https://img-blog.csdnimg.cn/20191231152321514.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0JpZ0JveV9Db2Rlcg==,size_16,color_FFFFFF,t_70" alt="img"></p><p>不看不知道，一看吓一跳，腾讯和360加固，有加固，需要脱壳</p><p>脱壳成功后，把所有脱出来的classs.dex文件，全部拿到，对比一下，先拿文件最大的下手</p><p><img src="https://img-blog.csdnimg.cn/20191231152730740.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0JpZ0JveV9Db2Rlcg==,size_16,color_FFFFFF,t_70" alt="img"></p><p>全局搜索，加密参数，我们找到了这个文件，瞧一瞧是不是咱所需要的</p><p><img src="https://img-blog.csdnimg.cn/20191231152951945.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0JpZ0JveV9Db2Rlcg==,size_16,color_FFFFFF,t_70" alt="img"></p><p>如标注位置，发现正是咱们所需要的，加密算法调用，进入getMD5Str方法里面去，看看是如何加密的</p><p><img src="https://img-blog.csdnimg.cn/20191231153145614.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0JpZ0JveV9Db2Rlcg==,size_16,color_FFFFFF,t_70" alt="img"></p><p>看一看，瞧一瞧，hook这个方法，看看传进来的是什么参数</p><p><img src="https://img-blog.csdnimg.cn/20191231153415752.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0JpZ0JveV9Db2Rlcg==,size_16,color_FFFFFF,t_70" alt="img"></p><p>跟据多次堆栈和print打印的结果，发现发参数基本就是这个了</p><p>有几个参数是变化的，标注一下</p><p>经纬度，页码，时间戳</p><p>这个app到这里基本就差不多，破解了，</p><p>本想着直接python调用这段java代码呢，研究了一下（代码不多），加密代码，使用python还原一下</p><p>md5_str = hashlib.md5(security_args.encode(encoding=’UTF-8’)).hexdigest()</p><p>其实就是python的md5加密，哈哈</p><p>构造请求就可以了，完整代码，就不上传了</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;感觉好久没发文章了，最近小编基本处于放养状态，言归正传&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="python爬虫" scheme="http://yoursite.com/categories/python%E7%88%AC%E8%99%AB/"/>
+    
+    
+      <category term="爬虫" scheme="http://yoursite.com/tags/%E7%88%AC%E8%99%AB/"/>
+    
+      <category term="app逆向" scheme="http://yoursite.com/tags/app%E9%80%86%E5%90%91/"/>
+    
+  </entry>
   
   <entry>
     <title>自动化工具uiautomator2安装和使用教程</title>
