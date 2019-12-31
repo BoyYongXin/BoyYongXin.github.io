@@ -3,9 +3,8 @@
   <entry>
     <title>某日报搜索参数securitykey加密破解</title>
     <url>/2019/12/31/people-app/</url>
-    <content><![CDATA[<p>感觉好久没发文章了，最近小编基本处于放养状态，言归正传</p>
+    <content><![CDATA[<p>感觉好久没发文章了，最近小编基本处于放养状态，言归正传，最近遇到一个app，怎么遇到的呢，还用说么，公司来活了，给你的任务</p>
  <a id="more"></a>
-<p>最近遇到一个app，怎么遇到的呢，还用说么，公司来活了，给你的任务</p>
 <p><strong>任务要求：</strong></p>
 <p>给定一批关键词，进行搜索，把搜索结果近期的数据，进行，提取、入库。</p>
 <p>接到这个app，首先进行常规操作，配置好手机代理，进行fiddler抓包，于是乎，抓到包了，拿下来，使用postman进行模拟请求</p>
@@ -37,13 +36,6 @@
 <p>其实就是python的md5加密，哈哈</p>
 <p>构造请求就可以了，完整代码，就不上传了</p>
 ]]></content>
-      <categories>
-        <category>python爬虫</category>
-      </categories>
-      <tags>
-        <tag>爬虫</tag>
-        <tag>app逆向</tag>
-      </tags>
   </entry>
   <entry>
     <title>自动化工具uiautomator2安装和使用教程</title>
