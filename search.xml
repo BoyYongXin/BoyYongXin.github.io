@@ -12,7 +12,7 @@
 <p>首先在手机上分享出，我们要抓取的用户</p>
 <p><img src="/2021/05/28/douyin-signature/www5/Hexo/BoyYongXin/source/_posts/douyin-signature/1.png" alt="img"></p>
 <p>看到这个页面之后，我抓一下包分析一下</p>
-<p> <img src="/2021/05/28/douyin-signature/www5/Hexo/BoyYongXin/source/_posts/douyin-signature/2.png" alt="img"></p>
+<p> <img src="/2021/05/28/douyin-signature/2.png" alt></p>
 <p><strong>滑动刷新多抓两个包，进行比较，分析一下参数</strong></p>
 <p><img src="/2021/05/28/douyin-signature/www5/Hexo/BoyYongXin/source/_posts/douyin-signature/17.png" alt="img"></p>
 <p>max_cursor ：每次会根据，上一次的抓包结果里面有</p>
