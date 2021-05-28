@@ -22,15 +22,15 @@
 <p>我们在控制台运行ceshi.py文件</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 ceshi.py</span><br></pre></td></tr></table></figure>
 <p>我们会看到控制台源源不断的 打印出 你好，如图所示：</p>
-<p><img src="E:\www5\Hexo\BoyYongXin\source\_posts\images\更新插件3.png" alt="图片"></p>
+<p><img src="/images\更新插件3.png" alt="图片"></p>
 <p>我们保持程序在运行的同时，更改setting中的文件内容</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">redis&#x3D;&quot;你好，精神小伙&quot;</span><br></pre></td></tr></table></figure>
 <p>当我更改完之后，你就会发现控制台，输出内容变成了“你好，精神小伙”如图所示</p>
-<p><img src="E:\www5\Hexo\BoyYongXin\source\_posts\images\更新插件2.png" alt="图片"></p>
+<p><img src="/images\更新插件2.png" alt="图片"></p>
 <p>这样愉快的就解决了我们问题</p>
 <p><strong>注 意 ：</strong></p>
 <p>1、代码中的 <strong>importlib.reload(setting)</strong> 中的<strong>setting</strong>，必须是module ，也就是setting这个文件，否则会报错**</p>
-<p><img src="E:\www5\Hexo\BoyYongXin\source\_posts\images\更新插件1.png" alt="图片"></p>
+<p><img src="/images\更新插件1.png" alt="图片"></p>
 <p>2、如果你的程序是在，pycharm上运行的话，会出现更新完文件，但是没有被及时打印出，这是因为，pycharm 有个缓存，不是实时写到硬盘上的，最好在更改完文件是，ctrl + s保存下，就可以实时热加载了。</p>
 <p>当然如果你是在cmd窗口运行，那就不需要担心了</p>
 <p><strong>彩 蛋 </strong>：</p>
