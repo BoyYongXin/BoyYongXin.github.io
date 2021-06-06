@@ -2,11 +2,8 @@
 <search>
   <entry>
     <title>同步和异步，进程，线程和协程之间的区别和联系</title>
-    <url>/2021/06/06/%E5%90%8C%E6%AD%A5%E5%92%8C%E5%BC%82%E6%AD%A5%EF%BC%8C%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E8%81%94%E7%B3%BB/</url>
-    <content><![CDATA[<hr>
-<p>title:同步和异步，进程，线程和协程之间的区别和联系<br>date:2021-06-05 15:49:35<br>categories:python基础知识，面试集锦<br>tags:[python基础知识,面试,] #文章标签，可空，多标签请用格式，注意:后面有个空格</p>
-<hr>
-<p>同步和异步，进程，线程和协程之间的区别和联系</p>
+    <url>/2021/06/05/%E5%90%8C%E6%AD%A5%E5%92%8C%E5%BC%82%E6%AD%A5%EF%BC%8C%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E8%81%94%E7%B3%BB/</url>
+    <content><![CDATA[<p>同步和异步，进程，线程和协程之间的区别和联系</p>
 <a id="more"></a>
 <h1 id="同步和异步，进程，线程和协程之间的区别和联系"><a href="#同步和异步，进程，线程和协程之间的区别和联系" class="headerlink" title="同步和异步，进程，线程和协程之间的区别和联系"></a>同步和异步，进程，线程和协程之间的区别和联系</h1><p><strong>同步和异步、阻塞和非阻塞</strong></p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">异步： 多任务， 多个任务之间执行没有先后顺序，可以同时运行，执行的先后顺序不会有什么影响，存在的多条运行主线</span><br><span class="line">同步： 多任务， 多个任务之间执行的时候要求有先后顺序，必须一个先执行完成之后，另一个才能继续执行， 只有一个主线</span><br><span class="line">阻塞：从调用者的角度出发，如果在调用的时候，被卡住，不能再继续向下运行，需要等待，就说是阻塞</span><br><span class="line">非阻塞： 从调用者的角度出发， 如果在调用的时候，没有被卡住，能够继续向下运行，无需等待，就说是非阻塞</span><br></pre></td></tr></table></figure>
@@ -27,6 +24,13 @@
 <p>协程介绍： <a href="https://zhuanlan.zhihu.com/p/38528865" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/38528865</a> </p>
 <p>参考链接 ： <a href="https://blog.csdn.net/DD18203614685/article/details/93226319" target="_blank" rel="noopener">https://blog.csdn.net/DD18203614685/article/details/93226319</a> </p>
 ]]></content>
+      <categories>
+        <category>python基础知识，面试集锦</category>
+      </categories>
+      <tags>
+        <tag>python基础知识</tag>
+        <tag>面试</tag>
+      </tags>
   </entry>
   <entry>
     <title>douyin-signature</title>
