@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>生成器中的return有什么作用</title>
+    <url>/2021/06/06/%E7%94%9F%E6%88%90%E5%99%A8%E4%B8%AD%E7%9A%84return%E6%9C%89%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8/</url>
+    <content><![CDATA[<a id="more"></a>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_data</span><span class="params">(num)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> num &gt; <span class="number">10</span>:</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(num):</span><br><span class="line">            <span class="keyword">yield</span> i</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> num</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    res = generate_data(num=<span class="number">12</span>)</span><br><span class="line">    print(res, type(res))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> res:</span><br><span class="line">        print(i, type(i))</span><br></pre></td></tr></table></figure>
+<p><strong>运行结果：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;generator object generate_data at 0x000002279C741750&gt; &lt;class &#39;generator&#39;&gt;</span><br><span class="line">0 &lt;class &#39;int&#39;&gt;</span><br><span class="line">1 &lt;class &#39;int&#39;&gt;</span><br><span class="line">2 &lt;class &#39;int&#39;&gt;</span><br><span class="line">3 &lt;class &#39;int&#39;&gt;</span><br><span class="line">4 &lt;class &#39;int&#39;&gt;</span><br><span class="line">5 &lt;class &#39;int&#39;&gt;</span><br><span class="line">6 &lt;class &#39;int&#39;&gt;</span><br><span class="line">7 &lt;class &#39;int&#39;&gt;</span><br><span class="line">8 &lt;class &#39;int&#39;&gt;</span><br><span class="line">9 &lt;class &#39;int&#39;&gt;</span><br><span class="line">10 &lt;class &#39;int&#39;&gt;</span><br><span class="line">11 &lt;class &#39;int&#39;&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>今天的重点，当num值小于10时：</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">res = generate_data(num=<span class="number">5</span>)</span><br><span class="line">   print(res, type(res))</span><br><span class="line">   <span class="keyword">for</span> i <span class="keyword">in</span> res:</span><br><span class="line">       print(i, type(i))</span><br></pre></td></tr></table></figure>
+<p><strong>运行结果：</strong></p>
+<p><generator object generate_data at 0x00000282b21e1750> <class 'generator'></class></generator></p>
+<p>并没有返回5这个值,但是代码也没有报错，通过印结果，这说明返回的res 也是生成器</p>
+<p><strong>带着疑问，我们进行搜索</strong></p>
+<p><a href="https://stackoverflow.com/questions/16780002/return-in-generator-together-with-yield-in-python-3-3" target="_blank" rel="noopener">https://stackoverflow.com/questions/16780002/return-in-generator-together-with-yield-in-python-3-3</a></p>
+<p><strong>这时候我们明白了：</strong></p>
+<p>return 在生成器中，表示生成器运行完成了，可以结束了。然后生成器会抛出一个StopIteration的异常。而for循环能够检测到这个异常，于是结束循环。所以当我们传入的参数为5的时候，生成器直接运行到了return，于是它直接就抛出StopIteration，于是for 循环检测到这个异常就结束了。<br> 在生成器里面的return只是一个结束标志，它不会把后面写的值返回给调用者。这跟函数里面的return语句是不一样的.</p>
+<p><strong>我们验证一下：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">def f():</span><br><span class="line">    return 3</span><br><span class="line">    yield 2</span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    x &#x3D; f()</span><br><span class="line">    print(x.__next__())</span><br></pre></td></tr></table></figure>
+<p><strong>运行结果：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;E:&#x2F;workerspace&#x2F;demo&#x2F;a.py&quot;, line 14, in &lt;module&gt;</span><br><span class="line">    print(x.__next__())</span><br><span class="line">StopIteration: 3</span><br></pre></td></tr></table></figure>
+<p>果真如此</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+        <tag>生成器</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>xposed-hook原理</title>
     <url>/2021/06/06/xposed-hook%E5%8E%9F%E7%90%86/</url>
     <content><![CDATA[<p>xposed hook 原理介绍</p>
