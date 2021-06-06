@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2021-06-06T09:56:52.634Z</updated>
+  <updated>2021-06-06T10:25:29.496Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>xposed-hook原理</title>
+    <link href="http://yoursite.com/2021/06/06/xposed-hook%E5%8E%9F%E7%90%86/"/>
+    <id>http://yoursite.com/2021/06/06/xposed-hook%E5%8E%9F%E7%90%86/</id>
+    <published>2021-06-06T10:24:05.000Z</published>
+    <updated>2021-06-06T10:25:29.496Z</updated>
+    
+    <content type="html"><![CDATA[<p>xposed hook 原理介绍</p><a id="more"></a><p><strong>1、xposed工作原理：</strong></p><p>「拦截」。Xposed 通过劫持 Android 系统的 zygote 进程来加载自定义功能，这就像是半路截杀，在应用运行之前就已经将我们需要的自定义内容强加在了系统进程当中。</p><p><strong>2、Android 系统的Zygote初始化过程</strong></p><p><strong>参考链接：</strong><a href="https://www.jianshu.com/p/2303e7efb956" target="_blank" rel="noopener">https://www.jianshu.com/p/2303e7efb956</a></p><p><strong>3、xposed拦截流程：</strong></p><ul><li>startVM() 启动虚拟机并且初始化</li><li>startReg() 注册一些JNI的方法</li><li>start() 启动Zygote，依次执行 startVM()-&gt;startReg()-&gt;callMain()</li><li>callMain() 通过反射调用传入的className对象的main函数，如在init.cpp函数里面传入的ZygoteInit对象和RuntimeInit对象，调用callMain方法就会调用对应的main方法。</li></ul><p><strong>也就是说在安卓系统启动的时候，在执行callmain()这个函数的时候，我们就把我们的自定义的一些模块注入到，系统进程中了。</strong></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;xposed hook 原理介绍&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="逆向" scheme="http://yoursite.com/categories/%E9%80%86%E5%90%91/"/>
+    
+    
+      <category term="Hook" scheme="http://yoursite.com/tags/Hook/"/>
+    
+      <category term="frida" scheme="http://yoursite.com/tags/frida/"/>
+    
+      <category term="逆向" scheme="http://yoursite.com/tags/%E9%80%86%E5%90%91/"/>
+    
+  </entry>
   
   <entry>
     <title>你应该要了解的https</title>

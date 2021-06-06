@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>xposed-hook原理</title>
+    <url>/2021/06/06/xposed-hook%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<p>xposed hook 原理介绍</p>
+<a id="more"></a>
+<p><strong>1、xposed工作原理：</strong></p>
+<p>「拦截」。Xposed 通过劫持 Android 系统的 zygote 进程来加载自定义功能，这就像是半路截杀，在应用运行之前就已经将我们需要的自定义内容强加在了系统进程当中。</p>
+<p><strong>2、Android 系统的Zygote初始化过程</strong></p>
+<p><strong>参考链接：</strong><a href="https://www.jianshu.com/p/2303e7efb956" target="_blank" rel="noopener">https://www.jianshu.com/p/2303e7efb956</a></p>
+<p><strong>3、xposed拦截流程：</strong></p>
+<ul>
+<li>startVM() 启动虚拟机并且初始化</li>
+<li>startReg() 注册一些JNI的方法</li>
+<li>start() 启动Zygote，依次执行 startVM()-&gt;startReg()-&gt;callMain()</li>
+<li>callMain() 通过反射调用传入的className对象的main函数，如在init.cpp函数里面传入的ZygoteInit对象和RuntimeInit对象，调用callMain方法就会调用对应的main方法。</li>
+</ul>
+<p><strong>也就是说在安卓系统启动的时候，在执行callmain()这个函数的时候，我们就把我们的自定义的一些模块注入到，系统进程中了。</strong></p>
+]]></content>
+      <categories>
+        <category>逆向</category>
+      </categories>
+      <tags>
+        <tag>Hook</tag>
+        <tag>frida</tag>
+        <tag>逆向</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>你应该要了解的https</title>
     <url>/2021/06/06/%E4%BD%A0%E5%BA%94%E8%AF%A5%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84https/</url>
     <content><![CDATA[<p>近几年，互联网发生着翻天覆地的变化，尤其是我们一直习以为常的HTTP协议，在逐渐的被HTTPS协议所取代，在浏览器、搜索引擎、CA机构、大型互联网企业的共同促进下，互联网迎来了“HTTPS加密时代”，HTTPS将在未来的几年内全面取代HTTP成为传输协议的主流。</p>
