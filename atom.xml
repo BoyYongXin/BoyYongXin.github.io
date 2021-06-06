@@ -122,22 +122,25 @@
     <link href="http://yoursite.com/2021/05/06/frida-hook%E5%8E%9F%E7%90%86/"/>
     <id>http://yoursite.com/2021/05/06/frida-hook%E5%8E%9F%E7%90%86/</id>
     <published>2021-05-06T09:46:33.000Z</published>
-    <updated>2021-06-06T09:57:49.265Z</updated>
+    <updated>2021-06-06T10:19:12.021Z</updated>
     
-    <content type="html"><![CDATA[<a id="more"></a><p>frida使用的是<strong>动态二进制插桩技术</strong>（<strong>DBI</strong>），首先来了解一下插桩技术：</p><p><em>插桩技术是指将额外的代码注入程序中以收集运行时的信息，可分为两种：</em><br> (1)源代码插桩[Source Code Instrumentation(SCI)]：顾名思义，在程序源代码的基础上增加（注入）额外的代码，从而达到预期目的或者功能；</p>]]></content>
+    <content type="html"><![CDATA[<p>frida hook 原理介绍</p><a id="more"></a><p>frida使用的是<strong>动态二进制插桩技术</strong>（<strong>DBI</strong>），首先来了解一下插桩技术：</p><p><strong>一、插桩技术是指将额外的代码注入程序中以收集运行时的信息，可分为两种：</strong></p><p><strong>(1)源代码插桩[Source Code Instrumentation(SCI)]</strong>：</p><p>顾名思义，在程序源代码的基础上增加（注入）额外的代码，从而达到预期目的或者功能；</p><p><img src="/2021/05/06/frida-hook%E5%8E%9F%E7%90%86/1.jpg" alt></p><p><strong>(2)二进制插桩（Binary Instrumentation）：</strong></p><p>额外代码注入到二进制可执行文件中，通过修改汇编地址，改变程序运行内容，运行后再返回到原来程序运行出处，从而实现程序的额外功能。<br> ●静态二进制插桩[Static Binary Instrumentation(SBI)]：在程序执行前插入额外的代码和数据，生成一个永久改变的可执行文件。<br> ●动态二进制插桩[Dynamic Binary Instrumentation(DBI)]：在程序运行时实时地插入额外代码和数据，对可执行文件没有任何永久改变。</p><p><strong>二、DBI能做什么？</strong></p><blockquote><p>（1）访问进程的内存<br>（2）在应用程序运行时覆盖一些功能<br>（3）从导入的类中调用函数<br>（4）在堆上查找对象实例并使用这些对象实例<br>（5）Hook，跟踪和拦截函数等等</p></blockquote><h3 id="两种模式"><a href="#两种模式" class="headerlink" title="两种模式"></a>两种模式</h3><ol><li><p>attach模式<br>attach到已经存在的进程，核心原理是ptrace修改进程内存，如果进程处于调试状态（traceid不等于0），则attach失败</p></li><li><p>spawn模式<br>启动一个新的进程并挂起，在启动的同时注入frida代码，适用于在进程启动前的一些hook，如hook RegisterNative等，注入完成后调用resume恢复进程。</p></li></ol><p>参考资料;</p><p><a href="https://frida.re/" target="_blank" rel="noopener">https://frida.re/</a></p><p><a href="https://mabin004.github.io/2018/07/31/Mac上编译Frida/" target="_blank" rel="noopener">https://mabin004.github.io/2018/07/31/Mac%E4%B8%8A%E7%BC%96%E8%AF%91Frida/</a></p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;frida使用的是&lt;strong&gt;动态二进制插桩技术&lt;/strong&gt;（&lt;strong&gt;DBI&lt;/strong&gt;），首先来了解一下插桩技术：&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;插桩技术是指将额外的代码注入程序中以收集运行时的信息，可分为两种：&lt;/em
-      
+      &lt;p&gt;frida hook 原理介绍&lt;/p&gt;
     
     </summary>
     
     
+      <category term="逆向" scheme="http://yoursite.com/categories/%E9%80%86%E5%90%91/"/>
+    
+    
+      <category term="Hook" scheme="http://yoursite.com/tags/Hook/"/>
+    
+      <category term="frida" scheme="http://yoursite.com/tags/frida/"/>
+    
+      <category term="逆向" scheme="http://yoursite.com/tags/%E9%80%86%E5%90%91/"/>
     
   </entry>
   
