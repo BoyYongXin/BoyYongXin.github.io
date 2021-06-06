@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>同步和异步，进程，线程和协程之间的区别和联系</title>
+    <url>/2021/06/06/%E5%90%8C%E6%AD%A5%E5%92%8C%E5%BC%82%E6%AD%A5%EF%BC%8C%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E8%81%94%E7%B3%BB/</url>
+    <content><![CDATA[<hr>
+<p>title:同步和异步，进程，线程和协程之间的区别和联系<br>date:2021-06-05 15:49:35<br>categories:python基础知识，面试集锦<br>tags:[python基础知识,面试,] #文章标签，可空，多标签请用格式，注意:后面有个空格</p>
+<hr>
+<p>同步和异步，进程，线程和协程之间的区别和联系</p>
+<a id="more"></a>
+<h1 id="同步和异步，进程，线程和协程之间的区别和联系"><a href="#同步和异步，进程，线程和协程之间的区别和联系" class="headerlink" title="同步和异步，进程，线程和协程之间的区别和联系"></a>同步和异步，进程，线程和协程之间的区别和联系</h1><p><strong>同步和异步、阻塞和非阻塞</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">异步： 多任务， 多个任务之间执行没有先后顺序，可以同时运行，执行的先后顺序不会有什么影响，存在的多条运行主线</span><br><span class="line">同步： 多任务， 多个任务之间执行的时候要求有先后顺序，必须一个先执行完成之后，另一个才能继续执行， 只有一个主线</span><br><span class="line">阻塞：从调用者的角度出发，如果在调用的时候，被卡住，不能再继续向下运行，需要等待，就说是阻塞</span><br><span class="line">非阻塞： 从调用者的角度出发， 如果在调用的时候，没有被卡住，能够继续向下运行，无需等待，就说是非阻塞</span><br></pre></td></tr></table></figure>
+<p><strong>1）同步、异步</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">函数或方法被调用的时候，调用者是否得到最终的结果。</span><br><span class="line"></span><br><span class="line">直接得到最终结果的结果，就是同步调用。（打饭模型，打饭不打好不走开，直到打饭给我后才离开）</span><br><span class="line">不直接得到的最终的结果，就是异步调用。（打饭，不会一直等着，会时不时的过来看看，打完了把饭拿走，异步不保证多长时间打完了饭）</span><br></pre></td></tr></table></figure>
+<p><strong>2）阻塞、非阻塞：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">函数或方法调用的时候，是否立即返回。</span><br><span class="line"></span><br><span class="line">立即返回就是非阻塞调用。</span><br><span class="line">不立即返回就是阻塞调用。</span><br></pre></td></tr></table></figure>
+<p><strong>3）区别：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">同步、异步，与阻塞、非阻塞不相关。</span><br><span class="line">同步、异步强调的是结果。阻塞和非阻塞强调的是时间，是否等待。</span><br><span class="line">同步与异步区别在于：调用者是否得到了想要的最终结果。</span><br><span class="line">同步就是一直要执行到返回最终结果。异步就是直接返回了，但是返回的不是最终的结果，调用者不能通过这种调用得到结果，还要通过被调用者，使用其他方式通知调用者，来取回最终结果。</span><br><span class="line">阻塞与非阻塞的区别在于，调用者是否还能干其他的事情。</span><br><span class="line">阻塞，调用者只能干等。非阻塞，调用者可以先忙一会别的，不用一直等。</span><br></pre></td></tr></table></figure>
+<p><strong>4）联系：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">同步阻塞：调用者阻塞，直到等到拿到最终结果。（打饭模型，什么事情也不敢，就等着打饭，打饭是结果，什么也不干，一直在等着，同步加阻塞）</span><br><span class="line">同步非阻塞：（等着打饭，但是可以玩会手机，看看电视，打饭是结果，但是不用一直在等着）</span><br><span class="line">异步阻塞：（我要打饭，你说等着较好，并没有返回饭给我，我啥事不干，就干等着饭好了叫我）</span><br><span class="line">异步非阻塞：回调的话。（我要打饭，你说等较好，并没有返回饭给我，可以在旁边看看电视，玩玩手机，饭好了叫我）</span><br></pre></td></tr></table></figure>
+<h2 id="进程、线程和协程之间的区别和联系"><a href="#进程、线程和协程之间的区别和联系" class="headerlink" title="进程、线程和协程之间的区别和联系"></a><strong>进程、线程和协程之间的区别和联系</strong></h2><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a><strong>定义</strong></h2><p>进程: 一个运行起来的程序或者软件叫做进程，进程是操作系统分配资源的 基本单位<br>线程：指进程内的一个执行单元,也是进程内的可调度实体。<br>协程：是一种程序组件，是由子例程（过程、函数、例程、方法、子程序）的概念泛化而来的，子例程只有一个入口点且只返回一次，而协程允许多个入口点，可以在指定位置挂起和恢复执行。</p>
+<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><p>进程是资源分配的最小单位,线程是CPU调度的最小单位.<br>进程是操作系统资源分配的单位<br>线程是CPU调度的单位<br>进程切换需要的资源最大，效率很低<br>线程切换需要的资源一般，效率一般<br>协程切换需要资源很小，效率高</p>
+<h2 id="线程与进程的区别"><a href="#线程与进程的区别" class="headerlink" title="线程与进程的区别"></a>线程与进程的区别</h2><p>同一个进程中的线程共享同一内存空间，但是进程之间是独立的。<br>同一个进程中的所有线程的数据是共享的（进程通讯），进程之间的数据是独立的。<br>对主线程的修改可能会影响其他线程的行为，但是父进程的修改（除了删除以外）不会影响其他子进程。<br>一个进程至少有一个线程<br>同一个进程的线程之间可以直接通信，但是进程之间的交流需要借助中间代理(队列)来实现<br>创建新的线程很容易，但是创建新的进程需要对父进程做一次复制。<br>一个线程可以操作同一进程的其他线程，但是进程只能操作其子进程。<br>线程启动速度快，进程启动速度慢（但是两者运行速度没有可比性）。</p>
+<h2 id="协程与线程的比较"><a href="#协程与线程的比较" class="headerlink" title="协程与线程的比较"></a>协程与线程的比较</h2><p>一个线程可以多个协程，一个进程也可以单独拥有多个协程，这样python中则能使用多核CPU。<br>线程进程都是同步机制，而协程则是异步<br>协程能保留上一次调用时的状态，每次过程重入时，就相当于进入上一次调用的状态</p>
+<p><strong>代码demo：</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> queue</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">consumer</span><span class="params">(name)</span>:</span></span><br><span class="line">    print(<span class="string">"%s准备开始吃包子啦..."</span> % name)</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        new_baozi = <span class="keyword">yield</span></span><br><span class="line">        print(<span class="string">"[%s] 正在吃包子 %s"</span> % (name,new_baozi))</span><br><span class="line">        <span class="comment">#time.sleep(1)</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">producer</span><span class="params">()</span>:</span></span><br><span class="line">    r = con.__next__()</span><br><span class="line">    r = con2.__next__()</span><br><span class="line">    n = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> n &lt; <span class="number">5</span>:    <span class="comment"># 生产者只做5个包子</span></span><br><span class="line">        n += <span class="number">1</span></span><br><span class="line">        print(<span class="string">"\033[32;1m[producer]\033[0m做好了新包子 %s"</span> % n )</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        con.send(n)</span><br><span class="line">        con2.send(n)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment"># 定义2个消费者、1个生产者</span></span><br><span class="line">    con = consumer(<span class="string">"c1"</span>)</span><br><span class="line">    con2 = consumer(<span class="string">"c2"</span>)</span><br><span class="line">    p = producer()</span><br></pre></td></tr></table></figure>
+<p>协程介绍： <a href="https://zhuanlan.zhihu.com/p/38528865" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/38528865</a> </p>
+<p>参考链接 ： <a href="https://blog.csdn.net/DD18203614685/article/details/93226319" target="_blank" rel="noopener">https://blog.csdn.net/DD18203614685/article/details/93226319</a> </p>
+]]></content>
+  </entry>
+  <entry>
     <title>douyin-signature</title>
     <url>/2021/05/28/douyin-signature/</url>
     <content><![CDATA[<p>声明：本文只作学习研究，禁止用于非法用途，否则后果自负，如有侵权，请告知删除，谢谢！</p>
