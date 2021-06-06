@@ -238,7 +238,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-06-06 13:01:39 / 修改时间：13:08:22" itemprop="dateCreated datePublished" datetime="2021-06-06T13:01:39+08:00">2021-06-06</time>
+              <time title="创建时间：2021-06-06 13:01:39 / 修改时间：13:11:58" itemprop="dateCreated datePublished" datetime="2021-06-06T13:01:39+08:00">2021-06-06</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -285,11 +285,11 @@
 <p>如何选择适合业务的 k 和 m 值呢，这里直接贴一个公式：</p>
 <p><img src="/2021/06/06/bloomfilter/5.png" alt></p>
 <p>如何推导这个公式这里只是提一句，因为对于使用来说并没有太大的意义，你让一个高中生来推会推得很快。k 次哈希函数某一 bit 位未被置为 1 的概率为：</p>
-<p><img src="https://www.zhihu.com/equation?tex=%281-%5Cfrac%7B1%7D%7Bm%7D%29%5E%7Bk%7D" alt="[公式]"></p>
+<p><img src="/2021/06/06/bloomfilter/6.png" alt></p>
 <p>插入n个元素后依旧为 0 的概率和为 1 的概率分别是：</p>
-<p><img src="https://www.zhihu.com/equation?tex=%5Cleft%28+1-%5Cfrac%7B1%7D%7Bm%7D+%5Cright%29%5E%7Bnk%7D" alt="[公式]"> <img src="https://www.zhihu.com/equation?tex=1-+%5Cleft%28+1-%5Cfrac%7B1%7D%7Bm%7D+%5Cright%29%5E%7Bnk+%7D" alt="[公式]"></p>
+<p><img src="/2021/06/06/bloomfilter/7.png" alt></p>
 <p>标明某个元素是否在集合中所需的 k 个位置都按照如上的方法设置为 1，但是该方法可能会使算法错误的认为某一原本不在集合中的元素却被检测为在该集合中（False Positives），该概率由以下公式确定</p>
-<p><img src="https://www.zhihu.com/equation?tex=%5Cleft%5B+1-+%5Cleft%28+1-%5Cfrac%7B1%7D%7Bm%7D+%5Cright%29%5E%7Bnk%7D+%5Cright%5D%5E%7Bk%7D%5Capprox%5Cleft%28+1-e%5E%7B-kn%2Fm%7D+%5Cright%29%5E%7Bk%7D" alt="[公式]"></p>
+<p><img src="/2021/06/06/bloomfilter/8.png" alt></p>
 <h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a><strong>最佳实践</strong></h2><p>常见的适用常见有，利用布隆过滤器减少磁盘 IO 或者网络请求，因为一旦一个值必定不存在的话，我们可以不用进行后续昂贵的查询请求。</p>
 <p>另外，既然你使用布隆过滤器来加速查找和判断是否存在，那么性能很低的哈希函数不是个好选择，推荐 MurmurHash、Fnv 这些。</p>
 <p><strong>大Value拆分</strong></p>
