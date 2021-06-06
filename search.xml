@@ -3,7 +3,8 @@
   <entry>
     <title>bloomfilter</title>
     <url>/2021/06/06/bloomfilter/</url>
-    <content><![CDATA[<a id="more"></a>
+    <content><![CDATA[<p>转载</p>
+<a id="more"></a>
 <h2 id="什么是布隆过滤器"><a href="#什么是布隆过滤器" class="headerlink" title="什么是布隆过滤器"></a><strong>什么是布隆过滤器</strong></h2><p>本质上布隆过滤器是一种数据结构，比较巧妙的概率型数据结构（probabilistic data structure），特点是高效地插入和查询，可以用来告诉你 <strong>“某样东西一定不存在或者可能存在”</strong>。</p>
 <p>相比于传统的 List、Set、Map 等数据结构，它更高效、占用空间更少，但是缺点是其返回的结果是概率性的，而不是确切的。</p>
 <h2 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a><strong>实现原理</strong></h2><p><strong>HashMap 的问题</strong></p>
