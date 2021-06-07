@@ -46,21 +46,23 @@
   };
 </script>
 
-  <meta name="description" content="同步和异步，进程，线程和协程之间的区别和联系">
+  <meta name="description" content="Android开发者第一步学习的应该就是真机调试了。但是很多初次接触android studio的同学还是不知道如何用真机调试，今天我就给大家写一个教程，希望可以帮到需要的人。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="同步和异步，进程，线程和协程之间的区别和联系">
-<meta property="og:url" content="http://yoursite.com/2021/06/05/%E5%90%8C%E6%AD%A5%E5%92%8C%E5%BC%82%E6%AD%A5%EF%BC%8C%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E8%81%94%E7%B3%BB/index.html">
+<meta property="og:title" content="AndroidStudio使用USB真机调试教程">
+<meta property="og:url" content="http://yoursite.com/2021/06/07/AndroidStudio%E4%BD%BF%E7%94%A8USB%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%95%99%E7%A8%8B/index.html">
 <meta property="og:site_name" content="菜鸟童靴">
-<meta property="og:description" content="同步和异步，进程，线程和协程之间的区别和联系">
+<meta property="og:description" content="Android开发者第一步学习的应该就是真机调试了。但是很多初次接触android studio的同学还是不知道如何用真机调试，今天我就给大家写一个教程，希望可以帮到需要的人。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-06-05T07:49:35.000Z">
-<meta property="article:modified_time" content="2021-06-06T09:58:35.734Z">
+<meta property="og:image" content="http://yoursite.com/2021/06/07/AndroidStudio%E4%BD%BF%E7%94%A8USB%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%95%99%E7%A8%8B/1.png">
+<meta property="og:image" content="http://yoursite.com/2021/06/07/AndroidStudio%E4%BD%BF%E7%94%A8USB%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%95%99%E7%A8%8B/2.jpg">
+<meta property="article:published_time" content="2021-06-07T14:34:00.000Z">
+<meta property="article:modified_time" content="2021-06-07T15:49:15.815Z">
 <meta property="article:author" content="MrYang">
-<meta property="article:tag" content="面试集锦">
-<meta property="article:tag" content="python基础知识">
+<meta property="article:tag" content="逆向，AndroidStudio">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/06/07/AndroidStudio%E4%BD%BF%E7%94%A8USB%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%95%99%E7%A8%8B/1.png">
 
-<link rel="canonical" href="http://yoursite.com/2021/06/05/%E5%90%8C%E6%AD%A5%E5%92%8C%E5%BC%82%E6%AD%A5%EF%BC%8C%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E8%81%94%E7%B3%BB/">
+<link rel="canonical" href="http://yoursite.com/2021/06/07/AndroidStudio%E4%BD%BF%E7%94%A8USB%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%95%99%E7%A8%8B/">
 
 
 <script id="page-configurations">
@@ -72,7 +74,7 @@
   };
 </script>
 
-  <title>同步和异步，进程，线程和协程之间的区别和联系 | 菜鸟童靴</title>
+  <title>AndroidStudio使用USB真机调试教程 | 菜鸟童靴</title>
   
 
 
@@ -216,7 +218,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/05/%E5%90%8C%E6%AD%A5%E5%92%8C%E5%BC%82%E6%AD%A5%EF%BC%8C%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E8%81%94%E7%B3%BB/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/07/AndroidStudio%E4%BD%BF%E7%94%A8USB%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%95%99%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -229,7 +231,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          同步和异步，进程，线程和协程之间的区别和联系
+          AndroidStudio使用USB真机调试教程
         </h1>
 
         <div class="post-meta">
@@ -238,24 +240,18 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2021-06-05 15:49:35" itemprop="dateCreated datePublished" datetime="2021-06-05T15:49:35+08:00">2021-06-05</time>
+              <time title="创建时间：2021-06-07 22:34:00 / 修改时间：23:49:15" itemprop="dateCreated datePublished" datetime="2021-06-07T22:34:00+08:00">2021-06-07</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-06-06 17:58:35" itemprop="dateModified" datetime="2021-06-06T17:58:35+08:00">2021-06-06</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" itemprop="url" rel="index">
-                    <span itemprop="name">python基础知识</span>
+                  <a href="/categories/%E9%80%86%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">逆向</span>
                   </a>
                 </span>
             </span>
@@ -271,27 +267,44 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>同步和异步，进程，线程和协程之间的区别和联系</p>
+        <p>Android开发者第一步学习的应该就是真机调试了。但是很多初次接触android studio的同学还是不知道如何用真机调试，今天我就给大家写一个教程，希望可以帮到需要的人。</p>
 <a id="more"></a>
-<h1 id="同步和异步，进程，线程和协程之间的区别和联系"><a href="#同步和异步，进程，线程和协程之间的区别和联系" class="headerlink" title="同步和异步，进程，线程和协程之间的区别和联系"></a>同步和异步，进程，线程和协程之间的区别和联系</h1><p><strong>同步和异步、阻塞和非阻塞</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">异步： 多任务， 多个任务之间执行没有先后顺序，可以同时运行，执行的先后顺序不会有什么影响，存在的多条运行主线</span><br><span class="line">同步： 多任务， 多个任务之间执行的时候要求有先后顺序，必须一个先执行完成之后，另一个才能继续执行， 只有一个主线</span><br><span class="line">阻塞：从调用者的角度出发，如果在调用的时候，被卡住，不能再继续向下运行，需要等待，就说是阻塞</span><br><span class="line">非阻塞： 从调用者的角度出发， 如果在调用的时候，没有被卡住，能够继续向下运行，无需等待，就说是非阻塞</span><br></pre></td></tr></table></figure>
-<p><strong>1）同步、异步</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">函数或方法被调用的时候，调用者是否得到最终的结果。</span><br><span class="line"></span><br><span class="line">直接得到最终结果的结果，就是同步调用。（打饭模型，打饭不打好不走开，直到打饭给我后才离开）</span><br><span class="line">不直接得到的最终的结果，就是异步调用。（打饭，不会一直等着，会时不时的过来看看，打完了把饭拿走，异步不保证多长时间打完了饭）</span><br></pre></td></tr></table></figure>
-<p><strong>2）阻塞、非阻塞：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">函数或方法调用的时候，是否立即返回。</span><br><span class="line"></span><br><span class="line">立即返回就是非阻塞调用。</span><br><span class="line">不立即返回就是阻塞调用。</span><br></pre></td></tr></table></figure>
-<p><strong>3）区别：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">同步、异步，与阻塞、非阻塞不相关。</span><br><span class="line">同步、异步强调的是结果。阻塞和非阻塞强调的是时间，是否等待。</span><br><span class="line">同步与异步区别在于：调用者是否得到了想要的最终结果。</span><br><span class="line">同步就是一直要执行到返回最终结果。异步就是直接返回了，但是返回的不是最终的结果，调用者不能通过这种调用得到结果，还要通过被调用者，使用其他方式通知调用者，来取回最终结果。</span><br><span class="line">阻塞与非阻塞的区别在于，调用者是否还能干其他的事情。</span><br><span class="line">阻塞，调用者只能干等。非阻塞，调用者可以先忙一会别的，不用一直等。</span><br></pre></td></tr></table></figure>
-<p><strong>4）联系：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">同步阻塞：调用者阻塞，直到等到拿到最终结果。（打饭模型，什么事情也不敢，就等着打饭，打饭是结果，什么也不干，一直在等着，同步加阻塞）</span><br><span class="line">同步非阻塞：（等着打饭，但是可以玩会手机，看看电视，打饭是结果，但是不用一直在等着）</span><br><span class="line">异步阻塞：（我要打饭，你说等着较好，并没有返回饭给我，我啥事不干，就干等着饭好了叫我）</span><br><span class="line">异步非阻塞：回调的话。（我要打饭，你说等较好，并没有返回饭给我，可以在旁边看看电视，玩玩手机，饭好了叫我）</span><br></pre></td></tr></table></figure>
-<h2 id="进程、线程和协程之间的区别和联系"><a href="#进程、线程和协程之间的区别和联系" class="headerlink" title="进程、线程和协程之间的区别和联系"></a><strong>进程、线程和协程之间的区别和联系</strong></h2><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a><strong>定义</strong></h2><p>进程: 一个运行起来的程序或者软件叫做进程，进程是操作系统分配资源的 基本单位<br>线程：指进程内的一个执行单元,也是进程内的可调度实体。<br>协程：是一种程序组件，是由子例程（过程、函数、例程、方法、子程序）的概念泛化而来的，子例程只有一个入口点且只返回一次，而协程允许多个入口点，可以在指定位置挂起和恢复执行。</p>
-<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><p>进程是资源分配的最小单位,线程是CPU调度的最小单位.<br>进程是操作系统资源分配的单位<br>线程是CPU调度的单位<br>进程切换需要的资源最大，效率很低<br>线程切换需要的资源一般，效率一般<br>协程切换需要资源很小，效率高</p>
-<h2 id="线程与进程的区别"><a href="#线程与进程的区别" class="headerlink" title="线程与进程的区别"></a>线程与进程的区别</h2><p>同一个进程中的线程共享同一内存空间，但是进程之间是独立的。<br>同一个进程中的所有线程的数据是共享的（进程通讯），进程之间的数据是独立的。<br>对主线程的修改可能会影响其他线程的行为，但是父进程的修改（除了删除以外）不会影响其他子进程。<br>一个进程至少有一个线程<br>同一个进程的线程之间可以直接通信，但是进程之间的交流需要借助中间代理(队列)来实现<br>创建新的线程很容易，但是创建新的进程需要对父进程做一次复制。<br>一个线程可以操作同一进程的其他线程，但是进程只能操作其子进程。<br>线程启动速度快，进程启动速度慢（但是两者运行速度没有可比性）。</p>
-<h2 id="协程与线程的比较"><a href="#协程与线程的比较" class="headerlink" title="协程与线程的比较"></a>协程与线程的比较</h2><p>一个线程可以多个协程，一个进程也可以单独拥有多个协程，这样python中则能使用多核CPU。<br>线程进程都是同步机制，而协程则是异步<br>协程能保留上一次调用时的状态，每次过程重入时，就相当于进入上一次调用的状态</p>
-<p><strong>代码demo：</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> queue</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">consumer</span><span class="params">(name)</span>:</span></span><br><span class="line">    print(<span class="string">"%s准备开始吃包子啦..."</span> % name)</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        new_baozi = <span class="keyword">yield</span></span><br><span class="line">        print(<span class="string">"[%s] 正在吃包子 %s"</span> % (name,new_baozi))</span><br><span class="line">        <span class="comment">#time.sleep(1)</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">producer</span><span class="params">()</span>:</span></span><br><span class="line">    r = con.__next__()</span><br><span class="line">    r = con2.__next__()</span><br><span class="line">    n = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> n &lt; <span class="number">5</span>:    <span class="comment"># 生产者只做5个包子</span></span><br><span class="line">        n += <span class="number">1</span></span><br><span class="line">        print(<span class="string">"\033[32;1m[producer]\033[0m做好了新包子 %s"</span> % n )</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        con.send(n)</span><br><span class="line">        con2.send(n)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment"># 定义2个消费者、1个生产者</span></span><br><span class="line">    con = consumer(<span class="string">"c1"</span>)</span><br><span class="line">    con2 = consumer(<span class="string">"c2"</span>)</span><br><span class="line">    p = producer()</span><br></pre></td></tr></table></figure>
-<p>协程介绍： <a href="https://zhuanlan.zhihu.com/p/38528865" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/38528865</a> </p>
-<p>参考链接 ： <a href="https://blog.csdn.net/DD18203614685/article/details/93226319" target="_blank" rel="noopener">https://blog.csdn.net/DD18203614685/article/details/93226319</a> </p>
-
+<h2 id="一、真机调试"><a href="#一、真机调试" class="headerlink" title="一、真机调试"></a>一、真机调试</h2><p>   1.先用usb线把你的测试手机连接到你的电脑上，并且安装驱动</p>
+<p>   2.安装好驱动后就可以在电脑上读取手机的文件。接下来就是设置测试手机（寻找开发者选项）。</p>
+<p>​    1）点击测试机“设置“，在设置中，寻找开发者选项，如果没有开发者选项，按接下来的步骤操作：找到关于手机，点击关于手机。然后找到“版本号”（小米手机是MIUI版本），点击几次版本号(最多5次)，系统即提示“您现在处于开发者模式”。注：不同手机提示可能不同。然后返回设置就会找到开发者选项。</p>
+<pre><code> 2）然后在设置中找到“安全性（部分手机：系统安全）”，点击进入。找到“未知来源”，点击后会弹出系统提示，点击确认
+</code></pre><p>​     3）点击开发者选项，点击启用，会弹出一个系统提示，点击确认。然后再勾选USB调试，系统又会弹出提示，继续点击确认。</p>
+<p>​    3.接下来设置android studio。打开android studio，在工具栏中找到，app选项，点击会弹出 Edit Configurations..选项，点击进入，然后在设置页面中找到  Deploymeng target Options下的Target选项，(新版可能找不到，可直接点击运行)，然后选择为USB Device。然后点击OK。至此咱就已经基本设置好了。可以进行真机测试了。</p>
+<p> 结果如图所示：</p>
+<p><img src="/2021/06/07/AndroidStudio%E4%BD%BF%E7%94%A8USB%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%95%99%E7%A8%8B/1.png" style="zoom: 50%;"></p>
+<h2 id="二、Android应用各部分说明"><a href="#二、Android应用各部分说明" class="headerlink" title="二、Android应用各部分说明"></a>二、Android应用各部分说明</h2><p><strong>（1）MainActivity.java文件</strong><br>主要活动代码，实际的应用程序文件，将被转化为Dalvik可执行文件并运行。R.layout.activity_main 引用res/layout/activity_main.xml文件。</p>
+<p>onCreate()  活动被加载之后众多被调用的方法之一。</p>
+<p><strong>（2）AndroidManifest.xml文件</strong></p>
+<p>AndroidManifest.xml文件是整个应用程序的信息描述文件，定义了应用程序中包含的Activity,Service,Content provider和BroadcastReceiver组件信息。每个应用程序在根目录下必须包含一个AndroidManifest.xml文件，且文件名不能修改。在AndroidManifest.xml文件中，首先看到是的<manifest>节点，它是整个应用程序的基本属性，涵盖了默认进程名字，应用程序标识，安装位置，对系统的要求以及应用程序的版本等。</manifest></p>
+<p>android:icon是普通图标。</p>
+<p>android:roundIcon是圆形图标。</p>
+<p>android:label属性指定应用的名称。</p>
+<p>android:name属性指定一个Activity类子类的全名。</p>
+<p>意图过滤器的action被命名为android.intent.action.MAIN，表明这个活动被用做应用程序的入口。</p>
+<p>意图过滤器的category被命名为android.intent.category.LAUNCHER，表明应用程序可以通过设备启动器的图标来启动。</p>
+<p>@string指的是strings.xml，因此@string/app_name指的是定义在strings.xml中的app_name，这里实际为”demo”。</p>
+<p><strong>（3）activity_main.xml文件</strong><br>activity_main.xml 我们将频繁修改这个文件来改变应用程序的布局。</p>
+<p>TextView是一个用于构建用户图形界面的Android控件。</p>
+<p>它包含有许多不同的属性，诸如android:layout_width, android:layout_height等用来设置它的宽度和高度等。</p>
+<p>这里我们给它显示一句话“御风而上，神游天下!”，并且字体颜色为红色，引用自strings.xml文件。</p>
+<h2 id="三、建立一个空工程，编写获取序列号的简单例子"><a href="#三、建立一个空工程，编写获取序列号的简单例子" class="headerlink" title="三、建立一个空工程，编写获取序列号的简单例子"></a>三、建立一个空工程，编写获取序列号的简单例子</h2><p><strong>1.获取手机状态需要设置权限</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span>=<span class="string">"com.example.demoimei"</span>&gt;</span><br><span class="line">  &lt;uses-permission android:name="android.permission.READ_PHONE_STATE"&gt;&lt;/uses-permission&gt;</span><br><span class="line">  &lt;application</span><br></pre></td></tr></table></figure>
+<p><strong>2.编写布局文件</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;TextView</span><br><span class="line">    android:id=<span class="string">"@+id/tv1"</span></span><br><span class="line">    android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">    android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">    android:text=<span class="string">"Hello World!"</span> /&gt;</span><br><span class="line"></span><br><span class="line">&lt;TextView</span><br><span class="line">    android:id=<span class="string">"@+id/tv2"</span></span><br><span class="line">    android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">    android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">    android:text=<span class="string">"Hello World!"</span> /&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>3、编写主 Activity 类中的 onCreate 函数</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.cockroach.hook_object;</span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.support.v7.app.AppCompatActivity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.telephony.TelephonyManager;</span><br><span class="line"><span class="keyword">import</span> android.widget.TextView;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">    </span><br><span class="line">        TextView tv1 = (TextView) findViewById(R.id.tv1);</span><br><span class="line">        TextView tv2 = (TextView) findViewById(R.id.tv2);</span><br><span class="line">        TelephonyManager tm = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);</span><br><span class="line">        tv1.setText(<span class="string">"imei:"</span> + tm.getDeviceId());</span><br><span class="line">        tv2.setText(<span class="string">"imsi:"</span> + tm.getSubscriberId());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果出现闪退问题，报错</p>
+<p> java.lang.SecurityException: getDeviceId: Neither user 10226 nor current process has android.permis</p>
+<p>这可能是手机设置的问题，我手机的 应用程序-&gt; 授予权限就OK了</p>
+<p><strong>运行结果如下：</strong></p>
+<p><img src="/2021/06/07/AndroidStudio%E4%BD%BF%E7%94%A8USB%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%95%99%E7%A8%8B/2.jpg" style="zoom: 50%;"></p>
+<p>这就是我们的等会要hook的apk程序，下面编写xposed插件</p>
+<h3 id="四、建立一个无-activity-的工程，-编写-Xposed-插件"><a href="#四、建立一个无-activity-的工程，-编写-Xposed-插件" class="headerlink" title="四、建立一个无 activity 的工程， 编写 Xposed 插件"></a>四、建立一个无 activity 的工程， 编写 Xposed 插件</h3>
     </div>
 
     
@@ -300,8 +313,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E9%9D%A2%E8%AF%95%E9%9B%86%E9%94%A6/" rel="tag"># 面试集锦</a>
-              <a href="/tags/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" rel="tag"># python基础知识</a>
+              <a href="/tags/%E9%80%86%E5%90%91%EF%BC%8CAndroidStudio/" rel="tag"># 逆向，AndroidStudio</a>
           </div>
 
         
@@ -310,13 +322,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/05/28/douyin-signature/" rel="prev" title="douyin-signature">
-      <i class="fa fa-chevron-left"></i> douyin-signature
+    <a href="/2021/06/06/%E7%94%9F%E6%88%90%E5%99%A8%E4%B8%AD%E7%9A%84return%E6%9C%89%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8/" rel="prev" title="生成器中的return有什么作用">
+      <i class="fa fa-chevron-left"></i> 生成器中的return有什么作用
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/06/06/bloomfilter/" rel="next" title="bloomfilter">
-      bloomfilter <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -377,7 +386,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#同步和异步，进程，线程和协程之间的区别和联系"><span class="nav-number">1.</span> <span class="nav-text">同步和异步，进程，线程和协程之间的区别和联系</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#进程、线程和协程之间的区别和联系"><span class="nav-number">1.1.</span> <span class="nav-text">进程、线程和协程之间的区别和联系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">1.2.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#区别"><span class="nav-number">1.3.</span> <span class="nav-text">区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程与进程的区别"><span class="nav-number">1.4.</span> <span class="nav-text">线程与进程的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#协程与线程的比较"><span class="nav-number">1.5.</span> <span class="nav-text">协程与线程的比较</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、真机调试"><span class="nav-number">1.</span> <span class="nav-text">一、真机调试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、Android应用各部分说明"><span class="nav-number">2.</span> <span class="nav-text">二、Android应用各部分说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、建立一个空工程，编写获取序列号的简单例子"><span class="nav-number">3.</span> <span class="nav-text">三、建立一个空工程，编写获取序列号的简单例子</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#四、建立一个无-activity-的工程，-编写-Xposed-插件"><span class="nav-number">3.1.</span> <span class="nav-text">四、建立一个无 activity 的工程， 编写 Xposed 插件</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -579,7 +588,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo: 'boyyongxin.github.io# Repository name to store issues',
       owner: 'CoderYang# GitHub repo owner',
       admin: ['germey# GitHub repo owner and collaborators, only these guys can initialize gitHub issues'],
-      id: '87a1940dbda0c652f8d3935013ec1155',
+      id: 'c926a12d24c55e7b6d13bb4226b0b82f',
         language: 'zh-CN',
       distractionFreeMode: 'true'
     });
