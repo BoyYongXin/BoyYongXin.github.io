@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2021-06-09T14:06:57.905Z</updated>
+  <updated>2021-06-09T14:41:41.246Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>python抽象类原理以及编写</title>
+    <link href="http://yoursite.com/2021/06/09/%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%8E%9F%E7%90%86%E4%BB%A5%E5%8F%8A%E7%BC%96%E5%86%99/"/>
+    <id>http://yoursite.com/2021/06/09/%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%8E%9F%E7%90%86%E4%BB%A5%E5%8F%8A%E7%BC%96%E5%86%99/</id>
+    <published>2021-06-09T14:36:29.000Z</published>
+    <updated>2021-06-09T14:41:41.246Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>前言：</strong></p><p>好久没写文章了，今天来给大家更新一篇，最近会陆续整理，发出一下以前做的笔记</p><a id="more"></a><p><strong>1.抽象类概念</strong></p><p>抽象类是一个特殊的类，只能被继承，不能实例化</p><p><strong>2.为什么要有抽象类</strong></p><p>其实在未接触抽象类概念时，我们可以构造香蕉、苹果、梨之类的类，然后让它们继承水果这个的基类，水果的基类包含一个eat函数。</p><p>但是你有没有想过，我们可以将香蕉、苹果、梨实例化，去吃香蕉、苹果、梨。但是我们却不能将水果实例化，因为我们无法吃到叫水果的这个东西。</p><p>所以抽象类中只能有抽象方法（没有实现功能），该类不能被实例化，只能被继承，且子类必须实现抽象方法。</p><p><strong>3.抽象类的作用</strong></p><p>在不同的模块中通过抽象基类来调用，可以用最精简的方式展示出代码之间的逻辑关系，让模块之间的依赖清晰简单。</p><p>抽象类的编程，让每个人可以关注当前抽象类的方法和描述，而不需要考虑过多的实现细节，这对协同开发有很大意义，也让代码可读性更高。</p><p>Python 自带的abc模块用于实现抽象类相关的定义和操作。</p><p>我们通过一个简单的例子来说明，如何在 Python 中实现抽象类：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> abc <span class="keyword">import</span> ABC, abstractmethod</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">People</span><span class="params">(ABC)</span>:</span></span><br><span class="line"><span class="meta">    @abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">walk</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    </span><br><span class="line"><span class="meta">    @abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eat</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dance</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'我正在跳舞'</span>)</span><br></pre></td></tr></table></figure><p>从abc模块导入ABC类，和abstractmethod抽象方法装饰器。基于ABC类可以实现一个抽象类。通过@abstractmethod装饰一个方法，让它成为一个抽象方法。抽象方法在子类中必需被实现。</p><p>注意：</p><p>抽象类不能被实例化，所以我们实例化一下，可以看到这里报错了</p><p><img src="\抽象类原理以及编写\1.jpg" alt></p><p>我们再看一下，如果继承抽象类，但是没有实现其中的某个抽象方法，也会导致报错</p><p><img src="\抽象类原理以及编写\2.jpg" alt></p><p>抽象类People中的dance不是抽象方法，所以子类不需要覆盖。</p><p><strong>总结：</strong></p><p>抽象类是软件开发中一个非常重要的概念，通过定义抽象类，我们可以约定子类必需实现的方法。当我们一个类有几十上百个方法时，用抽象方法来防止子类漏掉某些方法是非常方便的做法。</p><p><strong>完整代码</strong></p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> abc <span class="keyword">import</span> ABC, abstractmethod</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">People</span><span class="params">(ABC)</span>:</span></span><br><span class="line"><span class="meta">    @abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">walk</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="meta">    @abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eat</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dance</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'我正在跳舞'</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">kid1</span><span class="params">(People)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">walk</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'走路'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eat</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'吃饭'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    k = kid1()</span><br><span class="line">    k.dance()</span><br><span class="line">    k.eat()</span><br><span class="line">    k.walk()</span><br></pre></td></tr></table></figure><p><img src="\抽象类原理以及编写\3.jpg" alt></p><p>如果文章对你有用，记得分享和关注，菜鸟童靴公众号</p><p><img src="\抽象类原理以及编写\4.jpg" alt></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;前言：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;好久没写文章了，今天来给大家更新一篇，最近会陆续整理，发出一下以前做的笔记&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="python基础" scheme="http://yoursite.com/categories/python%E5%9F%BA%E7%A1%80/"/>
+    
+    
+      <category term="python基础" scheme="http://yoursite.com/tags/python%E5%9F%BA%E7%A1%80/"/>
+    
+  </entry>
   
   <entry>
     <title>Python进阶之闭包和作用域</title>
