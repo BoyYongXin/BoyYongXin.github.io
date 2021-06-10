@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2021-06-09T14:41:41.246Z</updated>
+  <updated>2021-06-10T13:43:59.830Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,55 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>python进阶之上下文管理器</title>
+    <link href="http://yoursite.com/2021/06/10/%E8%BF%9B%E9%98%B6%E4%B9%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%99%A8/"/>
+    <id>http://yoursite.com/2021/06/10/%E8%BF%9B%E9%98%B6%E4%B9%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%99%A8/</id>
+    <published>2021-06-10T13:38:15.000Z</published>
+    <updated>2021-06-10T13:43:59.830Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>一、文管理器作用</strong>：</p><p>上下⽂管理器允许你在有需要的时候，精确地分配和释放资源。</p><a id="more"></a><p><strong>二、案例介绍：</strong></p><p>对它使⽤最⼴泛的案例就是with语句了。想象下当你有两个相关操作，你想让它们结对执⾏，然后在它们俩中间放置⼀段代码。</p><p>上下⽂管理器就是专门让你做这个事情的。举个例⼦：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'some_file'</span>, <span class="string">'w'</span>) <span class="keyword">as</span> opened_file: </span><br><span class="line">  opened_file.write(<span class="string">'Hola!'</span>)</span><br></pre></td></tr></table></figure><p>上⾯这段代码打开了⼀个⽂件，往它⾥⾯写⼊了⼀些数据，然后关闭了它。如果在往⽂件</p><p>写数据时发⽣异常，它会尝试去关闭⽂件。上⾯那段代码与这⼀段是等价的：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">file = open(<span class="string">'some_file'</span>, <span class="string">'w'</span>) </span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line"></span><br><span class="line">  file.write(<span class="string">'Hola!'</span>) </span><br><span class="line"><span class="keyword">finally</span>: </span><br><span class="line">  file.close()</span><br></pre></td></tr></table></figure><p>对比两个功能一样的代码，相比较之下，with 代码更简洁，去掉了很多样板代码，它确保我们的⽂件会被关闭。</p><p><strong>三、使用上下文管理器with的优点：</strong></p><p>（1）使用with语句的目的就是把代码块放入with中执行，with结束后，自动完成清理工作，无须手动干预。</p><p>（2）在需要管理一些资源比如文件，网络连接和锁的编程环境中，可以在<strong>exit</strong>中定制自动释放资源的机制，你无须再去关系这个问题，这将大有用处。</p><p><strong>四、如何上下文管理器</strong>：</p><p><strong>1、基于类的实现</strong></p><p>⼀个上下⽂管理器的类，最起码要定义<strong>enter</strong>和<strong>exit</strong>⽅法。</p><p>让我们来构造我们⾃⼰的⽂件开启的上下⽂管理器，并学习下基础知识。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">File</span><span class="params">(object)</span>:</span> </span><br><span class="line">      <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, file_name, method)</span>:</span></span><br><span class="line">          self.file_obj = open(file_name, method) </span><br><span class="line">      <span class="function"><span class="keyword">def</span> <span class="title">__enter__</span><span class="params">(self)</span>:</span></span><br><span class="line">          <span class="keyword">return</span> self.file_obj </span><br><span class="line">      <span class="function"><span class="keyword">def</span> <span class="title">__exit__</span><span class="params">(self, type, value, traceback)</span>:</span></span><br><span class="line">          self.file_obj.close()</span><br></pre></td></tr></table></figure><p>通过定义<strong>enter</strong>和<strong>exit</strong>⽅法，我们可以在with语句⾥使⽤它。我们来试试：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">with</span> File(<span class="string">'demo.txt'</span>, <span class="string">'w'</span>) <span class="keyword">as</span> opened_file: </span><br><span class="line">  opened_file.write(<span class="string">'Hola!'</span>)</span><br></pre></td></tr></table></figure><p>我们的<strong>exit</strong>函数接受三个参数。这些参数对于每个上下⽂管理器类中的<strong>exit</strong> </p><p>⽅法都是必须的。我们来谈谈在底层都发⽣了什么。</p><ol><li><p>with语句先暂存了File类的<strong>exit</strong>⽅法</p></li><li><p>然后它调⽤File类的<strong>enter</strong>⽅法</p></li><li><p><strong>enter</strong>⽅法打开⽂件并返回给with语句</p></li><li><p>打开的⽂件句柄被传递给opened_file参数</p></li><li><p>我们使⽤.write()来写⽂件</p></li><li><p>with语句调⽤之前暂存的<strong>exit</strong>⽅法</p></li><li><p><strong>exit</strong>⽅法关闭了⽂件</p></li></ol><p><strong>（**</strong>1） 如何处理异常** </p><p>我们还没有谈到<strong>exit</strong>⽅法的这三个参数：type, value和traceback。</p><p>在第4步和第6步之间，如果发⽣异常，Python会将异常的type,value和traceback传递</p><p>到<strong>exit</strong>⽅法。</p><p>它让<strong>exit</strong>⽅法来决定如何关闭⽂件以及是否需要其他步骤。在我们的案例中，我们</p><p>并没有注意它们。</p><p>那如果我们的⽂件对象抛出⼀个异常呢？万⼀我们尝试访问⽂件对象的⼀个不⽀持的⽅</p><p>法。举个例⼦：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">with</span> File(<span class="string">'demo.txt'</span>, <span class="string">'w'</span>) <span class="keyword">as</span> opened_file: </span><br><span class="line">    opened_file.undefined_function(<span class="string">'Hola!'</span>)</span><br></pre></td></tr></table></figure><p>我们来列⼀下，当异常发⽣时，with语句会采取哪些步骤。</p><ol><li><p>它把异常的type,value和traceback传递给<strong>exit</strong>⽅法</p></li><li><p>它让<strong>exit</strong>⽅法来处理异常</p></li><li><p>如果<strong>exit</strong>返回的是True，那么这个异常就被优雅地处理了。</p></li><li><p>如果<strong>exit</strong>返回的是True以外的任何东西，那么这个异常将被with语句抛出</p></li></ol><p>（<strong>2）怎么优雅的去处理异常：</strong></p><p>看到处理异常那里，我们仅仅就是在发生异常时，文件能正常被关闭，不需要抛出异常</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__exit__</span><span class="params">(self, type, value, traceback)</span>:</span> </span><br><span class="line">    print(<span class="string">"Exception has been handled"</span>) </span><br><span class="line">    self.file_obj.close() </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br></pre></td></tr></table></figure><p>我们仅仅return True，这么做就可以了</p><p><strong>完整代码：</strong></p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Open</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, filepath, mode=<span class="string">'r'</span>, encoding=<span class="string">'utf-8'</span>)</span>:</span></span><br><span class="line">        self.filepath = filepath</span><br><span class="line">        self.mode = mode</span><br><span class="line">        self.encoding = encoding</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__enter__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># print('enter')</span></span><br><span class="line">        self.f = open(self.filepath, mode=self.mode, encoding=self.encoding)</span><br><span class="line">        <span class="keyword">return</span> self.f</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__exit__</span><span class="params">(self, exc_type, exc_val, exc_tb)</span>:</span></span><br><span class="line">        <span class="comment"># print('exit')</span></span><br><span class="line">        self.f.close()</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getattr__</span><span class="params">(self, item)</span>:</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> getattr(self.f, item)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> Open(<span class="string">'a.txt'</span>,<span class="string">'w'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    print(f)</span><br><span class="line">    f.write(<span class="string">'aaaaaa'</span>)</span><br><span class="line">    <span class="comment">#f.wasdf() #抛出异常，交给__exit__处理</span></span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;一、文管理器作用&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;上下⽂管理器允许你在有需要的时候，精确地分配和释放资源。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="python基础" scheme="http://yoursite.com/categories/python%E5%9F%BA%E7%A1%80/"/>
+    
+    
+      <category term="python基础" scheme="http://yoursite.com/tags/python%E5%9F%BA%E7%A1%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>如何抓取国外网站、app的包</title>
+    <link href="http://yoursite.com/2021/06/10/%E5%A6%82%E4%BD%95%E6%8A%93%E5%8F%96%E5%9B%BD%E5%A4%96%E7%BD%91%E7%AB%99%E3%80%81app%E7%9A%84%E5%8C%85/"/>
+    <id>http://yoursite.com/2021/06/10/%E5%A6%82%E4%BD%95%E6%8A%93%E5%8F%96%E5%9B%BD%E5%A4%96%E7%BD%91%E7%AB%99%E3%80%81app%E7%9A%84%E5%8C%85/</id>
+    <published>2021-06-10T13:32:16.000Z</published>
+    <updated>2021-06-10T13:37:20.751Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>前期准备：</strong></p><p>  配置好的Charles抓包工具，（可以抓正常国内的APP端和网页端的包）</p><p>  设置好的vpn，（可以访问国外的网站）</p><a id="more"></a><p><strong>操作环境</strong>：以windows为例</p><p>打开vpn后，我们访问一下国外的网站，测试一下vpn访问是否正常</p><p><img src="\如何抓取国外网站、app的包\1.jpg" alt></p><p>我习惯直接访问网站测试，大家也可以使用下图所示测试：</p><p><img src="\如何抓取国外网站、app的包\2.jpg" alt="图片"></p><p>访问正常，我们打开Chrome游览器的代理设置，显示如下图所示：</p><p><img src="\如何抓取国外网站、app的包\3.jpg" alt="图片"></p><p>图一</p><p><strong>1、配置抓取网站的数据包</strong></p><p>准备工作做好，接下来开始配置Charles抓包工具：</p><p><img src="\如何抓取国外网站、app的包\4.jpg" alt="图片"></p><p>依次点击之后我看到如下界面，填入图一的信息并勾选截图选项点击确定：</p><p><img src="\如何抓取国外网站、app的包\5.jpg" alt="图片"></p><p>点击ok之后，我们打开我们的国外目标网站，抓包测试一下：</p><p><img src="\如何抓取国外网站、app的包\7.jpg" alt="图片"></p><p>如图所示我们已经可以抓到包了</p><p><strong>2、接下来我们测试抓取手机端的数据包：</strong></p><p>手机设置好代理之后</p><p>我们查询一下ip，如图所示</p><p><img src="\如何抓取国外网站、app的包\6.jpg" alt="图片"></p><p>ok，接下来我么就可以抓取手机的app了</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;前期准备：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;  配置好的Charles抓包工具，（可以抓正常国内的APP端和网页端的包）&lt;/p&gt;
+&lt;p&gt;  设置好的vpn，（可以访问国外的网站）&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="抓包" scheme="http://yoursite.com/categories/%E6%8A%93%E5%8C%85/"/>
+    
+    
+      <category term="抓包，" scheme="http://yoursite.com/tags/%E6%8A%93%E5%8C%85%EF%BC%8C/"/>
+    
+  </entry>
   
   <entry>
     <title>python抽象类原理以及编写</title>
