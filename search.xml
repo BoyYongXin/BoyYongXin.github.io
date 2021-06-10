@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>androidStudio建立的项目没有libs目录</title>
+    <url>/2021/06/11/androidStudio%E5%BB%BA%E7%AB%8B%E7%9A%84%E9%A1%B9%E7%9B%AE%E6%B2%A1%E6%9C%89libs%E7%9B%AE%E5%BD%95/</url>
+    <content><![CDATA[<p>ndroid studio建立的项目没有libs目录<br>有时候建立新项目，没有看到lib文件夹，但是文件目录里又有</p>
+<a id="more"></a>
+<p>android studio建立的项目没有libs目录<br>有时候建立新项目，没有看到lib文件夹，但是文件目录里又有<br><img src="\androidStudio建立的项目没有libs目录\1.jpg" alt><br><img src="\androidStudio建立的项目没有libs目录\2.jpg" alt></p>
+<p><strong>原因是显示目录的原因，切换成Project就可以了</strong><br><img src="\androidStudio建立的项目没有libs目录\3.jpg" alt></p>
+]]></content>
+      <categories>
+        <category>逆向</category>
+      </categories>
+      <tags>
+        <tag>逆向，AndroidStudio</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>python进阶之上下文管理器</title>
     <url>/2021/06/10/%E8%BF%9B%E9%98%B6%E4%B9%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%99%A8/</url>
     <content><![CDATA[<p><strong>一、文管理器作用</strong>：</p>
@@ -190,14 +205,24 @@
         <category>python基础</category>
       </categories>
       <tags>
-        <tag>python基础</tag>
         <tag>面试集锦</tag>
+        <tag>python基础</tag>
       </tags>
   </entry>
   <entry>
     <title>Hook框架xposed的简单demo</title>
     <url>/2021/06/07/Hook%E6%A1%86%E6%9E%B6xposed%E7%9A%84%E7%AE%80%E5%8D%95demo/</url>
-    <content><![CDATA[<p><a href="https://blog.csdn.net/coc_k/article/details/52584059" target="_blank" rel="noopener">https://blog.csdn.net/coc_k/article/details/52584059</a></p>
+    <content><![CDATA[<h4 id="3、搞定XposedBridgeApi-xx-jar-与-build-gradle，"><a href="#3、搞定XposedBridgeApi-xx-jar-与-build-gradle，" class="headerlink" title="3、搞定XposedBridgeApi-xx.jar 与 build.gradle，"></a><strong>3、搞定XposedBridgeApi-xx.jar 与 build.gradle，</strong></h4><p>在 “项目名称/app/src/main/”目录下找到build.gradle，</p>
+<p>在图示位置加上：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">	jcenter()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以及</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">compileOnly &#39;de.robv.android.xposed:api:82&#39;</span><br><span class="line"></span><br><span class="line">compileOnly &#39;de.robv.android.xposed:api:82:sources&#39;</span><br></pre></td></tr></table></figure>
+<p>这句代码是告诉AndroidStuido使用jcenter作为代码仓库，从这个仓库里远程寻找 de.robv.android.xposed:api:82 这个API。</p>
+<p>写完之后， build.gradle会提示文件已经修改，是否同步。点击 “sync now”，同步即可：</p>
+<h4 id="4-声明主入口类路径"><a href="#4-声明主入口类路径" class="headerlink" title="4. 声明主入口类路径"></a>4. 声明主入口类路径</h4><p>需要在 main 文件夹下建立 assets 文件夹中新建一个 xposed_init 的文件，并在其中声明主入口类</p>
+<p><a href="https://blog.csdn.net/coc_k/article/details/52584059" target="_blank" rel="noopener">https://blog.csdn.net/coc_k/article/details/52584059</a></p>
+<p><a href="https://github.com/rovo89/XposedBridge/wiki/Development-tutorial" target="_blank" rel="noopener">https://github.com/rovo89/XposedBridge/wiki/Development-tutorial</a></p>
+<p><a href="https://github.com/rovo89/XposedBridge/wiki/Using-the-Xposed-Framework-API" target="_blank" rel="noopener">https://github.com/rovo89/XposedBridge/wiki/Using-the-Xposed-Framework-API</a></p>
 ]]></content>
   </entry>
   <entry>
@@ -416,8 +441,8 @@
         <category>https,面试集锦</category>
       </categories>
       <tags>
-        <tag>面试集锦</tag>
         <tag>https</tag>
+        <tag>面试集锦</tag>
       </tags>
   </entry>
   <entry>

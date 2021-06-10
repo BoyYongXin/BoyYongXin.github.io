@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2021-06-10T13:43:59.830Z</updated>
+  <updated>2021-06-10T16:05:55.637Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>androidStudio建立的项目没有libs目录</title>
+    <link href="http://yoursite.com/2021/06/11/androidStudio%E5%BB%BA%E7%AB%8B%E7%9A%84%E9%A1%B9%E7%9B%AE%E6%B2%A1%E6%9C%89libs%E7%9B%AE%E5%BD%95/"/>
+    <id>http://yoursite.com/2021/06/11/androidStudio%E5%BB%BA%E7%AB%8B%E7%9A%84%E9%A1%B9%E7%9B%AE%E6%B2%A1%E6%9C%89libs%E7%9B%AE%E5%BD%95/</id>
+    <published>2021-06-10T16:03:12.000Z</published>
+    <updated>2021-06-10T16:05:55.637Z</updated>
+    
+    <content type="html"><![CDATA[<p>ndroid studio建立的项目没有libs目录<br>有时候建立新项目，没有看到lib文件夹，但是文件目录里又有</p><a id="more"></a><p>android studio建立的项目没有libs目录<br>有时候建立新项目，没有看到lib文件夹，但是文件目录里又有<br><img src="\androidStudio建立的项目没有libs目录\1.jpg" alt><br><img src="\androidStudio建立的项目没有libs目录\2.jpg" alt></p><p><strong>原因是显示目录的原因，切换成Project就可以了</strong><br><img src="\androidStudio建立的项目没有libs目录\3.jpg" alt></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;ndroid studio建立的项目没有libs目录&lt;br&gt;有时候建立新项目，没有看到lib文件夹，但是文件目录里又有&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="逆向" scheme="http://yoursite.com/categories/%E9%80%86%E5%90%91/"/>
+    
+    
+      <category term="逆向，AndroidStudio" scheme="http://yoursite.com/tags/%E9%80%86%E5%90%91%EF%BC%8CAndroidStudio/"/>
+    
+  </entry>
   
   <entry>
     <title>python进阶之上下文管理器</title>
@@ -109,9 +132,9 @@
       <category term="python基础" scheme="http://yoursite.com/categories/python%E5%9F%BA%E7%A1%80/"/>
     
     
-      <category term="python基础" scheme="http://yoursite.com/tags/python%E5%9F%BA%E7%A1%80/"/>
-    
       <category term="面试集锦" scheme="http://yoursite.com/tags/%E9%9D%A2%E8%AF%95%E9%9B%86%E9%94%A6/"/>
+    
+      <category term="python基础" scheme="http://yoursite.com/tags/python%E5%9F%BA%E7%A1%80/"/>
     
   </entry>
   
@@ -120,15 +143,15 @@
     <link href="http://yoursite.com/2021/06/07/Hook%E6%A1%86%E6%9E%B6xposed%E7%9A%84%E7%AE%80%E5%8D%95demo/"/>
     <id>http://yoursite.com/2021/06/07/Hook%E6%A1%86%E6%9E%B6xposed%E7%9A%84%E7%AE%80%E5%8D%95demo/</id>
     <published>2021-06-07T15:55:13.000Z</published>
-    <updated>2021-06-07T15:56:02.834Z</updated>
+    <updated>2021-06-10T16:31:38.238Z</updated>
     
-    <content type="html"><![CDATA[<p><a href="https://blog.csdn.net/coc_k/article/details/52584059" target="_blank" rel="noopener">https://blog.csdn.net/coc_k/article/details/52584059</a></p>]]></content>
+    <content type="html"><![CDATA[<h4 id="3、搞定XposedBridgeApi-xx-jar-与-build-gradle，"><a href="#3、搞定XposedBridgeApi-xx-jar-与-build-gradle，" class="headerlink" title="3、搞定XposedBridgeApi-xx.jar 与 build.gradle，"></a><strong>3、搞定XposedBridgeApi-xx.jar 与 build.gradle，</strong></h4><p>在 “项目名称/app/src/main/”目录下找到build.gradle，</p><p>在图示位置加上：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">jcenter()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>以及</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">compileOnly &#39;de.robv.android.xposed:api:82&#39;</span><br><span class="line"></span><br><span class="line">compileOnly &#39;de.robv.android.xposed:api:82:sources&#39;</span><br></pre></td></tr></table></figure><p>这句代码是告诉AndroidStuido使用jcenter作为代码仓库，从这个仓库里远程寻找 de.robv.android.xposed:api:82 这个API。</p><p>写完之后， build.gradle会提示文件已经修改，是否同步。点击 “sync now”，同步即可：</p><h4 id="4-声明主入口类路径"><a href="#4-声明主入口类路径" class="headerlink" title="4. 声明主入口类路径"></a>4. 声明主入口类路径</h4><p>需要在 main 文件夹下建立 assets 文件夹中新建一个 xposed_init 的文件，并在其中声明主入口类</p><p><a href="https://blog.csdn.net/coc_k/article/details/52584059" target="_blank" rel="noopener">https://blog.csdn.net/coc_k/article/details/52584059</a></p><p><a href="https://github.com/rovo89/XposedBridge/wiki/Development-tutorial" target="_blank" rel="noopener">https://github.com/rovo89/XposedBridge/wiki/Development-tutorial</a></p><p><a href="https://github.com/rovo89/XposedBridge/wiki/Using-the-Xposed-Framework-API" target="_blank" rel="noopener">https://github.com/rovo89/XposedBridge/wiki/Using-the-Xposed-Framework-API</a></p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;&lt;a href=&quot;https://blog.csdn.net/coc_k/article/details/52584059&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://blog.csdn.net/coc_k/article/details
+        &lt;h4 id=&quot;3、搞定XposedBridgeApi-xx-jar-与-build-gradle，&quot;&gt;&lt;a href=&quot;#3、搞定XposedBridgeApi-xx-jar-与-build-gradle，&quot; class=&quot;headerlink&quot; title=&quot;3、搞定Xpos
       
     
     </summary>
@@ -231,9 +254,9 @@
       <category term="https,面试集锦" scheme="http://yoursite.com/categories/https-%E9%9D%A2%E8%AF%95%E9%9B%86%E9%94%A6/"/>
     
     
-      <category term="面试集锦" scheme="http://yoursite.com/tags/%E9%9D%A2%E8%AF%95%E9%9B%86%E9%94%A6/"/>
-    
       <category term="https" scheme="http://yoursite.com/tags/https/"/>
+    
+      <category term="面试集锦" scheme="http://yoursite.com/tags/%E9%9D%A2%E8%AF%95%E9%9B%86%E9%94%A6/"/>
     
   </entry>
   
@@ -480,25 +503,6 @@
     
       &lt;p&gt;&lt;strong&gt;1、参考链接&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt; GitHub： &lt;a href=&quot;https://github.com/openatx/uiautomator2&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/openatx/uiautomator2&lt;/a&gt;&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="http://yoursite.com/2019/12/21/hello-world/"/>
-    <id>http://yoursite.com/2019/12/21/hello-world/</id>
-    <published>2019-12-21T03:51:08.817Z</published>
-    <updated>2019-12-21T07:31:22.219Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.<br><a id="more"></a></p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;GitHub&lt;/a&gt;.&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
