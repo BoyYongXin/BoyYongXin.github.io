@@ -5,8 +5,8 @@
     <url>/2021/06/11/androidStudio%E5%BB%BA%E7%AB%8B%E7%9A%84%E9%A1%B9%E7%9B%AE%E6%B2%A1%E6%9C%89libs%E7%9B%AE%E5%BD%95/</url>
     <content><![CDATA[<p>ndroid studio建立的项目没有libs目录<br>有时候建立新项目，没有看到lib文件夹，但是文件目录里又有</p>
 <a id="more"></a>
-<p>android studio建立的项目没有libs目录<br>有时候建立新项目，没有看到lib文件夹，但是文件目录里又有<br><img src="\androidStudio建立的项目没有libs目录\1.jpg" alt><br><img src="\androidStudio建立的项目没有libs目录\2.jpg" alt></p>
-<p><strong>原因是显示目录的原因，切换成Project就可以了</strong><br><img src="\androidStudio建立的项目没有libs目录\3.jpg" alt></p>
+<p>android studio建立的项目没有libs目录<br>有时候建立新项目，没有看到lib文件夹，但是文件目录里又有<br><img src="/2021/06/11/androidStudio%E5%BB%BA%E7%AB%8B%E7%9A%84%E9%A1%B9%E7%9B%AE%E6%B2%A1%E6%9C%89libs%E7%9B%AE%E5%BD%95/androidStudio建立的项目没有libs目录\1.jpg" alt><br><img src="/2021/06/11/androidStudio%E5%BB%BA%E7%AB%8B%E7%9A%84%E9%A1%B9%E7%9B%AE%E6%B2%A1%E6%9C%89libs%E7%9B%AE%E5%BD%95/androidStudio建立的项目没有libs目录\2.jpg" alt></p>
+<p><strong>原因是显示目录的原因，切换成Project就可以了</strong><br><img src="/2021/06/11/androidStudio%E5%BB%BA%E7%AB%8B%E7%9A%84%E9%A1%B9%E7%9B%AE%E6%B2%A1%E6%9C%89libs%E7%9B%AE%E5%BD%95/androidStudio建立的项目没有libs目录\3.jpg" alt></p>
 ]]></content>
       <categories>
         <category>逆向</category>
