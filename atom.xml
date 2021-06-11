@@ -68,9 +68,9 @@
     <link href="http://yoursite.com/2021/06/10/%E5%A6%82%E4%BD%95%E6%8A%93%E5%8F%96%E5%9B%BD%E5%A4%96%E7%BD%91%E7%AB%99%E3%80%81app%E7%9A%84%E5%8C%85/"/>
     <id>http://yoursite.com/2021/06/10/%E5%A6%82%E4%BD%95%E6%8A%93%E5%8F%96%E5%9B%BD%E5%A4%96%E7%BD%91%E7%AB%99%E3%80%81app%E7%9A%84%E5%8C%85/</id>
     <published>2021-06-10T13:32:16.000Z</published>
-    <updated>2021-06-10T13:37:20.751Z</updated>
+    <updated>2021-06-11T14:17:35.872Z</updated>
     
-    <content type="html"><![CDATA[<p><strong>前期准备：</strong></p><p>  配置好的Charles抓包工具，（可以抓正常国内的APP端和网页端的包）</p><p>  设置好的vpn，（可以访问国外的网站）</p><a id="more"></a><p><strong>操作环境</strong>：以windows为例</p><p>打开vpn后，我们访问一下国外的网站，测试一下vpn访问是否正常</p><p><img src="\如何抓取国外网站、app的包\1.jpg" alt></p><p>我习惯直接访问网站测试，大家也可以使用下图所示测试：</p><p><img src="\如何抓取国外网站、app的包\2.jpg" alt="图片"></p><p>访问正常，我们打开Chrome游览器的代理设置，显示如下图所示：</p><p><img src="\如何抓取国外网站、app的包\3.jpg" alt="图片"></p><p>图一</p><p><strong>1、配置抓取网站的数据包</strong></p><p>准备工作做好，接下来开始配置Charles抓包工具：</p><p><img src="\如何抓取国外网站、app的包\4.jpg" alt="图片"></p><p>依次点击之后我看到如下界面，填入图一的信息并勾选截图选项点击确定：</p><p><img src="\如何抓取国外网站、app的包\5.jpg" alt="图片"></p><p>点击ok之后，我们打开我们的国外目标网站，抓包测试一下：</p><p><img src="\如何抓取国外网站、app的包\7.jpg" alt="图片"></p><p>如图所示我们已经可以抓到包了</p><p><strong>2、接下来我们测试抓取手机端的数据包：</strong></p><p>手机设置好代理之后</p><p>我们查询一下ip，如图所示</p><p><img src="\如何抓取国外网站、app的包\6.jpg" alt="图片"></p><p>ok，接下来我么就可以抓取手机的app了</p>]]></content>
+    <content type="html"><![CDATA[<p><strong>前期准备：</strong></p><p>  配置好的Charles抓包工具，（可以抓正常国内的APP端和网页端的包）</p><p>  设置好的vpn，（可以访问国外的网站）</p><a id="more"></a><p><strong>操作环境</strong>：以windows为例</p><p>打开vpn后，我们访问一下国外的网站，测试一下vpn访问是否正常</p><p><img src="/2021/06/10/%E5%A6%82%E4%BD%95%E6%8A%93%E5%8F%96%E5%9B%BD%E5%A4%96%E7%BD%91%E7%AB%99%E3%80%81app%E7%9A%84%E5%8C%85/1.jpg" alt></p><p>我习惯直接访问网站测试，大家也可以使用下图所示测试：</p><p><img src="/2021/06/10/%E5%A6%82%E4%BD%95%E6%8A%93%E5%8F%96%E5%9B%BD%E5%A4%96%E7%BD%91%E7%AB%99%E3%80%81app%E7%9A%84%E5%8C%85/如何抓取国外网站、app的包\2.jpg" alt="图片"></p><p>访问正常，我们打开Chrome游览器的代理设置，显示如下图所示：</p><p><img src="/2021/06/10/%E5%A6%82%E4%BD%95%E6%8A%93%E5%8F%96%E5%9B%BD%E5%A4%96%E7%BD%91%E7%AB%99%E3%80%81app%E7%9A%84%E5%8C%85/如何抓取国外网站、app的包\3.jpg" alt="图片"></p><p>图一</p><p><strong>1、配置抓取网站的数据包</strong></p><p>准备工作做好，接下来开始配置Charles抓包工具：</p><p><img src="/2021/06/10/%E5%A6%82%E4%BD%95%E6%8A%93%E5%8F%96%E5%9B%BD%E5%A4%96%E7%BD%91%E7%AB%99%E3%80%81app%E7%9A%84%E5%8C%85/如何抓取国外网站、app的包\4.jpg" alt="图片"></p><p>依次点击之后我看到如下界面，填入图一的信息并勾选截图选项点击确定：</p><p><img src="/2021/06/10/%E5%A6%82%E4%BD%95%E6%8A%93%E5%8F%96%E5%9B%BD%E5%A4%96%E7%BD%91%E7%AB%99%E3%80%81app%E7%9A%84%E5%8C%85/如何抓取国外网站、app的包\5.jpg" alt="图片"></p><p>点击ok之后，我们打开我们的国外目标网站，抓包测试一下：</p><p><img src="/2021/06/10/%E5%A6%82%E4%BD%95%E6%8A%93%E5%8F%96%E5%9B%BD%E5%A4%96%E7%BD%91%E7%AB%99%E3%80%81app%E7%9A%84%E5%8C%85/如何抓取国外网站、app的包\7.jpg" alt="图片"></p><p>如图所示我们已经可以抓到包了</p><p><strong>2、接下来我们测试抓取手机端的数据包：</strong></p><p>手机设置好代理之后</p><p>我们查询一下ip，如图所示</p><p><img src="/2021/06/10/%E5%A6%82%E4%BD%95%E6%8A%93%E5%8F%96%E5%9B%BD%E5%A4%96%E7%BD%91%E7%AB%99%E3%80%81app%E7%9A%84%E5%8C%85/如何抓取国外网站、app的包\6.jpg" alt="图片"></p><p>ok，接下来我么就可以抓取手机的app了</p>]]></content>
     
     <summary type="html">
     
@@ -132,9 +132,9 @@
       <category term="python基础" scheme="http://yoursite.com/categories/python%E5%9F%BA%E7%A1%80/"/>
     
     
-      <category term="面试集锦" scheme="http://yoursite.com/tags/%E9%9D%A2%E8%AF%95%E9%9B%86%E9%94%A6/"/>
-    
       <category term="python基础" scheme="http://yoursite.com/tags/python%E5%9F%BA%E7%A1%80/"/>
+    
+      <category term="面试集锦" scheme="http://yoursite.com/tags/%E9%9D%A2%E8%AF%95%E9%9B%86%E9%94%A6/"/>
     
   </entry>
   
@@ -143,7 +143,7 @@
     <link href="http://yoursite.com/2021/06/07/Hook%E6%A1%86%E6%9E%B6xposed%E7%9A%84%E7%AE%80%E5%8D%95demo/"/>
     <id>http://yoursite.com/2021/06/07/Hook%E6%A1%86%E6%9E%B6xposed%E7%9A%84%E7%AE%80%E5%8D%95demo/</id>
     <published>2021-06-07T15:55:13.000Z</published>
-    <updated>2021-06-10T16:31:38.238Z</updated>
+    <updated>2021-06-11T14:16:45.865Z</updated>
     
     <content type="html"><![CDATA[<h4 id="3、搞定XposedBridgeApi-xx-jar-与-build-gradle，"><a href="#3、搞定XposedBridgeApi-xx-jar-与-build-gradle，" class="headerlink" title="3、搞定XposedBridgeApi-xx.jar 与 build.gradle，"></a><strong>3、搞定XposedBridgeApi-xx.jar 与 build.gradle，</strong></h4><p>在 “项目名称/app/src/main/”目录下找到build.gradle，</p><p>在图示位置加上：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">jcenter()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>以及</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">compileOnly &#39;de.robv.android.xposed:api:82&#39;</span><br><span class="line"></span><br><span class="line">compileOnly &#39;de.robv.android.xposed:api:82:sources&#39;</span><br></pre></td></tr></table></figure><p>这句代码是告诉AndroidStuido使用jcenter作为代码仓库，从这个仓库里远程寻找 de.robv.android.xposed:api:82 这个API。</p><p>写完之后， build.gradle会提示文件已经修改，是否同步。点击 “sync now”，同步即可：</p><h4 id="4-声明主入口类路径"><a href="#4-声明主入口类路径" class="headerlink" title="4. 声明主入口类路径"></a>4. 声明主入口类路径</h4><p>需要在 main 文件夹下建立 assets 文件夹中新建一个 xposed_init 的文件，并在其中声明主入口类</p><p><a href="https://blog.csdn.net/coc_k/article/details/52584059" target="_blank" rel="noopener">https://blog.csdn.net/coc_k/article/details/52584059</a></p><p><a href="https://github.com/rovo89/XposedBridge/wiki/Development-tutorial" target="_blank" rel="noopener">https://github.com/rovo89/XposedBridge/wiki/Development-tutorial</a></p><p><a href="https://github.com/rovo89/XposedBridge/wiki/Using-the-Xposed-Framework-API" target="_blank" rel="noopener">https://github.com/rovo89/XposedBridge/wiki/Using-the-Xposed-Framework-API</a></p>]]></content>
     
@@ -254,9 +254,9 @@
       <category term="https,面试集锦" scheme="http://yoursite.com/categories/https-%E9%9D%A2%E8%AF%95%E9%9B%86%E9%94%A6/"/>
     
     
-      <category term="https" scheme="http://yoursite.com/tags/https/"/>
-    
       <category term="面试集锦" scheme="http://yoursite.com/tags/%E9%9D%A2%E8%AF%95%E9%9B%86%E9%94%A6/"/>
+    
+      <category term="https" scheme="http://yoursite.com/tags/https/"/>
     
   </entry>
   
