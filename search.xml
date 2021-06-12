@@ -1,6 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Python进阶之atexit模块使用</title>
+    <url>/2021/06/12/Python%E8%BF%9B%E9%98%B6%E4%B9%8Batexit%E6%A8%A1%E5%9D%97%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>如何让程序退出时强行执行一段代码，说起这个需求，我们就不得不说<strong>Python atexit</strong>模块了：</p>
+<a id="more"></a>
+<p><strong>退出处理器</strong> <code>atexit</code> 模块定义了清理函数的注册和反注册函数. 被注册的函数会在解释器正常终止时执行. <code>atexit</code> 会按照注册顺序的<em>逆序</em>执行; 如果你注册了 <code>A</code>, <code>B</code> 和 <code>C</code>, 那么在解释器终止时会依序执行 <code>C</code>, <code>B</code>, <code>A</code>.</p>
+<p>看完这段介绍，有点类似栈的原理，后进先出</p>
+<p><strong>1、举个例子说明：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">def goodbye(name, adjective):</span><br><span class="line">   print(&quot;Goodbye %s, it was %s to meet you.&quot;% (name, adjective))</span><br><span class="line"></span><br><span class="line">def hello():</span><br><span class="line">   print(&#39;hello world!&#39;)</span><br><span class="line"></span><br><span class="line">def a():</span><br><span class="line">   print(&#39;a&#39;)</span><br><span class="line"></span><br><span class="line">import atexit</span><br><span class="line">atexit.register(goodbye, &#39;Mr.Yang&#39;, &#39;nice&#39;)#3</span><br><span class="line">atexit.register(a)#2</span><br><span class="line">hello()#1正常程序首先被执行</span><br><span class="line"></span><br><span class="line">#执行顺序 1 2 3</span><br></pre></td></tr></table></figure>
+<p><strong>运行结果</strong></p>
+<p><img src="/2021/06/12/Python%E8%BF%9B%E9%98%B6%E4%B9%8Batexit%E6%A8%A1%E5%9D%97%E4%BD%BF%E7%94%A8/Python进阶之atexit模块使用\1.jpg" alt="图片"></p>
+<p><strong>2、 作为 [decorator]: 使用，使用场景， 但是只适用于没有参数时调用</strong></p>
+<p>举例说明，对上述代码稍作修改：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import atexit</span><br><span class="line"></span><br><span class="line">def hello():</span><br><span class="line">   print(&#39;hello world!&#39;)</span><br><span class="line">@atexit.register</span><br><span class="line">def a():</span><br><span class="line">   print(&#39;a&#39;)</span><br><span class="line"></span><br><span class="line">hello()</span><br><span class="line"></span><br><span class="line">#运行结果</span><br><span class="line">#hello world!</span><br><span class="line">#a</span><br></pre></td></tr></table></figure>
+<p> <strong>3、取消注册， 示例如下。</strong> </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">def goodbye(name, adjective):</span><br><span class="line">   print(&quot;Goodbye %s, it was %s to meet you.&quot;% (name, adjective))</span><br><span class="line"></span><br><span class="line">def hello():</span><br><span class="line">   print(&#39;hello world!&#39;)</span><br><span class="line"></span><br><span class="line">def a():</span><br><span class="line">   print(&#39;a&#39;)</span><br><span class="line"></span><br><span class="line">import atexit</span><br><span class="line">atexit.register(goodbye, &#39;Mr.Yang&#39;, &#39;nice&#39;)#3</span><br><span class="line">atexit.register(a)#2</span><br><span class="line">hello()#1正常程序首先被执行</span><br><span class="line">atexit.unregister(a)</span><br><span class="line">#正常执行顺序 1 2 3</span><br><span class="line"></span><br><span class="line">#由于设置了取消注册atexit.unregister(a)，</span><br><span class="line"></span><br><span class="line">#注销后执行顺序 1 3</span><br></pre></td></tr></table></figure>
+<p><strong>运行结果：</strong></p>
+<p><img src="/2021/06/12/Python%E8%BF%9B%E9%98%B6%E4%B9%8Batexit%E6%A8%A1%E5%9D%97%E4%BD%BF%E7%94%A8/Python进阶之atexit模块使用\2.jpg" alt="图片"></p>
+<p>这个模块一般用来在程序结束时，做资源清理。</p>
+<p><strong>应用场景一：</strong></p>
+<p> 既能让程序报错，又能在报错已经还能运行<code>clean()</code>呢？</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import atexit</span><br><span class="line"></span><br><span class="line">@atexit.register</span><br><span class="line">def clean():</span><br><span class="line">   print(&#39;清理环境相关的代码&#39;)</span><br><span class="line"></span><br><span class="line">def test():</span><br><span class="line">   example &#x3D; &#123;&quot;a&quot;: 1, &quot;b&quot;: 2&#125;</span><br><span class="line">   print(example[&quot;c&quot;])#程序报错</span><br><span class="line">test()</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<p><img src="/2021/06/12/Python%E8%BF%9B%E9%98%B6%E4%B9%8Batexit%E6%A8%A1%E5%9D%97%E4%BD%BF%E7%94%A8/Python进阶之atexit模块使用\3.jpg" alt="图片"></p>
+<p>这样一来，我们不需要显式调用<code>clean</code>函数了。无论程序正常结束，还是程序异常报错，<code>clean</code>函数里面的内容总会执行。</p>
+<p><strong>*\</strong>官方文档*<em>：<a href="https://docs.python.org/zh-cn/3.7/library/atexit.html\**" target="_blank" rel="noopener">https://docs.python.org/zh-cn/3.7/library/atexit.html\**</a></em> </p>
+<p><strong><em>*参考链接：\</em></strong><a href="https://mp.weixin.qq.com/s/lNwSBhcp9ktwgaGWpXNq-A*" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/lNwSBhcp9ktwgaGWpXNq-A*</a></p>
+]]></content>
+      <categories>
+        <category>python基础</category>
+      </categories>
+      <tags>
+        <tag>python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用NanoHTTPD反射调用加密函数</title>
+    <url>/2021/06/12/%E4%BD%BF%E7%94%A8NanoHTTPD%E5%8F%8D%E5%B0%84%E8%B0%83%E7%94%A8%E5%8A%A0%E5%AF%86%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<p>利用NanoHTTPD反射调用Android APP加密函数</p>
+<a id="more"></a>
+<h3 id="1-使用xposed搭载NanoHTTPD"><a href="#1-使用xposed搭载NanoHTTPD" class="headerlink" title="1.使用xposed搭载NanoHTTPD"></a>1.使用xposed搭载NanoHTTPD</h3><p>什么是NanoHTTPD？NanoHTTPD是一个免费、轻量级的(只有一个Java文件) HTTP服务器，可以很好地嵌入到Java程序中。支持 GET, POST, PUT等请求，支持文件上传，占用内存很小。项目地址：<a href="https://github.com/NanoHttpd/nanohttpd" target="_blank" rel="noopener">https://github.com/NanoHttpd/nanohttpd</a></p>
+<h3 id="2-如何嵌入？"><a href="#2-如何嵌入？" class="headerlink" title="2. 如何嵌入？"></a>2. 如何嵌入？</h3><ol>
+<li>在build.gradle中增加一个依赖（已经懒到一定境界了，能自动的，绝不手动下载配置）：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">compile &#39;org.nanohttpd:nanohttpd:2.2.0&#39;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>在项目里增加一个新的package：<code>WebServer</code>；</li>
+<li>在包里增加一个java文件：<code>MyServer.java</code>：</li>
+</ol>
+]]></content>
+      <categories>
+        <category>逆向</category>
+      </categories>
+      <tags>
+        <tag>逆向，NanoHTTPD</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>androidStudio建立的项目没有libs目录</title>
     <url>/2021/06/11/androidStudio%E5%BB%BA%E7%AB%8B%E7%9A%84%E9%A1%B9%E7%9B%AE%E6%B2%A1%E6%9C%89libs%E7%9B%AE%E5%BD%95/</url>
     <content><![CDATA[<p>ndroid studio建立的项目没有libs目录<br>有时候建立新项目，没有看到lib文件夹，但是文件目录里又有</p>
@@ -333,6 +390,7 @@
     <content><![CDATA[<p>xposed hook 原理介绍</p>
 <a id="more"></a>
 <p><strong>1、xposed工作原理：</strong></p>
+<p>Android基于Linux，第一个启动的进程自然是<code>init进程</code>，该进程会启动所有Android进程的父进程——<code>Zygote(孵化)进程</code>，该进程的启动配置在<code>/init.rc</code>脚本中，而Zygote进程对应的执行文件是<code>/system/bin/app_process</code>，该文件完成类库的加载以及一些函数的调用工作。在Zygote进程创建后，再fork出SystemServer进程和其他进程。而Xposed Framework呢，就是<strong>用自己实现的app_process替换掉了系统原本提供的app_process</strong>，加载一个额外的jar包，然后入口从原来的<code>com.android.internal.osZygoteInit.main()</code>被替换成了<code>de.robv.android.xposed.XposedBridge.main()</code>，然后<strong>创建的Zygote进程就变成Hook的Zygote进程了</strong>，而后面Fork出来的进程也是被Hook过的。这个Jar包在<code>/data/data/de.rbov.android.xposed.installer/bin/XposedBridge.jar</code>。</p>
 <p>「拦截」。Xposed 通过劫持 Android 系统的 zygote 进程来加载自定义功能，这就像是半路截杀，在应用运行之前就已经将我们需要的自定义内容强加在了系统进程当中。</p>
 <p><strong>2、Android 系统的Zygote初始化过程</strong></p>
 <p><strong>参考链接：</strong><a href="https://www.jianshu.com/p/2303e7efb956" target="_blank" rel="noopener">https://www.jianshu.com/p/2303e7efb956</a></p>

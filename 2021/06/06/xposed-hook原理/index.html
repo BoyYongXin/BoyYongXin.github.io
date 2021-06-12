@@ -54,7 +54,7 @@
 <meta property="og:description" content="xposed hook 原理介绍">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-06-06T10:24:05.000Z">
-<meta property="article:modified_time" content="2021-06-06T10:25:29.496Z">
+<meta property="article:modified_time" content="2021-06-12T14:14:24.986Z">
 <meta property="article:author" content="MrYang">
 <meta property="article:tag" content="Hook">
 <meta property="article:tag" content="frida">
@@ -239,10 +239,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-06-06 18:24:05 / 修改时间：18:25:29" itemprop="dateCreated datePublished" datetime="2021-06-06T18:24:05+08:00">2021-06-06</time>
+              <time title="创建时间：2021-06-06 18:24:05" itemprop="dateCreated datePublished" datetime="2021-06-06T18:24:05+08:00">2021-06-06</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-12 22:14:24" itemprop="dateModified" datetime="2021-06-12T22:14:24+08:00">2021-06-12</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -269,6 +275,7 @@
         <p>xposed hook 原理介绍</p>
 <a id="more"></a>
 <p><strong>1、xposed工作原理：</strong></p>
+<p>Android基于Linux，第一个启动的进程自然是<code>init进程</code>，该进程会启动所有Android进程的父进程——<code>Zygote(孵化)进程</code>，该进程的启动配置在<code>/init.rc</code>脚本中，而Zygote进程对应的执行文件是<code>/system/bin/app_process</code>，该文件完成类库的加载以及一些函数的调用工作。在Zygote进程创建后，再fork出SystemServer进程和其他进程。而Xposed Framework呢，就是<strong>用自己实现的app_process替换掉了系统原本提供的app_process</strong>，加载一个额外的jar包，然后入口从原来的<code>com.android.internal.osZygoteInit.main()</code>被替换成了<code>de.robv.android.xposed.XposedBridge.main()</code>，然后<strong>创建的Zygote进程就变成Hook的Zygote进程了</strong>，而后面Fork出来的进程也是被Hook过的。这个Jar包在<code>/data/data/de.rbov.android.xposed.installer/bin/XposedBridge.jar</code>。</p>
 <p>「拦截」。Xposed 通过劫持 Android 系统的 zygote 进程来加载自定义功能，这就像是半路截杀，在应用运行之前就已经将我们需要的自定义内容强加在了系统进程当中。</p>
 <p><strong>2、Android 系统的Zygote初始化过程</strong></p>
 <p><strong>参考链接：</strong><a href="https://www.jianshu.com/p/2303e7efb956" target="_blank" rel="noopener">https://www.jianshu.com/p/2303e7efb956</a></p>
@@ -382,7 +389,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -395,7 +402,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
