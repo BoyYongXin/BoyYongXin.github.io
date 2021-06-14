@@ -495,7 +495,7 @@
 <p><strong>数字签名如何生成:</strong><br><img src="./你应该要了解的https/6.jpg" alt></p>
 <p>将一段文本先用Hash函数生成消息摘要，然后用发送者的私钥加密生成数字签名，与原文文一起传送给接收者。接下来就是接收者校验数字签名的流程了。</p>
 <p><strong>校验数字签名流程</strong>：</p>
-<p>[<img src="E:\www5\Hexo\BoyYongXin\source\_posts\你应该要了解的https\7.jpg" alt="img"></p>
+<p><img src="./你应该要了解的https/7.jpg" alt="img"></p>
 <p>接收者只有用发送者的公钥才能解密被加密的摘要信息，然后用HASH函数对收到的原文产生一个摘要信息，与上一步得到的摘要信息对比。如果相同，则说明收到的信息是完整的，在传输过程中没有被修改，否则说明信息被修改过，因此数字签名能够验证信息的完整性。</p>
 <p>假设消息传递在Kobe，James两人之间发生。James将消息连同数字签名一起发送给Kobe，Kobe接收到消息后，通过校验数字签名，就可以验证接收到的消息就是James发送的。当然，这个过程的前提是Kobe知道James的公钥。问题的关键的是，和消息本身一样，公钥不能在不安全的网络中直接发送给Kobe,或者说拿到的公钥如何证明是James的。</p>
 <p>此时就需要引入了<strong>证书颁发机构</strong>（Certificate Authority，简称CA），CA数量并不多，Kobe客户端内置了所有受信任CA的证书。CA对James的公钥（和其他信息）数字签名后生成证书。</p>
