@@ -36,22 +36,35 @@
       </tags>
   </entry>
   <entry>
-    <title>使用NanoHTTPD反射调用加密函数</title>
+    <title>使用NanoHTTPD反射调用加密函数（一）</title>
     <url>/2021/06/12/%E4%BD%BF%E7%94%A8NanoHTTPD%E5%8F%8D%E5%B0%84%E8%B0%83%E7%94%A8%E5%8A%A0%E5%AF%86%E5%87%BD%E6%95%B0/</url>
-    <content><![CDATA[<p>利用NanoHTTPD反射调用Android APP加密函数</p>
+    <content><![CDATA[<p>利用NanoHTTPD反射调用Android APP加密函数，前奏之初识NanoHTTPD</p>
 <a id="more"></a>
-<p>参考demo</p>
-<p><a href="https://www.jianshu.com/p/99407ce0fc49" target="_blank" rel="noopener">https://www.jianshu.com/p/99407ce0fc49</a></p>
-<h3 id="1-使用xposed搭载NanoHTTPD"><a href="#1-使用xposed搭载NanoHTTPD" class="headerlink" title="1.使用xposed搭载NanoHTTPD"></a>1.使用xposed搭载NanoHTTPD</h3><p>什么是NanoHTTPD？NanoHTTPD是一个免费、轻量级的(只有一个Java文件) HTTP服务器，可以很好地嵌入到Java程序中。支持 GET, POST, PUT等请求，支持文件上传，占用内存很小。</p>
+<h3 id="1-NanoHTTPD介绍"><a href="#1-NanoHTTPD介绍" class="headerlink" title="1.NanoHTTPD介绍"></a>1.NanoHTTPD介绍</h3><p>什么是NanoHTTPD？NanoHTTPD是一个免费、轻量级的(只有一个Java文件) HTTP服务器，可以很好地嵌入到Java程序中。支持 GET, POST, PUT等请求，支持文件上传，占用内存很小。</p>
 <p>项目地址：<a href="https://github.com/NanoHttpd/nanohttpd" target="_blank" rel="noopener">https://github.com/NanoHttpd/nanohttpd</a></p>
 <h3 id="2-如何嵌入？"><a href="#2-如何嵌入？" class="headerlink" title="2. 如何嵌入？"></a>2. 如何嵌入？</h3><ol>
 <li>在build.gradle中增加一个依赖（已经懒到一定境界了，能自动的，绝不手动下载配置）：</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">compile &#39;org.nanohttpd:nanohttpd:2.2.0&#39;</span><br></pre></td></tr></table></figure>
 <ol>
-<li>在项目里增加一个新的package：<code>WebServer</code>；</li>
-<li>在包里增加一个java文件：<code>MyServer.java</code>：</li>
+<li>在包里增加一个java文件：AndroidWebServer.java`：</li>
 </ol>
+<p><strong>3、打开“app/src/main/AndroidManifest.xml”，在manifest标签中加入网络权限的声明，不加会报“java.net.SocketException: socket failed: EACCES ”异常错误</strong></p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.INTERNET"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>4、编写NanoHTTPD的server服务</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.ceshi;</span><br><span class="line"><span class="keyword">import</span> fi.iki.elonen.NanoHTTPD;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="comment">//自定义一个Server继承NanoHTTPD</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AndroidWebServer</span> <span class="keyword">extends</span> <span class="title">NanoHTTPD</span> </span>&#123;</span><br><span class="line">    <span class="comment">//构造函数 赋值父类</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">AndroidWebServer</span><span class="params">(<span class="keyword">int</span> port)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(port);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Response <span class="title">serve</span><span class="params">(IHTTPSession session)</span> </span>&#123;</span><br><span class="line">        String msg = <span class="string">"&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello AutoPy&lt;/h1&gt;\n"</span>;</span><br><span class="line">        Map&lt;String, String&gt; parms = session.getParms();</span><br><span class="line">        <span class="keyword">if</span> (parms.get(<span class="string">"code"</span>) == <span class="keyword">null</span>) &#123;</span><br><span class="line">            msg += <span class="string">"&lt;form action='?' method='get'&gt;\n  &lt;p&gt;Your code: &lt;input type='text' name='code'&gt;&lt;/p&gt;\n"</span> + <span class="string">"&lt;/form&gt;\n"</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            msg += <span class="string">"&lt;p&gt;Hello, "</span> + parms.get(<span class="string">"code"</span>) + <span class="string">"!&lt;/p&gt;"</span>;</span><br><span class="line">            <span class="keyword">return</span> newFixedLengthResponse(msg + <span class="string">"&lt;/body&gt;&lt;/html&gt;\n"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> newFixedLengthResponse(msg + <span class="string">"&lt;/body&gt;&lt;/html&gt;\n"</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>5、在MainActivity类中编写如下代码，启用NanoHTTPD服务</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.ceshi;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> androidx.appcompat.app.AppCompatActivity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    AndroidWebServer http = <span class="keyword">new</span> AndroidWebServer(<span class="number">9988</span>);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MainActivity</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            http.start();</span><br><span class="line">            System.out.println(<span class="string">"服务启动完成"</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            System.out.println(<span class="string">"服务启动错误"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//安卓销毁事件</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line">        http.stop();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>6、启动app</strong></p>
+<p><strong>7、端口转发</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">adb forward tcp:9988 tcp:9988</span><br></pre></td></tr></table></figure>
+<p><strong>8、调用接口</strong></p>
+<p><img src="/2021/06/12/%E4%BD%BF%E7%94%A8NanoHTTPD%E5%8F%8D%E5%B0%84%E8%B0%83%E7%94%A8%E5%8A%A0%E5%AF%86%E5%87%BD%E6%95%B0/使用NanoHTTPD反射调用加密函数\1.png" alt="image-20210614184121776"></p>
+<p><strong>输入ss回车：</strong></p>
+<p><img src="/2021/06/12/%E4%BD%BF%E7%94%A8NanoHTTPD%E5%8F%8D%E5%B0%84%E8%B0%83%E7%94%A8%E5%8A%A0%E5%AF%86%E5%87%BD%E6%95%B0/使用NanoHTTPD反射调用加密函数\2.png" alt="image-20210614184259827"></p>
+<p><strong>参考文章;</strong></p>
+<p>安卓NanoHTTPD的快速入门</p>
+<p><a href="https://blog.csdn.net/u013738666/article/details/104776840" target="_blank" rel="noopener">https://blog.csdn.net/u013738666/article/details/104776840</a></p>
 ]]></content>
       <categories>
         <category>逆向</category>
@@ -506,8 +519,10 @@
 <p>8.Client再次发起HTTPS的请求，使用对称密钥加密请求的“明文内容B”，然后Server使用对称密钥解密密文，得到“明文内容B”。</p>
 <h2 id="五、HTTP-与-HTTPS-的区别"><a href="#五、HTTP-与-HTTPS-的区别" class="headerlink" title="五、HTTP 与 HTTPS 的区别"></a>五、HTTP 与 HTTPS 的区别</h2><ul>
 <li>HTTP 是明文传输协议，HTTPS 协议是由 SSL+HTTP 协议构建的可进行加密传输、身份认证的网络协议，比 HTTP 协议安全。</li>
+<li></li>
 </ul>
-<p><img src="./你应该要了解的https/10.jpg" alt="图片"><br>关于安全性，用最简单的比喻形容两者的关系就是卡车运货，HTTP下的运货车是敞篷的，货物都是暴露的。而https则是封闭集装箱车，安全性自然提升不少。</p>
+<p><img src="./你应该要了解的https/10.jpg" alt="图片"></p>
+<p>关于安全性，用最简单的比喻形容两者的关系就是卡车运货，HTTP下的运货车是敞篷的，货物都是暴露的。而https则是封闭集装箱车，安全性自然提升不少。</p>
 <ul>
 <li>HTTPS比HTTP更加安全，对搜索引擎更友好，利于SEO,谷歌、百度优先索引HTTPS网页;</li>
 <li>HTTPS需要用到SSL证书，而HTTP不用;</li>
