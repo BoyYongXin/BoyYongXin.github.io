@@ -521,7 +521,7 @@
 <li>HTTP 是明文传输协议，HTTPS 协议是由 SSL+HTTP 协议构建的可进行加密传输、身份认证的网络协议，比 HTTP 协议安全。</li>
 <li></li>
 </ul>
-<p><img src="./你应该要了解的https/10.jpg" alt></p>
+<p><img src="你应该要了解的https/10.jpg" alt></p>
 <p>关于安全性，用最简单的比喻形容两者的关系就是卡车运货，HTTP下的运货车是敞篷的，货物都是暴露的。而https则是封闭集装箱车，安全性自然提升不少。</p>
 <ul>
 <li>HTTPS比HTTP更加安全，对搜索引擎更友好，利于SEO,谷歌、百度优先索引HTTPS网页;</li>
