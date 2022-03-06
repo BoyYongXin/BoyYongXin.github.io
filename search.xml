@@ -71,6 +71,54 @@
       </tags>
   </entry>
   <entry>
+    <title>pandas案例学习100例（一）</title>
+    <url>/2022/02/18/pandas%E6%A1%88%E4%BE%8B%E5%AD%A6%E4%B9%A0100%E4%BE%8B%EF%BC%88%E4%B8%80%EF%BC%89/</url>
+    <content><![CDATA[<p>hello 大家好，长时间没有发布新的文章，证明小编在这段日子不是很忙，就是很堕落，显然是后者了</p>
+<p>捡起键盘，准备推出pandas 案例100系列，分十次记录学习，多了你也看不进去，我也写不进去：</p>
+<a id="more"></a>
+<p><strong>案例1：</strong></p>
+<p>生成一年中，所有周一的日期：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#生成一年中，所有周一的日期</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">date_range = pd.date_range(start=<span class="string">'2021-01-01'</span>, end=<span class="string">'2021-12-31'</span>, freq=<span class="string">"W-MON"</span>)</span><br><span class="line">date_range = pd.date_range(start=<span class="string">'2021-01-01'</span>, periods=<span class="number">52</span>, freq=<span class="string">"W-MON"</span>)  <span class="comment"># 一年52个周</span></span><br><span class="line">print(date_range)</span><br></pre></td></tr></table></figure>
+<p><strong>案例2：</strong></p>
+<p>生成一个月份的所有日期</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 生成一个月份的所有日期</span></span><br><span class="line">date_range = pd.date_range(start=<span class="string">'2021-12-01'</span>, end=<span class="string">'2021-12-31'</span>)</span><br><span class="line">date_range = pd.date_range(start=<span class="string">'2021-12-01'</span>, periods=<span class="number">31</span>)  <span class="comment"># 一個月31天</span></span><br><span class="line">print(date_range)</span><br></pre></td></tr></table></figure>
+<p><strong>案例3：</strong></p>
+<p>生成一天的所有小時</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#生成一天的所有小時</span></span><br><span class="line">date_range = pd.date_range(start=<span class="string">'2021-12-01'</span>, periods=<span class="number">24</span>, freq=<span class="string">"H"</span>)</span><br><span class="line">date_range = pd.date_range(start=<span class="string">'2021-12-01'</span>, end=<span class="string">'2021-12-02'</span>, closed=<span class="string">"left"</span>, freq=<span class="string">"H"</span>)</span><br><span class="line">print(date_range)</span><br></pre></td></tr></table></figure>
+<p><strong>案例4：</strong></p>
+<p>使用list构造 Series</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="comment"># 使用list构造 Series</span></span><br><span class="line">sites = [<span class="string">"Google"</span>, <span class="string">"Runoob"</span>, <span class="string">"Wiki"</span>]</span><br><span class="line">myvar = pd.Series(sites)</span><br><span class="line">print(myvar)</span><br></pre></td></tr></table></figure>
+<p><strong>案例5：</strong></p>
+<p>使用dict 构造 Series</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 使用dict 构造 Series</span></span><br><span class="line">sites = &#123;<span class="string">'x'</span>: <span class="string">"Google"</span>, <span class="string">'y'</span>: <span class="string">"Runoob"</span>, <span class="string">'z'</span>: <span class="string">"Wiki"</span>&#125;</span><br><span class="line">myvar = pd.Series(sites)</span><br><span class="line">print(myvar)</span><br></pre></td></tr></table></figure>
+<p><strong>案例6：</strong></p>
+<p>Series转换list</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="comment"># Series转换list</span></span><br><span class="line">sites = &#123;<span class="string">'x'</span>: <span class="string">"Google"</span>, <span class="string">'y'</span>: <span class="string">"Runoob"</span>, <span class="string">'z'</span>: <span class="string">"Wiki"</span>&#125;</span><br><span class="line">myvar = pd.Series(sites)</span><br><span class="line">data = myvar.tolist()</span><br><span class="line">print(data)python</span><br></pre></td></tr></table></figure>
+<p>案例7：</p>
+<p>将Series转换DataFrame</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="comment"># 将Series转换DataFrame</span></span><br><span class="line">grades = &#123;<span class="string">'语文'</span>: <span class="string">"100"</span>, <span class="string">'数学'</span>: <span class="string">"120"</span>, <span class="string">'英语'</span>: <span class="string">"60"</span>&#125;</span><br><span class="line">myvar = pd.Series(grades)</span><br><span class="line">data = pd.DataFrame(myvar, columns=[<span class="string">"grade"</span>])</span><br><span class="line">print(data)</span><br></pre></td></tr></table></figure>
+<p><strong>案例8：</strong></p>
+<p>用numpy 创建Series</p>
+<p>101    10.0<br>102    20.0<br>103    30.0<br>104    40.0<br>105    50.0<br>106    60.0<br>107    70.0<br>108    80.0<br>109    90.0</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="comment"># 用numpy 创建Series</span></span><br><span class="line">s = pd.Series(</span><br><span class="line">    np.arange(<span class="number">10</span>, <span class="number">100</span>, <span class="number">10</span>),  <span class="comment"># 数值：10-90，间隔10</span></span><br><span class="line">    index=np.arange(<span class="number">101</span>, <span class="number">110</span>),  <span class="comment"># 索引：101-109， 间隔7</span></span><br><span class="line">    dtype=<span class="string">"float"</span>  <span class="comment"># 类型：float64</span></span><br><span class="line">)</span><br><span class="line">print(s)</span><br></pre></td></tr></table></figure>
+<p><strong>案例9：</strong></p>
+<p> 转换Series 的数据类型</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 转换Series 的数据类型</span></span><br><span class="line">s = pd.Series(</span><br><span class="line">    data=[<span class="string">"001"</span>, <span class="string">"002"</span>, <span class="string">"003"</span>, <span class="string">"004"</span>],</span><br><span class="line">    index=list(<span class="string">"abcd"</span>),</span><br><span class="line">    dtype=<span class="string">"float"</span>  <span class="comment"># 类型：float64</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">s = s.astype(int)  <span class="comment"># 方法一</span></span><br><span class="line"><span class="comment"># s = s.map(int)# 方法二</span></span><br><span class="line">print(s)</span><br></pre></td></tr></table></figure>
+<p><strong>案例10：</strong></p>
+<p>给Series添加元素</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 给Series添加元素</span></span><br><span class="line">grades = &#123;<span class="string">'语文'</span>: <span class="string">"100"</span>, <span class="string">'数学'</span>: <span class="string">"120"</span>, <span class="string">'英语'</span>: <span class="string">"60"</span>&#125;</span><br><span class="line">data = pd.Series(grades)</span><br><span class="line">data = data.append(pd.Series(&#123;</span><br><span class="line">    <span class="string">"计算机"</span>: <span class="number">30</span>,</span><br><span class="line">    <span class="string">"化学"</span>: <span class="number">45</span></span><br><span class="line">&#125;))</span><br><span class="line">print(data)</span><br></pre></td></tr></table></figure>
+<p><strong>案例11：</strong></p>
+<p>用reset index将Series 转换成df</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="comment"># 用reset index将Series 转换成df</span></span><br><span class="line">grades = &#123;<span class="string">'语文'</span>: <span class="string">"100"</span>, <span class="string">'数学'</span>: <span class="string">"120"</span>, <span class="string">'英语'</span>: <span class="string">"60"</span>&#125;</span><br><span class="line">data = pd.Series(grades)</span><br><span class="line">df = data.reset_index()</span><br><span class="line">df.columns = [<span class="string">"course"</span>, <span class="string">"grade"</span>]</span><br><span class="line">print(data)</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>数据分析</category>
+      </categories>
+      <tags>
+        <tag>数据分析</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>深入浅出，JS原型链的工作原理和hook</title>
     <url>/2021/07/06/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%EF%BC%8CJS%E5%8E%9F%E5%9E%8B%E9%93%BE%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%92%8Chook/</url>
     <content><![CDATA[<p>前言：原型链，即原型链条。它是由原型、原型的原型、原型的原型的原型…这一规则组合成的，经常被应用于继承。</p>

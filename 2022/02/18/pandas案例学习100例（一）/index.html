@@ -46,23 +46,20 @@
   };
 </script>
 
-  <meta name="description" content="利用NanoHTTPD反射调用Android APP加密函数，前奏之初识NanoHTTPD">
+  <meta name="description" content="hello 大家好，长时间没有发布新的文章，证明小编在这段日子不是很忙，就是很堕落，显然是后者了 捡起键盘，准备推出pandas 案例100系列，分十次记录学习，多了你也看不进去，我也写不进去：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用NanoHTTPD反射调用加密函数（一）">
-<meta property="og:url" content="http://yoursite.com/2021/06/12/%E4%BD%BF%E7%94%A8NanoHTTPD%E5%8F%8D%E5%B0%84%E8%B0%83%E7%94%A8%E5%8A%A0%E5%AF%86%E5%87%BD%E6%95%B0/index.html">
+<meta property="og:title" content="pandas案例学习100例（一）">
+<meta property="og:url" content="http://yoursite.com/2022/02/18/pandas%E6%A1%88%E4%BE%8B%E5%AD%A6%E4%B9%A0100%E4%BE%8B%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
 <meta property="og:site_name" content="菜鸟童靴">
-<meta property="og:description" content="利用NanoHTTPD反射调用Android APP加密函数，前奏之初识NanoHTTPD">
+<meta property="og:description" content="hello 大家好，长时间没有发布新的文章，证明小编在这段日子不是很忙，就是很堕落，显然是后者了 捡起键盘，准备推出pandas 案例100系列，分十次记录学习，多了你也看不进去，我也写不进去：">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://yoursite.com/2021/06/12/%E4%BD%BF%E7%94%A8NanoHTTPD%E5%8F%8D%E5%B0%84%E8%B0%83%E7%94%A8%E5%8A%A0%E5%AF%86%E5%87%BD%E6%95%B0/1.png">
-<meta property="og:image" content="http://yoursite.com/2021/06/12/%E4%BD%BF%E7%94%A8NanoHTTPD%E5%8F%8D%E5%B0%84%E8%B0%83%E7%94%A8%E5%8A%A0%E5%AF%86%E5%87%BD%E6%95%B0/2.png">
-<meta property="article:published_time" content="2021-06-12T13:47:56.000Z">
-<meta property="article:modified_time" content="2021-06-14T12:34:28.086Z">
+<meta property="article:published_time" content="2022-02-18T07:00:30.000Z">
+<meta property="article:modified_time" content="2022-03-06T13:57:03.372Z">
 <meta property="article:author" content="MrYang">
-<meta property="article:tag" content="逆向，NanoHTTPD">
+<meta property="article:tag" content="数据分析">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2021/06/12/%E4%BD%BF%E7%94%A8NanoHTTPD%E5%8F%8D%E5%B0%84%E8%B0%83%E7%94%A8%E5%8A%A0%E5%AF%86%E5%87%BD%E6%95%B0/1.png">
 
-<link rel="canonical" href="http://yoursite.com/2021/06/12/%E4%BD%BF%E7%94%A8NanoHTTPD%E5%8F%8D%E5%B0%84%E8%B0%83%E7%94%A8%E5%8A%A0%E5%AF%86%E5%87%BD%E6%95%B0/">
+<link rel="canonical" href="http://yoursite.com/2022/02/18/pandas%E6%A1%88%E4%BE%8B%E5%AD%A6%E4%B9%A0100%E4%BE%8B%EF%BC%88%E4%B8%80%EF%BC%89/">
 
 
 <script id="page-configurations">
@@ -74,7 +71,7 @@
   };
 </script>
 
-  <title>使用NanoHTTPD反射调用加密函数（一） | 菜鸟童靴</title>
+  <title>pandas案例学习100例（一） | 菜鸟童靴</title>
   
 
 
@@ -218,7 +215,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/12/%E4%BD%BF%E7%94%A8NanoHTTPD%E5%8F%8D%E5%B0%84%E8%B0%83%E7%94%A8%E5%8A%A0%E5%AF%86%E5%87%BD%E6%95%B0/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/02/18/pandas%E6%A1%88%E4%BE%8B%E5%AD%A6%E4%B9%A0100%E4%BE%8B%EF%BC%88%E4%B8%80%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -231,7 +228,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          使用NanoHTTPD反射调用加密函数（一）
+          pandas案例学习100例（一）
         </h1>
 
         <div class="post-meta">
@@ -241,14 +238,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-06-12 21:47:56" itemprop="dateCreated datePublished" datetime="2021-06-12T21:47:56+08:00">2021-06-12</time>
+              <time title="创建时间：2022-02-18 15:00:30" itemprop="dateCreated datePublished" datetime="2022-02-18T15:00:30+08:00">2022-02-18</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-06-14 20:34:28" itemprop="dateModified" datetime="2021-06-14T20:34:28+08:00">2021-06-14</time>
+                <time title="修改时间：2022-03-06 21:57:03" itemprop="dateModified" datetime="2022-03-06T21:57:03+08:00">2022-03-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -256,8 +253,8 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%80%86%E5%90%91/" itemprop="url" rel="index">
-                    <span itemprop="name">逆向</span>
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" itemprop="url" rel="index">
+                    <span itemprop="name">数据分析</span>
                   </a>
                 </span>
             </span>
@@ -273,33 +270,43 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>利用NanoHTTPD反射调用Android APP加密函数，前奏之初识NanoHTTPD</p>
+        <p>hello 大家好，长时间没有发布新的文章，证明小编在这段日子不是很忙，就是很堕落，显然是后者了</p>
+<p>捡起键盘，准备推出pandas 案例100系列，分十次记录学习，多了你也看不进去，我也写不进去：</p>
 <a id="more"></a>
-<h3 id="1-NanoHTTPD介绍"><a href="#1-NanoHTTPD介绍" class="headerlink" title="1.NanoHTTPD介绍"></a>1.NanoHTTPD介绍</h3><p>什么是NanoHTTPD？NanoHTTPD是一个免费、轻量级的(只有一个Java文件) HTTP服务器，可以很好地嵌入到Java程序中。支持 GET, POST, PUT等请求，支持文件上传，占用内存很小。</p>
-<p>项目地址：<a href="https://github.com/NanoHttpd/nanohttpd" target="_blank" rel="noopener">https://github.com/NanoHttpd/nanohttpd</a></p>
-<h3 id="2-如何嵌入？"><a href="#2-如何嵌入？" class="headerlink" title="2. 如何嵌入？"></a>2. 如何嵌入？</h3><ol>
-<li>在build.gradle中增加一个依赖（已经懒到一定境界了，能自动的，绝不手动下载配置）：</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile &#39;org.nanohttpd:nanohttpd:2.2.0&#39;</span><br></pre></td></tr></table></figure>
-<ol>
-<li>在包里增加一个java文件：AndroidWebServer.java`：</li>
-</ol>
-<p><strong>3、打开“app/src/main/AndroidManifest.xml”，在manifest标签中加入网络权限的声明，不加会报“java.net.SocketException: socket failed: EACCES ”异常错误</strong></p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.INTERNET"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
-<p><strong>4、编写NanoHTTPD的server服务</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.ceshi;</span><br><span class="line"><span class="keyword">import</span> fi.iki.elonen.NanoHTTPD;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="comment">//自定义一个Server继承NanoHTTPD</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AndroidWebServer</span> <span class="keyword">extends</span> <span class="title">NanoHTTPD</span> </span>&#123;</span><br><span class="line">    <span class="comment">//构造函数 赋值父类</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">AndroidWebServer</span><span class="params">(<span class="keyword">int</span> port)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(port);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Response <span class="title">serve</span><span class="params">(IHTTPSession session)</span> </span>&#123;</span><br><span class="line">        String msg = <span class="string">"&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello AutoPy&lt;/h1&gt;\n"</span>;</span><br><span class="line">        Map&lt;String, String&gt; parms = session.getParms();</span><br><span class="line">        <span class="keyword">if</span> (parms.get(<span class="string">"code"</span>) == <span class="keyword">null</span>) &#123;</span><br><span class="line">            msg += <span class="string">"&lt;form action='?' method='get'&gt;\n  &lt;p&gt;Your code: &lt;input type='text' name='code'&gt;&lt;/p&gt;\n"</span> + <span class="string">"&lt;/form&gt;\n"</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            msg += <span class="string">"&lt;p&gt;Hello, "</span> + parms.get(<span class="string">"code"</span>) + <span class="string">"!&lt;/p&gt;"</span>;</span><br><span class="line">            <span class="keyword">return</span> newFixedLengthResponse(msg + <span class="string">"&lt;/body&gt;&lt;/html&gt;\n"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> newFixedLengthResponse(msg + <span class="string">"&lt;/body&gt;&lt;/html&gt;\n"</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>5、在MainActivity类中编写如下代码，启用NanoHTTPD服务</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.ceshi;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> androidx.appcompat.app.AppCompatActivity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    AndroidWebServer http = <span class="keyword">new</span> AndroidWebServer(<span class="number">9988</span>);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MainActivity</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            http.start();</span><br><span class="line">            System.out.println(<span class="string">"服务启动完成"</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            System.out.println(<span class="string">"服务启动错误"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//安卓销毁事件</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line">        http.stop();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>6、启动app</strong></p>
-<p><strong>7、端口转发</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb forward tcp:9988 tcp:9988</span><br></pre></td></tr></table></figure>
-<p><strong>8、调用接口</strong></p>
-<p><img src="/2021/06/12/%E4%BD%BF%E7%94%A8NanoHTTPD%E5%8F%8D%E5%B0%84%E8%B0%83%E7%94%A8%E5%8A%A0%E5%AF%86%E5%87%BD%E6%95%B0/1.png" alt></p>
-<p><strong>输入ss回车：</strong></p>
-<p><img src="/2021/06/12/%E4%BD%BF%E7%94%A8NanoHTTPD%E5%8F%8D%E5%B0%84%E8%B0%83%E7%94%A8%E5%8A%A0%E5%AF%86%E5%87%BD%E6%95%B0/2.png" alt></p>
-<p><strong>参考文章;</strong></p>
-<p>安卓NanoHTTPD的快速入门</p>
-<p><a href="https://blog.csdn.net/u013738666/article/details/104776840" target="_blank" rel="noopener">https://blog.csdn.net/u013738666/article/details/104776840</a></p>
+<p><strong>案例1：</strong></p>
+<p>生成一年中，所有周一的日期：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#生成一年中，所有周一的日期</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">date_range = pd.date_range(start=<span class="string">'2021-01-01'</span>, end=<span class="string">'2021-12-31'</span>, freq=<span class="string">"W-MON"</span>)</span><br><span class="line">date_range = pd.date_range(start=<span class="string">'2021-01-01'</span>, periods=<span class="number">52</span>, freq=<span class="string">"W-MON"</span>)  <span class="comment"># 一年52个周</span></span><br><span class="line">print(date_range)</span><br></pre></td></tr></table></figure>
+<p><strong>案例2：</strong></p>
+<p>生成一个月份的所有日期</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成一个月份的所有日期</span></span><br><span class="line">date_range = pd.date_range(start=<span class="string">'2021-12-01'</span>, end=<span class="string">'2021-12-31'</span>)</span><br><span class="line">date_range = pd.date_range(start=<span class="string">'2021-12-01'</span>, periods=<span class="number">31</span>)  <span class="comment"># 一個月31天</span></span><br><span class="line">print(date_range)</span><br></pre></td></tr></table></figure>
+<p><strong>案例3：</strong></p>
+<p>生成一天的所有小時</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#生成一天的所有小時</span></span><br><span class="line">date_range = pd.date_range(start=<span class="string">'2021-12-01'</span>, periods=<span class="number">24</span>, freq=<span class="string">"H"</span>)</span><br><span class="line">date_range = pd.date_range(start=<span class="string">'2021-12-01'</span>, end=<span class="string">'2021-12-02'</span>, closed=<span class="string">"left"</span>, freq=<span class="string">"H"</span>)</span><br><span class="line">print(date_range)</span><br></pre></td></tr></table></figure>
+<p><strong>案例4：</strong></p>
+<p>使用list构造 Series</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="comment"># 使用list构造 Series</span></span><br><span class="line">sites = [<span class="string">"Google"</span>, <span class="string">"Runoob"</span>, <span class="string">"Wiki"</span>]</span><br><span class="line">myvar = pd.Series(sites)</span><br><span class="line">print(myvar)</span><br></pre></td></tr></table></figure>
+<p><strong>案例5：</strong></p>
+<p>使用dict 构造 Series</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用dict 构造 Series</span></span><br><span class="line">sites = &#123;<span class="string">'x'</span>: <span class="string">"Google"</span>, <span class="string">'y'</span>: <span class="string">"Runoob"</span>, <span class="string">'z'</span>: <span class="string">"Wiki"</span>&#125;</span><br><span class="line">myvar = pd.Series(sites)</span><br><span class="line">print(myvar)</span><br></pre></td></tr></table></figure>
+<p><strong>案例6：</strong></p>
+<p>Series转换list</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="comment"># Series转换list</span></span><br><span class="line">sites = &#123;<span class="string">'x'</span>: <span class="string">"Google"</span>, <span class="string">'y'</span>: <span class="string">"Runoob"</span>, <span class="string">'z'</span>: <span class="string">"Wiki"</span>&#125;</span><br><span class="line">myvar = pd.Series(sites)</span><br><span class="line">data = myvar.tolist()</span><br><span class="line">print(data)python</span><br></pre></td></tr></table></figure>
+<p>案例7：</p>
+<p>将Series转换DataFrame</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="comment"># 将Series转换DataFrame</span></span><br><span class="line">grades = &#123;<span class="string">'语文'</span>: <span class="string">"100"</span>, <span class="string">'数学'</span>: <span class="string">"120"</span>, <span class="string">'英语'</span>: <span class="string">"60"</span>&#125;</span><br><span class="line">myvar = pd.Series(grades)</span><br><span class="line">data = pd.DataFrame(myvar, columns=[<span class="string">"grade"</span>])</span><br><span class="line">print(data)</span><br></pre></td></tr></table></figure>
+<p><strong>案例8：</strong></p>
+<p>用numpy 创建Series</p>
+<p>101    10.0<br>102    20.0<br>103    30.0<br>104    40.0<br>105    50.0<br>106    60.0<br>107    70.0<br>108    80.0<br>109    90.0</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="comment"># 用numpy 创建Series</span></span><br><span class="line">s = pd.Series(</span><br><span class="line">    np.arange(<span class="number">10</span>, <span class="number">100</span>, <span class="number">10</span>),  <span class="comment"># 数值：10-90，间隔10</span></span><br><span class="line">    index=np.arange(<span class="number">101</span>, <span class="number">110</span>),  <span class="comment"># 索引：101-109， 间隔7</span></span><br><span class="line">    dtype=<span class="string">"float"</span>  <span class="comment"># 类型：float64</span></span><br><span class="line">)</span><br><span class="line">print(s)</span><br></pre></td></tr></table></figure>
+<p><strong>案例9：</strong></p>
+<p> 转换Series 的数据类型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 转换Series 的数据类型</span></span><br><span class="line">s = pd.Series(</span><br><span class="line">    data=[<span class="string">"001"</span>, <span class="string">"002"</span>, <span class="string">"003"</span>, <span class="string">"004"</span>],</span><br><span class="line">    index=list(<span class="string">"abcd"</span>),</span><br><span class="line">    dtype=<span class="string">"float"</span>  <span class="comment"># 类型：float64</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">s = s.astype(int)  <span class="comment"># 方法一</span></span><br><span class="line"><span class="comment"># s = s.map(int)# 方法二</span></span><br><span class="line">print(s)</span><br></pre></td></tr></table></figure>
+<p><strong>案例10：</strong></p>
+<p>给Series添加元素</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 给Series添加元素</span></span><br><span class="line">grades = &#123;<span class="string">'语文'</span>: <span class="string">"100"</span>, <span class="string">'数学'</span>: <span class="string">"120"</span>, <span class="string">'英语'</span>: <span class="string">"60"</span>&#125;</span><br><span class="line">data = pd.Series(grades)</span><br><span class="line">data = data.append(pd.Series(&#123;</span><br><span class="line">    <span class="string">"计算机"</span>: <span class="number">30</span>,</span><br><span class="line">    <span class="string">"化学"</span>: <span class="number">45</span></span><br><span class="line">&#125;))</span><br><span class="line">print(data)</span><br></pre></td></tr></table></figure>
+<p><strong>案例11：</strong></p>
+<p>用reset index将Series 转换成df</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="comment"># 用reset index将Series 转换成df</span></span><br><span class="line">grades = &#123;<span class="string">'语文'</span>: <span class="string">"100"</span>, <span class="string">'数学'</span>: <span class="string">"120"</span>, <span class="string">'英语'</span>: <span class="string">"60"</span>&#125;</span><br><span class="line">data = pd.Series(grades)</span><br><span class="line">df = data.reset_index()</span><br><span class="line">df.columns = [<span class="string">"course"</span>, <span class="string">"grade"</span>]</span><br><span class="line">print(data)</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -309,7 +316,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E9%80%86%E5%90%91%EF%BC%8CNanoHTTPD/" rel="tag"># 逆向，NanoHTTPD</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" rel="tag"># 数据分析</a>
           </div>
 
         
@@ -318,12 +325,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/06/11/androidStudio%E5%BB%BA%E7%AB%8B%E7%9A%84%E9%A1%B9%E7%9B%AE%E6%B2%A1%E6%9C%89libs%E7%9B%AE%E5%BD%95/" rel="prev" title="androidStudio建立的项目没有libs目录">
-      <i class="fa fa-chevron-left"></i> androidStudio建立的项目没有libs目录
+    <a href="/2021/07/06/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%EF%BC%8CJS%E5%8E%9F%E5%9E%8B%E9%93%BE%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%92%8Chook/" rel="prev" title="深入浅出，JS原型链的工作原理和hook">
+      <i class="fa fa-chevron-left"></i> 深入浅出，JS原型链的工作原理和hook
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/06/12/Python%E8%BF%9B%E9%98%B6%E4%B9%8Batexit%E6%A8%A1%E5%9D%97%E4%BD%BF%E7%94%A8/" rel="next" title="Python进阶之atexit模块使用">
-      Python进阶之atexit模块使用 <i class="fa fa-chevron-right"></i>
+    <a href="/2022/03/06/github%E8%AE%BF%E9%97%AE%E6%85%A2%EF%BC%8C%E4%B8%80%E7%9B%B4%E4%B8%8D%E6%88%90%E5%8A%9F%EF%BC%8C%E9%9A%BE%E9%81%93%E9%9D%9E%E5%BE%97%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E5%90%97/" rel="next" title="github访问慢，一直不成功，难道非得科学上网吗">
+      github访问慢，一直不成功，难道非得科学上网吗 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -385,7 +392,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-NanoHTTPD介绍"><span class="nav-number">1.</span> <span class="nav-text">1.NanoHTTPD介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-如何嵌入？"><span class="nav-number">2.</span> <span class="nav-text">2. 如何嵌入？</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -587,7 +593,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo: 'boyyongxin.github.io# Repository name to store issues',
       owner: 'CoderYang# GitHub repo owner',
       admin: ['germey# GitHub repo owner and collaborators, only these guys can initialize gitHub issues'],
-      id: '560ccc59f12bab08dc9e65e131e314af',
+      id: '71562d361faba87cdea9804b52c56b60',
         language: 'zh-CN',
       distractionFreeMode: 'true'
     });
