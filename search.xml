@@ -114,9 +114,32 @@
       <categories>
         <category>数据分析</category>
       </categories>
-      <tags>
-        <tag>数据分析</tag>
-      </tags>
+  </entry>
+  <entry>
+    <title>python如何批量改文件后缀和图片像素大小</title>
+    <url>/2021/12/21/python%E5%A6%82%E4%BD%95%E6%89%B9%E9%87%8F%E6%94%B9%E6%96%87%E4%BB%B6%E5%90%8E%E7%BC%80%E5%92%8C%E5%9B%BE%E7%89%87%E5%83%8F%E7%B4%A0%E5%A4%A7%E5%B0%8F/</url>
+    <content><![CDATA[<p>hello 大家好，我是Monday，就在我写完pandas学习案例100第一篇的时候，在图片素材里找封面图时，发现已经没有新的封面图了</p>
+<p>都是使用过的了，于是乎，我从网上下载了一批新的图片素材，正当我满意的时候，上传时，发现</p>
+<a id="more"></a>
+<p><img src="/2021/12/21/python%E5%A6%82%E4%BD%95%E6%89%B9%E9%87%8F%E6%94%B9%E6%96%87%E4%BB%B6%E5%90%8E%E7%BC%80%E5%92%8C%E5%9B%BE%E7%89%87%E5%83%8F%E7%B4%A0%E5%A4%A7%E5%B0%8F/2.png" style="zoom: 50%;"></p>
+<p>我下载的图片都是webp后缀的，格式不被允许上传，这时候我们改文件的后缀为平台支持的格式就可以了，</p>
+<p>重点来了，那么图片难道要一个一个手动改吗，No No No，会Python的你，当然应该是写个小工具批量改了</p>
+<p>附带源码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出当前目录下所有的文件</span></span><br><span class="line">path = <span class="string">r"C:\Users\xx\Desktop\公众号素材"</span></span><br><span class="line">files = os.listdir(path)</span><br><span class="line"><span class="keyword">for</span> index, filename <span class="keyword">in</span> enumerate(files):</span><br><span class="line">    portion = os.path.splitext(filename)</span><br><span class="line">    <span class="comment"># 判断后缀</span></span><br><span class="line">    <span class="keyword">if</span> portion[<span class="number">1</span>] == <span class="string">".webp"</span>:</span><br><span class="line">        <span class="comment"># 重新组合文件名和后缀名</span></span><br><span class="line">        newname = path + <span class="string">"\\"</span> + str(index) + <span class="string">".jpg"</span></span><br><span class="line">        filename = path + <span class="string">"\\"</span> + filename</span><br><span class="line">        os.rename(filename, newname)</span><br></pre></td></tr></table></figure>
+<p>看下效果：</p>
+<p><img src="/2021/12/21/python%E5%A6%82%E4%BD%95%E6%89%B9%E9%87%8F%E6%94%B9%E6%96%87%E4%BB%B6%E5%90%8E%E7%BC%80%E5%92%8C%E5%9B%BE%E7%89%87%E5%83%8F%E7%B4%A0%E5%A4%A7%E5%B0%8F/3.jpg" style="zoom: 50%;"></p>
+<p>本以为完美的落幕，然并卵再次上传，发现如下图的问题</p>
+<p><img src="/2021/12/21/python%E5%A6%82%E4%BD%95%E6%89%B9%E9%87%8F%E6%94%B9%E6%96%87%E4%BB%B6%E5%90%8E%E7%BC%80%E5%92%8C%E5%9B%BE%E7%89%87%E5%83%8F%E7%B4%A0%E5%A4%A7%E5%B0%8F/0.jpg" style="zoom: 50%;"></p>
+<p>继续盘他，写个脚本批量更改像素:</p>
+<p>源码如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"></span><br><span class="line">IPHONE5_WIDTH = <span class="number">530</span> <span class="comment">#改变后的宽</span></span><br><span class="line">IPHONE5_HEIGHT = <span class="number">300</span><span class="comment">#改变后的高</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 改变图片的尺寸大小</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">reset_pic_size</span><span class="params">(file_path, new_path, width=IPHONE5_WIDTH, height=IPHONE5_HEIGHT)</span>:</span></span><br><span class="line">    image = Image.open(file_path)</span><br><span class="line">    image_width, image_height = image.size</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> image_width &gt; width:</span><br><span class="line">        image_height = width * image_height // image_width</span><br><span class="line">        image_width = width</span><br><span class="line">    <span class="keyword">if</span> image_height &gt; height:</span><br><span class="line">        image_width = height * image_width // image_height</span><br><span class="line">        image_height = height</span><br><span class="line"></span><br><span class="line">    new_image = image.resize((image_width, image_height), Image.ANTIALIAS)  <span class="comment"># 滤镜缩放</span></span><br><span class="line">    new_image.save(new_path)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 从文件夹中循环改变每一张图片</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_and_resize_pic_from_dir</span><span class="params">(dir_path, new_path)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(dir_path):</span><br><span class="line">        <span class="keyword">for</span> file_name <span class="keyword">in</span> files:</span><br><span class="line">            <span class="keyword">if</span> file_name.lower().endswith(<span class="string">'jpg'</span>) <span class="keyword">or</span> file_name.lower().endswith(<span class="string">'png'</span>):</span><br><span class="line">                file_path = os.path.join(root, file_name)</span><br><span class="line">                new_file_path = new_path + file_name</span><br><span class="line">                reset_pic_size(file_path=file_path, new_path=new_file_path)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    </span><br><span class="line">    file_new_path = <span class="string">r'C:\Users\XX\Desktop\公众号素材\new_'</span></span><br><span class="line">    find_and_resize_pic_from_dir(<span class="string">r'C:\Users\XX\Desktop\公众号素材'</span>, file_new_path)</span><br></pre></td></tr></table></figure>
+<p>万事具备，看看能不能如愿上传：</p>
+<p><img src="/2021/12/21/python%E5%A6%82%E4%BD%95%E6%89%B9%E9%87%8F%E6%94%B9%E6%96%87%E4%BB%B6%E5%90%8E%E7%BC%80%E5%92%8C%E5%9B%BE%E7%89%87%E5%83%8F%E7%B4%A0%E5%A4%A7%E5%B0%8F/1.png" style="zoom: 50%;"></p>
+<p>完美</p>
+]]></content>
+      <categories>
+        <category>python进阶</category>
+      </categories>
   </entry>
   <entry>
     <title>深入浅出，JS原型链的工作原理和hook</title>
