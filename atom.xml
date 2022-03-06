@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2021-07-06T15:12:57.313Z</updated>
+  <updated>2022-03-06T13:36:01.320Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>github访问慢，一直不成功，难道非得科学上网吗</title>
+    <link href="http://yoursite.com/2022/03/06/github%E8%AE%BF%E9%97%AE%E6%85%A2%EF%BC%8C%E4%B8%80%E7%9B%B4%E4%B8%8D%E6%88%90%E5%8A%9F%EF%BC%8C%E9%9A%BE%E9%81%93%E9%9D%9E%E5%BE%97%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E5%90%97/"/>
+    <id>http://yoursite.com/2022/03/06/github%E8%AE%BF%E9%97%AE%E6%85%A2%EF%BC%8C%E4%B8%80%E7%9B%B4%E4%B8%8D%E6%88%90%E5%8A%9F%EF%BC%8C%E9%9A%BE%E9%81%93%E9%9D%9E%E5%BE%97%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E5%90%97/</id>
+    <published>2022-03-06T12:56:22.000Z</published>
+    <updated>2022-03-06T13:36:01.320Z</updated>
+    
+    <content type="html"><![CDATA[<p>github访问慢，一直不成功，难道非得科学上网吗，今天小编给你带来终极解决方案，让你不再为此而烦恼</p><a id="more"></a><h3 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h3><p>​        github上有很多优秀的资源和项目，对程序员开发成长的有效平台之一，但是国内访问github的并不是那么友好</p><p>经常会出现访问一直转圈圈，访问慢，或者超时失败，小编在今天之前一直都是科学上网的方式，解决现状，今天服务</p><p>费软件到期后，忽然访问不了，又不想续费了，所以找了找网上有没有可行性的解决方案，一搜不知道，还真有，</p><p>接下来小编给大家案例两种方式的访问，方式一：dev-sidecar、方式二GitHub520 </p><h3 id="1、dev-sidecar"><a href="#1、dev-sidecar" class="headerlink" title="1、dev-sidecar"></a>1、dev-sidecar</h3><p>开发者边车，命名取自service-mesh的service-sidecar，意为为开发者打辅助的边车工具<br>通过本地代理的方式将https请求代理到一些国内的加速通道上</p><h4 id="1-1开源网址："><a href="#1-1开源网址：" class="headerlink" title="1.1开源网址："></a>1.1开源网址：</h4><p><a href="https://gitee.com/docmirror/dev-sidecar" target="_blank" rel="noopener">https://gitee.com/docmirror/dev-sidecar</a></p><h4 id="1-2特性："><a href="#1-2特性：" class="headerlink" title="1.2特性："></a>1.2特性：</h4><p>1、 dns优选</p><p>2、 请求拦截</p><p>3、 github加速</p><p>4、 Stack Overflow 加速</p><p>5、 npm加速</p><h4 id="1-3安装使用"><a href="#1-3安装使用" class="headerlink" title="1.3安装使用"></a>1.3安装使用</h4><h5 id="1-3-1选择平台下载"><a href="#1-3-1选择平台下载" class="headerlink" title="1.3.1选择平台下载"></a>1.3.1选择平台下载</h5><p>​    <img src="/2022/03/06/github%E8%AE%BF%E9%97%AE%E6%85%A2%EF%BC%8C%E4%B8%80%E7%9B%B4%E4%B8%8D%E6%88%90%E5%8A%9F%EF%BC%8C%E9%9A%BE%E9%81%93%E9%9D%9E%E5%BE%97%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E5%90%97/www5\Hexo\BoyYongXin\source\_posts\github访问慢，一直不成功，难道非得科学上网吗\1646572766(1" alt="image-20220306211905339">.jpg)</p><p>此项目支持平台有很多，这边以window为例，我直接下载安装，傻瓜式安装，</p><h5 id="1-3-2-安装根证书"><a href="#1-3-2-安装根证书" class="headerlink" title="1.3.2 安装根证书"></a>1.3.2 安装根证书</h5><p>第一次打开会提示安装证书，根据提示操作即可</p><p>更多有关根证书的说明，请参考 <a href="https://gitee.com/docmirror/dev-sidecar/blob/master/doc/caroot.md" target="_blank" rel="noopener">为什么要安装根证书?</a></p><blockquote><p>根证书是本地随机生成的，所以不用担心根证书的安全问题（本应用不收集任何用户信息）<br>你也可以在加速服务设置中自定义根证书（PEM格式的证书与私钥）</p><p>火狐浏览器需要<a href="https://gitee.com/docmirror/dev-sidecar#3浏览器打开提示证书不受信任" target="_blank" rel="noopener">手动安装证书</a></p></blockquote><h5 id="1-3-4开始加速吧"><a href="#1-3-4开始加速吧" class="headerlink" title="1.3.4开始加速吧"></a>1.3.4开始加速吧</h5><p><img src="/2022/03/06/github%E8%AE%BF%E9%97%AE%E6%85%A2%EF%BC%8C%E4%B8%80%E7%9B%B4%E4%B8%8D%E6%88%90%E5%8A%9F%EF%BC%8C%E9%9A%BE%E9%81%93%E9%9D%9E%E5%BE%97%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E5%90%97/www5\Hexo\BoyYongXin\source\_posts\github访问慢，一直不成功，难道非得科学上网吗\1646572959(1" alt="image-20220306211905339">.jpg)</p><p>去试试打开github</p><h3 id="2、-GitHub520"><a href="#2、-GitHub520" class="headerlink" title="2、 GitHub520"></a>2、 GitHub520</h3><h4 id="2-1开源网址："><a href="#2-1开源网址：" class="headerlink" title="2.1开源网址："></a>2.1开源网址：</h4><p><a href="https://gitee.com/doshengl/GitHub520" target="_blank" rel="noopener">https://gitee.com/doshengl/GitHub520</a></p><h4 id="2-2安装使用"><a href="#2-2安装使用" class="headerlink" title="2.2安装使用"></a>2.2安装使用</h4><h5 id="2-2-1-手动方式（每次得手动更新不推荐）"><a href="#2-2-1-手动方式（每次得手动更新不推荐）" class="headerlink" title="2.2.1 手动方式（每次得手动更新不推荐）"></a>2.2.1 手动方式（每次得手动更新不推荐）</h5><h5 id="2-2-1-1-修改-hosts-文件"><a href="#2-2-1-1-修改-hosts-文件" class="headerlink" title="2.2.1.1 修改 hosts 文件"></a>2.2.1.1 修改 hosts 文件</h5><p>hosts 文件在每个系统的位置不一，详情如下：</p><ul><li>Windows 系统：<code>C:\Windows\System32\drivers\etc\hosts</code></li><li>Linux 系统：<code>/etc/hosts</code></li><li>Mac（苹果电脑）系统：<code>/etc/hosts</code></li><li>Android（安卓）系统：<code>/system/etc/hosts</code></li><li>iPhone（iOS）系统：<code>/etc/hosts</code></li></ul><p>修改方法，把第一步的内容复制到文本末尾：</p><ol><li>Windows 使用记事本。</li><li>Linux、Mac 使用 Root 权限：<code>sudo vi /etc/hosts</code>。</li><li>iPhone、iPad 须越狱、Android 必须要 root。</li></ol><h6 id="2-2-1-2-激活生效"><a href="#2-2-1-2-激活生效" class="headerlink" title="2.2.1.2 激活生效"></a>2.2.1.2 激活生效</h6><p>大部分情况下是直接生效，如未生效可尝试下面的办法，刷新 DNS：</p><ol><li>Windows：在 CMD 窗口输入：<code>ipconfig /flushdns</code></li><li>Linux 命令：<code>sudo nscd restart</code>，如报错则须安装：<code>sudo apt install nscd</code> 或 <code>sudo /etc/init.d/nscd restart</code></li><li>Mac 命令：<code>sudo killall -HUP mDNSResponder</code></li></ol><p><strong>Tips：</strong> 上述方法无效可以尝试重启机器。</p><h4 id="2-2-2-自动方式"><a href="#2-2-2-自动方式" class="headerlink" title="2.2.2 自动方式"></a>2.2.2 自动方式</h4><p><strong>Tip</strong>：推荐 <a href="https://gitee.com/link?target=https%3A%2F%2Fgithub.com%2Foldj%2FSwitchHosts">SwitchHosts</a> 工具管理 hosts</p><p>以 SwitchHosts 为例，看一下怎么使用的，配置参考下面：</p><ul><li>Title: 随意</li><li>Type: <code>Remote</code></li><li>URL: <code>https://raw.hellogithub.com/hosts</code></li><li>Auto Refresh: 最好选 <code>1 hour</code></li></ul><p>如图：</p><p><img src="/2022/03/06/github%E8%AE%BF%E9%97%AE%E6%85%A2%EF%BC%8C%E4%B8%80%E7%9B%B4%E4%B8%8D%E6%88%90%E5%8A%9F%EF%BC%8C%E9%9A%BE%E9%81%93%E9%9D%9E%E5%BE%97%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E5%90%97/www5\Hexo\BoyYongXin\source\_posts\github访问慢，一直不成功，难道非得科学上网吗\switch-hosts.png" alt="img"></p><p>这样每次 hosts 有更新都能及时进行更新，免去手动更新。</p><p><strong>结束语</strong>：</p><p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;github访问慢，一直不成功，难道非得科学上网吗，今天小编给你带来终极解决方案，让你不再为此而烦恼&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="技术杂谈" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
+    
+    
+      <category term="github" scheme="http://yoursite.com/tags/github/"/>
+    
+      <category term="科学上网" scheme="http://yoursite.com/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
+    
+  </entry>
   
   <entry>
     <title>深入浅出，JS原型链的工作原理和hook</title>
@@ -480,33 +505,6 @@
     
     
       <category term="python爬虫， 热更新文件， 技术优化" scheme="http://yoursite.com/tags/python%E7%88%AC%E8%99%AB%EF%BC%8C-%E7%83%AD%E6%9B%B4%E6%96%B0%E6%96%87%E4%BB%B6%EF%BC%8C-%E6%8A%80%E6%9C%AF%E4%BC%98%E5%8C%96/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>oneplus6手机刷机实战教程</title>
-    <link href="http://yoursite.com/2021/01/14/oneplus6%E6%89%8B%E6%9C%BA%E5%88%B7%E6%9C%BA%E5%AE%9E%E6%88%98%E6%95%99%E7%A8%8B/"/>
-    <id>http://yoursite.com/2021/01/14/oneplus6%E6%89%8B%E6%9C%BA%E5%88%B7%E6%9C%BA%E5%AE%9E%E6%88%98%E6%95%99%E7%A8%8B/</id>
-    <published>2021-01-14T07:49:35.000Z</published>
-    <updated>2021-05-29T02:27:34.365Z</updated>
-    
-    <content type="html"><![CDATA[<p>本篇文章，仅仅讲的是刷机实战和刷机的用处，对刷机的专有名词和原理不做解释，（网站文章教程很多，后期也会整合一篇笔记出来）</p><a id="more"></a><p><strong>手机刷机有什么好处？</strong><br>　　1）手机root，刷机后的大多数ROM可以自动ROOT，获得最高的管理权限，可以使用更好玩，更丰富的手机软件。<br>　　2）优化手机系统性能，由于可定制的ROM（即刷机ROM）对内存进行了优化处理，删除了一些不常用的软件，以及针对特定人群进行定制优化，因此在性能上更加卓越。<br>　　3）解决手机运行卡、慢等问题，许多朋友可能会遇到手机无缘无故的重启、卡机、无法启动、无法关机等等问题。如果其他方法不奏效，刷机是最直接的方式。<br>　　4）改变官方版本的界面，自定义自己手机界面，官方版本的版本包由于采用优化技术来重点提高了性能，因此对于界面缺乏个性化和多样化的设计，尤其是所提供的主题包有限，从而降低了用户的体验度。因此可以通过刷机来拥有更加丰富的用户界面。</p><p>​        5) 对于程序员来说，用处大大的，比如 使用frida 对app进行hook拦截等</p><p>当然有利就有弊。许多用户在刷机前也会担心会有什么后遗症，或者刷机不当造成更大的损失。<br><strong>手机刷机有什么坏处？</strong><br>　　有一些朋友可能从手机买来到一直用到抛弃的过程中都没有进行过一次手机刷机，因为可能听说一些手机刷机的坏处。<br>　　首先最重要的一点手机刷机也就是抛弃了手机厂商对手机的调整，自己定义了手机的功能，所以显而易见的大多数厂商的手机在刷机后是不再享受官方联保服务。<br>　　下载了不适合的rom里面可能包含了捆绑病毒等文件，不是任何情况下都适合刷机，比如硬件问题你的手机喇叭损坏了，你想通过刷机来解决这可能吗？<br>　　新手需要学习刷机教学，刚接触刷机不久的用户可能由于某些不规范的操作导致手机刷机后遗留各种问题，轻则手机无信号，重则可能连手机变砖，无信号等等！</p><hr><p><strong>oneplus6刷机实操教程：</strong></p><p><strong>第一步：解锁一加**</strong>6<strong> </strong>bl**</p><p> 解锁教程：<a href="https://oneplus.gadgethacks.com/how-to/unlock-bootloader-your-oneplus-6-0185473/" target="_blank" rel="noopener">https:<strong>//</strong>oneplus.gadgethacks.com<strong>/</strong>how<strong>-</strong>to<strong>/</strong>unlock<strong>-</strong>bootloader<strong>-</strong>your<strong>-</strong>oneplus<strong>-</strong>6<strong>-</strong>0185473<strong>/</strong></a></p><p>1、启用开发者选项</p><p>现在您需要启用手机上的“开发人员选项”菜单来访问一个允许您解锁引导装载程序的设置。点击设置-&gt; 关于手机，然后向下滚动到底部，快速连续点击“版本号”七次。如果操作正确，您将看到一个祝酒词，声明“您现在是一名开发人员”</p><p>2、启用 OEM 解锁</p><p>从这里，点击后退按钮一次，头回到主设置页面。向下滚动，你会发现新解锁的开发者选项菜单。选择它，然后向下滚动，并启用开关旁边的“ OEM 解锁”在下一页。点击弹出窗口上的“启用” ，如果提示输入你的手机密码。</p><p>3、启用高级重启</p><p>当你还在“开发者选项”菜单中时，向下滚动并启用“高级重新启动”设置。这将使进入 Fastboot 模式变得更加容易。</p><p>4、启动到快速启动模式</p><p>启用高级重新启动后，按住电源按钮，打开电源菜单。在第一个提示符上选择“ Reboot” ，然后在第二个提示符上选择“ Bootloader（引导加载器）”并确认您的选择。当您的电话启动进入快速启动模式，继续并连接到您的计算机与 USB 数据线，但留在主要的快速启动菜单。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">或者命令实行： adb reboot bootloader</span><br></pre></td></tr></table></figure><p>5、</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastboot oem unlock</span><br></pre></td></tr></table></figure><p>6、</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">选择 unlock the bootloader</span><br></pre></td></tr></table></figure><p>给你的手机长达15分钟的时间来完成擦除程序，然后简单地再次运行初始设置，就像你第一次打开你的手机一样。此时，您的引导加载程序已正式解锁，因此您可以开始刷新自定义固件文件了！</p><p><strong>第2步开始刷机：</strong></p><p>1、解锁完成，adb reboot bootloader 进入手机开发者模式，打开adb调试，通过以下指令刷入rec</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastboot boot twrp**-**3.2.3**-**x_blu_spark_v9.86_op6.img （输入临时twrp）</span><br></pre></td></tr></table></figure><p>2、选择语言，中文，向右滑动 允许修改， 自动重启到rec模式后,首先进行清除，直接划</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb push twrp-installer-3.3.1-2-enchilada.zip &#x2F;sdcard adb push Magisk-v20.4.zip &#x2F;sdcard</span><br></pre></td></tr></table></figure><p>3、点击安装twrp<strong>-</strong>installer，选择多个刷机包Magisk，向右滑动， 返回重启选择系统进行重启 再选择系统，重启机即可，不要直接在刷完包之后重启系统。</p><p>4、测试root是否启动成功：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell su</span><br></pre></td></tr></table></figure><p><strong>第3步如果失败了先重新刷入系统，换成官方系统，重复第一二步骤即可</strong></p><p> 刷机教程:https:<strong>//</strong>bbs.mokeedev.com<strong>/</strong>t<strong>/</strong>topic<strong>/</strong>14940 直接看最下面的刷回官方系统的教程</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">（1）、电脑安装一加驱动，官方系统的一加6连接电脑，电脑会有一个 CD驱动器Oneplus drivers，双击它安装。</span><br><span class="line">（2）、把准备工作下载的 氧OS_9.0系统_一加6救砖包enchilada_22_O.27_181025.zip 解压 </span><br><span class="line">（3）、双击打开 MsmDownloadTool V4.0_factory.exe，手机完全关机后，按住音量加键 不松，插入数据线，显示已连接后松手，</span><br><span class="line">（4）点击start，等待完成，手机自动重启。</span><br><span class="line">！！！注意！！！氧os开机一路跳过，不要联网，氢os随便</span><br></pre></td></tr></table></figure><p><img src="/2021/01/14/oneplus6%E6%89%8B%E6%9C%BA%E5%88%B7%E6%9C%BA%E5%AE%9E%E6%88%98%E6%95%99%E7%A8%8B/2.png" alt></p><p>本片文章结束，文章所用资源，微信公众号后台回复oneplus6刷机，可得到。</p><p>文章首发于微信公众号菜鸟童靴，不定期更新，如有需要后台加微信</p><p><img src="https://img-blog.csdnimg.cn/20200304210850537.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0JpZ0JveV9Db2Rlcg==,size_16,color_FFFFFF,t_70" alt="img"></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;本篇文章，仅仅讲的是刷机实战和刷机的用处，对刷机的专有名词和原理不做解释，（网站文章教程很多，后期也会整合一篇笔记出来）&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="python爬虫，手机刷机" scheme="http://yoursite.com/categories/python%E7%88%AC%E8%99%AB%EF%BC%8C%E6%89%8B%E6%9C%BA%E5%88%B7%E6%9C%BA/"/>
-    
-    
-      <category term="爬虫" scheme="http://yoursite.com/tags/%E7%88%AC%E8%99%AB/"/>
-    
-      <category term="反编译" scheme="http://yoursite.com/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
-    
-      <category term="js逆向，刷机，root" scheme="http://yoursite.com/tags/js%E9%80%86%E5%90%91%EF%BC%8C%E5%88%B7%E6%9C%BA%EF%BC%8Croot/"/>
     
   </entry>
   
