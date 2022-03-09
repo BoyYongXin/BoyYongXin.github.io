@@ -39,6 +39,8 @@
 <p><strong>总结：</strong></p>
 <p>中间抓取思路有很多种，get_request_data.py在文件里print()的信息写到文件里或数据库里，mitmdump -s get_request_data.py  在窗口执行这个命令，我们单独在写个程序，扫描数据库或文件，单独进行抓取数据</p>
 <p>本文这个，只是小编想用一下，管道命令，</p>
+<p><strong>结束语</strong>：</p>
+<p> 今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
 ]]></content>
       <categories>
         <category>技术杂谈</category>
