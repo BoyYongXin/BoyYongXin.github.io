@@ -1,6 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>mitmproxy安装和使用方法总结</title>
+    <url>/2022/03/09/mitmproxy%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<hr>
+<p>笔记_mitmproxy安装和使用方法总结</p>
+<a id="more"></a>
+<p><strong>MitmProxy 介绍</strong>：</p>
+<p>支持 HTTP 和 HTTPS 的抓包程序，类似 Fiddler、Charles 的功能，只不过它是一个控制台的形式操作。<br>同时 MitmProxy 还有两个关联组件，一个是 MitmDump，它是 MitmProxy 的命令行接口，利用它我们可以对接 Python 脚本，用 Python 实现监听后的处理。另一个是 MitmWeb，它是一个 Web 程序，通过它我们可以清楚地观察到 MitmProxy 捕获的请求。</p>
+<p><strong>相关链接</strong></p>
+<p>mitmproxy不错的中文学习网站 <a href="https://blog.wolfogre.com/posts/usage-of-mitmproxy/" target="_blank" rel="noopener">https://blog.wolfogre.com/posts/usage-of-mitmproxy/</a> </p>
+<p>GitHub：<a href="https://github.com/mitmproxy/mitmproxy" target="_blank" rel="noopener">https://github.com/mitmproxy/mitmproxy</a><br>官方网站：<a href="https://mitmproxy.org" target="_blank" rel="noopener">https://mitmproxy.org</a><br>PyPi：<a href="https://pypi.python.org/pypi/mitmproxy" target="_blank" rel="noopener">https://pypi.python.org/pypi/mitmproxy</a><br>官方文档：<a href="http://docs.mitmproxy.org" target="_blank" rel="noopener">http://docs.mitmproxy.org</a><br>MitmDump脚本：<a href="http://docs.mitmproxy.org/en/stable/scripting/overview.html" target="_blank" rel="noopener">http://docs.mitmproxy.org/en/stable/scripting/overview.html</a><br>下载地址：<a href="https://github.com/mitmproxy/mitmproxy/releases" target="_blank" rel="noopener">https://github.com/mitmproxy/mitmproxy/releases</a><br>DockerHub：<a href="https://hub.docker.com/r/mitmproxy/mitmproxy" target="_blank" rel="noopener">https://hub.docker.com/r/mitmproxy/mitmproxy</a></p>
+<p>报错可能解决方案： <a href="https://blog.csdn.net/andrew_wf/article/details/84991989" target="_blank" rel="noopener">https://blog.csdn.net/andrew_wf/article/details/84991989</a> </p>
+<p><strong>安装：</strong></p>
+<p> pip install mitmproxy </p>
+<p> 这是最简单和通用的安装方式，执行完毕之后即可完成 MitmProxy的安装，另外还安装了MitmDump、MitmWeb 两个组件 </p>
+<p><strong>安装证书</strong></p>
+<p>安装好mitmproxy后，到C:\Users\Administrator.mitmproxy目录下</p>
+<p><strong>电脑安装证书：</strong><br>mitmproxy-ca.p12</p>
+<p>双击下一，直到最后</p>
+<p><strong>手机安装证书：</strong><br>mitmproxy-ca.pem</p>
+<p><strong>手机模拟器安装证书：</strong></p>
+<p>mitmproxy-ca.pem</p>
+<p>设置-安全-从SD卡导入证书即可</p>
+<p><strong>这样我们就可以愉快的使用mitmproxy去搞一些事情了：</strong></p>
+<p><strong>我下面用它抓取一下，皮皮虾app推荐模块抓取：</strong></p>
+<p>首先建立两个py文件，一个用于app的视频json信息的抓取</p>
+<p><strong>(1)get_request_data.py</strong>  :</p>
+<p>用来获取视频列表的url和headers</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">sys.path.append(<span class="string">'../'</span>)</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> mitmproxy</span><br><span class="line"><span class="keyword">from</span> mitmproxy <span class="keyword">import</span> http</span><br><span class="line"><span class="keyword">from</span> mitmproxy <span class="keyword">import</span> flow, proxy, controller, options</span><br><span class="line"><span class="keyword">from</span> mitmproxy.proxy.server <span class="keyword">import</span> ProxyServer</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">程序运行</span></span><br><span class="line"><span class="string"> mitmdump -s xxxx.py</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">response</span><span class="params">(flow)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="string">'https://it.snssdk.com/bds/feed/stream/'</span> <span class="keyword">in</span> flow.request.url:</span><br><span class="line">        datas = flow.request.headers</span><br><span class="line">        headers = &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> k,v <span class="keyword">in</span> datas.items():</span><br><span class="line">            headers[k] = v</span><br><span class="line">        print(<span class="string">f'root_url&gt;&gt;&gt;<span class="subst">&#123;flow.request.url&#125;</span>&lt;&lt;&lt;headers&gt;&gt;&gt;<span class="subst">&#123;headers&#125;</span>&lt;&lt;&lt;'</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>(2)spider_data.py</strong>  :</p>
+<p>对获取到url和headers进行对视频信息的抓取</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#coding=utf-8</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">管道执行命令</span></span><br><span class="line"><span class="string"> mitmdump -s &lt;python1.y&gt; | python &lt;python2.py&gt;</span></span><br><span class="line"><span class="string">  mitmdump -s test.py | python receive.py</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="keyword">from</span> jsonpath <span class="keyword">import</span> jsonpath</span><br><span class="line"><span class="keyword">from</span> glom <span class="keyword">import</span> glom</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> sys.stdin:</span><br><span class="line">    root_url = re.search(<span class="string">'root_url&gt;&gt;&gt;(.*?)&lt;&lt;&lt;'</span>, line)</span><br><span class="line">    headers = re.search(<span class="string">'headers&gt;&gt;&gt;(.*?)&lt;&lt;&lt;'</span>, line)</span><br><span class="line">    <span class="keyword">if</span> root_url <span class="keyword">and</span> headers:</span><br><span class="line">        html = requests.get(root_url.group(<span class="number">1</span>),headers=eval(headers.group(<span class="number">1</span>)))</span><br><span class="line">        html.encoding = <span class="string">'utf-8'</span></span><br><span class="line">        data_info = html.json()</span><br><span class="line"></span><br><span class="line">        data_list = glom(data_info, <span class="string">'data.data'</span>)</span><br><span class="line">        <span class="keyword">for</span> datas <span class="keyword">in</span> data_list:</span><br><span class="line">            data = glom(datas, <span class="string">'item.share'</span>)</span><br><span class="line">            title = <span class="string">''</span>.join(jsonpath(data, <span class="string">"$..title"</span>))</span><br><span class="line">            url = <span class="string">''</span>.join(jsonpath(data, <span class="string">"$..compound_page_url"</span>))</span><br><span class="line">            image_url = <span class="string">''</span>.join(jsonpath(data, <span class="string">"$..image_url"</span>))</span><br><span class="line">            video_url = glom(datas, <span class="string">'item.origin_video_download.url_list'</span>)[<span class="number">0</span>].get(<span class="string">'url'</span>)</span><br><span class="line"></span><br><span class="line">            release_time = datas[<span class="string">'item'</span>][<span class="string">'create_time'</span>]</span><br><span class="line">            print(title)</span><br><span class="line">            print(url)</span><br><span class="line">            print(image_url)</span><br><span class="line">            print(video_url)</span><br><span class="line">            print(release_time)</span><br><span class="line">            <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+<p><strong>怎么运行：</strong></p>
+<p>进入cmd，窗口</p>
+<p>mitmdump -s get_request_data.py | python spider_data.py</p>
+<p>在手机端滑动就行了</p>
+<p><strong>总结：</strong></p>
+<p>中间抓取思路有很多种，get_request_data.py在文件里print()的信息写到文件里或数据库里，mitmdump -s get_request_data.py  在窗口执行这个命令，我们单独在写个程序，扫描数据库或文件，单独进行抓取数据</p>
+<p>本文这个，只是小编想用一下，管道命令，</p>
+]]></content>
+      <categories>
+        <category>技术杂谈</category>
+      </categories>
+      <tags>
+        <tag>科学上网</tag>
+        <tag>mitmproxy</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>安卓7.0以上手机写入安全证书</title>
     <url>/2022/03/09/%E5%AE%89%E5%8D%937-0%E4%BB%A5%E4%B8%8A%E6%89%8B%E6%9C%BA%E5%86%99%E5%85%A5%E5%AE%89%E5%85%A8%E8%AF%81%E4%B9%A6/</url>
     <content><![CDATA[<p>安卓7.0以上手机写入安全证书，具体操作？</p>
