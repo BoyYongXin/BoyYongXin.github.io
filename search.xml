@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>mitmproxy-ca-cert.pem证书安装不上，终极解决办法手机证书文件安装</title>
+    <url>/2022/03/10/mitmproxy-ca-cert-pem%E8%AF%81%E4%B9%A6%E5%AE%89%E8%A3%85%E4%B8%8D%E4%B8%8A%EF%BC%8C%E7%BB%88%E6%9E%81%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%E6%89%8B%E6%9C%BA%E8%AF%81%E4%B9%A6%E6%96%87%E4%BB%B6%E5%AE%89%E8%A3%85/</url>
+    <content><![CDATA[<p>mitmproxy-ca-cert.pem证书安装不上,终极解决办法手机证书文件安装</p>
+<a id="more"></a>
+<p><strong>在mitmproxy软件证书配置中，其中手机的证书安装过程一般为：</strong></p>
+<p><strong>“将mitmproxy-ca-cert.pem”文件发送到手机上，点击证书文件，便会出现一个安装窗口。”</strong></p>
+<p><strong>但是，我的Android手机并不识别pem文件，如华为荣耀10 ，华为Nova青春版。</strong></p>
+<p><strong>解决方法为：</strong></p>
+<p><strong>（打开手机“设置”；选择“安全和隐私”；点击“更多安全设置”，找到“从SD卡安装”；搜索该证书文件，点击安装.）</strong></p>
+<p><strong>1  设置</strong></p>
+<p><strong>2 安全与隐私</strong></p>
+<p><strong>3 更多安全设置</strong></p>
+<p><strong>4 从存储设备安装</strong></p>
+<p><strong>5 选中证书文件，点击安装</strong></p>
+<p><strong>6 输入锁屏密码</strong></p>
+<p><strong>7 给安装文件命名mitmproxy</strong></p>
+<p><strong>8 结束了，完成安装！！！</strong></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+]]></content>
+      <categories>
+        <category>技术杂谈</category>
+      </categories>
+      <tags>
+        <tag>科学上网</tag>
+        <tag>mitmproxy</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Android10不能使用uiautomatorviewer定位元素的终极解决</title>
     <url>/2022/03/10/Android10%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8uiautomatorviewer%E5%AE%9A%E4%BD%8D%E5%85%83%E7%B4%A0%E7%9A%84%E7%BB%88%E6%9E%81%E8%A7%A3%E5%86%B3/</url>
     <content><![CDATA[<p>Android app 元素定位除了使用Appium 、Inspector 、Airtest外，还可以使用Android SDK 里tools中的uiautomatorviewer 工具。</p>
