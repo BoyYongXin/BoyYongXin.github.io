@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2022-03-10T08:02:59.865Z</updated>
+  <updated>2022-03-10T08:04:37.307Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://yoursite.com/2022/03/10/Android10%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8uiautomatorviewer%E5%AE%9A%E4%BD%8D%E5%85%83%E7%B4%A0%E7%9A%84%E7%BB%88%E6%9E%81%E8%A7%A3%E5%86%B3/"/>
     <id>http://yoursite.com/2022/03/10/Android10%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8uiautomatorviewer%E5%AE%9A%E4%BD%8D%E5%85%83%E7%B4%A0%E7%9A%84%E7%BB%88%E6%9E%81%E8%A7%A3%E5%86%B3/</id>
     <published>2022-03-10T07:34:27.000Z</published>
-    <updated>2022-03-10T08:02:59.865Z</updated>
+    <updated>2022-03-10T08:04:37.307Z</updated>
     
     <content type="html"><![CDATA[<p>Android app 元素定位除了使用Appium 、Inspector 、Airtest外，还可以使用Android SDK 里tools中的uiautomatorviewer 工具。</p><a id="more"></a><p>但今天打算使用 uiautomatorviewer 进行元素定位的时候，发现无法截图，并报如下错误：</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">Unexpected</span> <span class="selector-tag">error</span> <span class="selector-tag">while</span> <span class="selector-tag">obtaining</span> <span class="selector-tag">UI</span> <span class="selector-tag">hierarchy</span></span><br></pre></td></tr></table></figure><p><strong>点击Details</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java.lang.reflect.InvocationTargetException</span><br></pre></td></tr></table></figure><p><img src="/2022/03/10/Android10%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8uiautomatorviewer%E5%AE%9A%E4%BD%8D%E5%85%83%E7%B4%A0%E7%9A%84%E7%BB%88%E6%9E%81%E8%A7%A3%E5%86%B3/1.jpg" style="zoom: 50%;"></p><p><strong>原先使用过啊，没一点问题啊</strong>：</p><p>查找资料了解到，从Android 8.0开始，SDK 工具软件包在新版本中已经弃用，所以tools里的uiautomatorviewer工具都不支持了。于是开始查找解决方法。</p><p><strong>查找资料找到解决办法</strong>：</p><p>1，使用adb命令截图，再导入uiautomatorviewer进行定位。这种方法虽然可行，但太麻烦了。</p><p>2，下载修改过的 uiautomatorviewer.bat，将tools里的uiautomatorviewer.bat文件替换掉。</p><p><strong>3，终极方法！！！！将SDK目录中tools文件夹下lib中的ddmlib、ddms、ddmuilib 、uiautomatorviewer这四个jar文件替换掉即可。下面是这四个新文件的下载地址：</strong></p><p> 链接：<a href="https://pan.baidu.com/s/1NIPNk8ApQIPveVkAfVOpJA" target="_blank" rel="noopener">https://pan.baidu.com/s/1NIPNk8ApQIPveVkAfVOpJA</a><br> 提取码：k5rc<br> <strong>替换完成后，重新打开tools中uiautomatorviewer.bat即可进行元素定位。</strong></p><p><img src="/2022/03/10/Android10%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8uiautomatorviewer%E5%AE%9A%E4%BD%8D%E5%85%83%E7%B4%A0%E7%9A%84%E7%BB%88%E6%9E%81%E8%A7%A3%E5%86%B3/end.jpg" style="zoom: 50%;"></p><p><strong>结束语</strong>：</p><p>​    今天的分享就到这里了，欢迎大家关注微信公众号<strong>菜鸟童靴</strong></p>]]></content>
     
@@ -35,9 +35,9 @@
       <category term="爬虫" scheme="http://yoursite.com/categories/%E7%88%AC%E8%99%AB/"/>
     
     
-      <category term="抓包" scheme="http://yoursite.com/tags/%E6%8A%93%E5%8C%85/"/>
+      <category term="自动化" scheme="http://yoursite.com/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/"/>
     
-      <category term="证书" scheme="http://yoursite.com/tags/%E8%AF%81%E4%B9%A6/"/>
+      <category term="ui" scheme="http://yoursite.com/tags/ui/"/>
     
   </entry>
   
@@ -86,9 +86,9 @@
       <category term="技术杂谈" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
     
     
-      <category term="mitmproxy" scheme="http://yoursite.com/tags/mitmproxy/"/>
-    
       <category term="科学上网" scheme="http://yoursite.com/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
+    
+      <category term="mitmproxy" scheme="http://yoursite.com/tags/mitmproxy/"/>
     
   </entry>
   
@@ -136,9 +136,9 @@
       <category term="技术杂谈" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
     
     
-      <category term="科学上网" scheme="http://yoursite.com/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
-    
       <category term="github" scheme="http://yoursite.com/tags/github/"/>
+    
+      <category term="科学上网" scheme="http://yoursite.com/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
     
   </entry>
   
