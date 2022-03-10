@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Android10不能使用uiautomatorviewer定位元素的终极解决</title>
+    <url>/2022/03/10/Android10%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8uiautomatorviewer%E5%AE%9A%E4%BD%8D%E5%85%83%E7%B4%A0%E7%9A%84%E7%BB%88%E6%9E%81%E8%A7%A3%E5%86%B3/</url>
+    <content><![CDATA[<p>Android app 元素定位除了使用Appium 、Inspector 、Airtest外，还可以使用Android SDK 里tools中的uiautomatorviewer 工具。</p>
+<a id="more"></a>
+<p>但今天打算使用 uiautomatorviewer 进行元素定位的时候，发现无法截图，并报如下错误：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">Unexpected</span> <span class="selector-tag">error</span> <span class="selector-tag">while</span> <span class="selector-tag">obtaining</span> <span class="selector-tag">UI</span> <span class="selector-tag">hierarchy</span></span><br></pre></td></tr></table></figure>
+<p><strong>点击Details</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">java.lang.reflect.InvocationTargetException</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/03/10/Android10%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8uiautomatorviewer%E5%AE%9A%E4%BD%8D%E5%85%83%E7%B4%A0%E7%9A%84%E7%BB%88%E6%9E%81%E8%A7%A3%E5%86%B3/1.jpg" style="zoom: 50%;"></p>
+<p><strong>原先使用过啊，没一点问题啊</strong>：</p>
+<p>查找资料了解到，从Android 8.0开始，SDK 工具软件包在新版本中已经弃用，所以tools里的uiautomatorviewer工具都不支持了。于是开始查找解决方法。</p>
+<p><strong>查找资料找到解决办法</strong>：</p>
+<p>1，使用adb命令截图，再导入uiautomatorviewer进行定位。这种方法虽然可行，但太麻烦了。</p>
+<p>2，下载修改过的 uiautomatorviewer.bat，将tools里的uiautomatorviewer.bat文件替换掉。</p>
+<p><strong>3，终极方法！！！！将SDK目录中tools文件夹下lib中的ddmlib、ddms、ddmuilib 、uiautomatorviewer这四个jar文件替换掉即可。下面是这四个新文件的下载地址：</strong></p>
+<p> 链接：<a href="https://pan.baidu.com/s/1NIPNk8ApQIPveVkAfVOpJA" target="_blank" rel="noopener">https://pan.baidu.com/s/1NIPNk8ApQIPveVkAfVOpJA</a><br> 提取码：k5rc<br> <strong>替换完成后，重新打开tools中uiautomatorviewer.bat即可进行元素定位。</strong></p>
+<p><img src="/2022/03/10/Android10%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8uiautomatorviewer%E5%AE%9A%E4%BD%8D%E5%85%83%E7%B4%A0%E7%9A%84%E7%BB%88%E6%9E%81%E8%A7%A3%E5%86%B3/end.jpg" style="zoom: 50%;"></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号<strong>菜鸟童靴</strong></p>
+]]></content>
+      <categories>
+        <category>爬虫</category>
+      </categories>
+      <tags>
+        <tag>抓包</tag>
+        <tag>证书</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Autojs通过VSCode电脑进行调试</title>
     <url>/2022/03/10/Autojs%E9%80%9A%E8%BF%87VSCode%E7%94%B5%E8%84%91%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95/</url>
     <content><![CDATA[<p>hello 大家好我是Monday，今天给大家带来一篇关于自动化的文章，Auto js如何通过VS Code电脑进行调试？</p>
@@ -31,8 +60,8 @@
         <category>爬虫</category>
       </categories>
       <tags>
-        <tag>爬虫</tag>
         <tag>自动化</tag>
+        <tag>爬虫</tag>
       </tags>
   </entry>
   <entry>
@@ -81,8 +110,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>科学上网</tag>
         <tag>mitmproxy</tag>
+        <tag>科学上网</tag>
       </tags>
   </entry>
   <entry>
@@ -91,7 +120,7 @@
     <content><![CDATA[<p>安卓7.0以上手机写入安全证书，具体操作？</p>
 <a id="more"></a>
 <h3 id="1、背景："><a href="#1、背景：" class="headerlink" title="1、背景："></a><strong>1、背景：</strong></h3><p>谷歌在安卓7.0修改了安全策略，用户添加的CA证书不能再用于安全连接，</p>
-<p>对于https传输的数据就抓取不到了，会显示<unknown>。</unknown></p>
+<p>对于https传输的数据就抓取不到了，会显示<strong>“<unknown></unknown></strong>“。</p>
 <p>既然又知道了原因，那就总还是有办法去解决的。我们只要把代理软件的根证书安装成系统证书就可以了。</p>
 <h3 id="2、解决方法及操作方法"><a href="#2、解决方法及操作方法" class="headerlink" title="2、解决方法及操作方法"></a><strong>2、解决方法及操作方法</strong></h3><p>实际上将证书安装到系统区操作还是相对简单的，</p>
 <p><strong>（1）将证书用指定的名称放到指定的位置就可以了</strong></p>
@@ -208,8 +237,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>github</tag>
         <tag>科学上网</tag>
+        <tag>github</tag>
       </tags>
   </entry>
   <entry>
