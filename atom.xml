@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2022-03-09T09:11:16.771Z</updated>
+  <updated>2022-03-10T05:37:52.849Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Autojs通过VSCode电脑进行调试</title>
+    <link href="http://yoursite.com/2022/03/10/Autojs%E9%80%9A%E8%BF%87VSCode%E7%94%B5%E8%84%91%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95/"/>
+    <id>http://yoursite.com/2022/03/10/Autojs%E9%80%9A%E8%BF%87VSCode%E7%94%B5%E8%84%91%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95/</id>
+    <published>2022-03-10T05:09:52.000Z</published>
+    <updated>2022-03-10T05:37:52.849Z</updated>
+    
+    <content type="html"><![CDATA[<p>hello 大家好我是Monday，今天给大家带来一篇关于自动化的文章，Auto js如何通过VS Code电脑进行调试？</p><a id="more"></a><h2 id="前提："><a href="#前提：" class="headerlink" title="前提："></a>前提：</h2><p>首先手机里面安装AutoJs app, 官方代码，</p><p>apk 在release 里面下载： <a href="https://links.jianshu.com/go?to=https%3A%2F%2Fgithub.com%2Fhyb1996%2FAuto.js" target="_blank" rel="noopener">https://github.com/hyb1996/Auto.js</a></p><p>官方下载VS code:  <a href="https://links.jianshu.com/go?to=https%3A%2F%2Fcode.visualstudio.com%2F" target="_blank" rel="noopener">https://code.visualstudio.com/</a></p><h2 id="一、vscode启动Auto-js"><a href="#一、vscode启动Auto-js" class="headerlink" title="一、vscode启动Auto.js"></a>一、vscode启动Auto.js</h2><h3 id="1-vscode里安装auto-js插件"><a href="#1-vscode里安装auto-js插件" class="headerlink" title="1.vscode里安装auto.js插件"></a>1.vscode里安装auto.js插件</h3><p><img src="/2022/03/10/Autojs%E9%80%9A%E8%BF%87VSCode%E7%94%B5%E8%84%91%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95/1.png" style="zoom: 100%;"></p><h3 id="2-ctrl-shift-p调出命令面板"><a href="#2-ctrl-shift-p调出命令面板" class="headerlink" title="2.ctrl + shift + p调出命令面板"></a>2.ctrl + shift + p调出命令面板</h3><p><img src="/2022/03/10/Autojs%E9%80%9A%E8%BF%87VSCode%E7%94%B5%E8%84%91%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95/2.png" style="zoom: 100%;"></p><p> <img src="/2022/03/10/Autojs%E9%80%9A%E8%BF%87VSCode%E7%94%B5%E8%84%91%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95/3.png" style="zoom: 100%;"></p><h2 id="二、连接手机操作"><a href="#二、连接手机操作" class="headerlink" title="二、连接手机操作"></a>二、连接手机操作</h2><h3 id="1、ipconfig查看自己本机ip"><a href="#1、ipconfig查看自己本机ip" class="headerlink" title="1、ipconfig查看自己本机ip"></a>1、ipconfig查看自己本机ip</h3><h3 id="2、手机打开Auto-js侧边选项卡—-gt-连接电脑——-gt-输入ip地址。与电脑同意局域网，或者手机连接电脑无线"><a href="#2、手机打开Auto-js侧边选项卡—-gt-连接电脑——-gt-输入ip地址。与电脑同意局域网，或者手机连接电脑无线" class="headerlink" title="2、手机打开Auto.js侧边选项卡—-&gt;连接电脑——&gt;输入ip地址。与电脑同意局域网，或者手机连接电脑无线"></a>2、手机打开Auto.js侧边选项卡—-&gt;连接电脑——&gt;输入ip地址。与电脑同意局域网，或者手机连接电脑无线</h3><p><img src="/2022/03/10/Autojs%E9%80%9A%E8%BF%87VSCode%E7%94%B5%E8%84%91%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95/4.png" style="zoom: 100%;"></p><h4 id="此时可以看到连接成功"><a href="#此时可以看到连接成功" class="headerlink" title="此时可以看到连接成功"></a>此时可以看到连接成功</h4><p><img src="/2022/03/10/Autojs%E9%80%9A%E8%BF%87VSCode%E7%94%B5%E8%84%91%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95/5.png" style="zoom: 100%;"></p><p> 在vscode里新建js文件，按f5或命令run，就可以在手机上运行</p><p><img src="/2022/03/10/Autojs%E9%80%9A%E8%BF%87VSCode%E7%94%B5%E8%84%91%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95/6.png" style="zoom: 100%;"></p><p>手机弹出toast</p><p><img src="/2022/03/10/Autojs%E9%80%9A%E8%BF%87VSCode%E7%94%B5%E8%84%91%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95/7.png" style="zoom: 100%;"></p><p>保存文件，ctrl + shift + p</p><p><img src="/2022/03/10/Autojs%E9%80%9A%E8%BF%87VSCode%E7%94%B5%E8%84%91%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95/8.png" style="zoom: 100%;"></p><p> 可以看到连接的手机信息，选择就能保存成功</p><p><img src="/2022/03/10/Autojs%E9%80%9A%E8%BF%87VSCode%E7%94%B5%E8%84%91%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95/9.png" style="zoom: 100%;"></p><p> <img src="/2022/03/10/Autojs%E9%80%9A%E8%BF%87VSCode%E7%94%B5%E8%84%91%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95/10.png" style="zoom: 100%;"></p><p><img src="/2022/03/10/Autojs%E9%80%9A%E8%BF%87VSCode%E7%94%B5%E8%84%91%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95/11.png" style="zoom: 100%;"></p><h1 id="插件常用命令"><a href="#插件常用命令" class="headerlink" title="插件常用命令"></a>插件常用命令</h1><p>Start Server: 启动插件服务。之后在确保手机和电脑在同一区域网的情况下，在Auto.js的侧拉菜单中使用连接电脑功能连接。<br>Stop Server: 停止插件服务。<br>Run 运行当前编辑器的脚本。如果有多个设备连接，则在所有设备运行。<br>Rerun 停止当前文件对应的脚本并重新运行。如果有多个设备连接，则在所有设备重新运行。<br>Stop 停止当前文件对应的脚本。如果有多个设备连接，则在所有设备停止。<br>StopAll 停止所有正在运行的脚本。如果有多个设备连接，则在所有设备运行所有脚本。<br>Save 保存当前文件到手机的脚本默认目录（文件名会加上前缀remote)。如果有多个设备连接，则在所有设备保存。<br>RunOnDevice: 弹出设备菜单并在指定设备运行脚本。<br>SaveToDevice: 弹出设备菜单并在指定设备保存脚本。<br>New Project（新建项目）：选择一个空文件夹（或者在文件管理器中新建一个空文件夹），将会自动创建一个项目<br>Run Project（运行项目）：运行一个项目，需要Auto.js 4.0.4Alpha5以上支持<br>Save Project（保存项目）：保存一个项目，需要Auto.js 4.0.4Alpha5以上支持</p><p><strong>结束语</strong>：</p><p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;hello 大家好我是Monday，今天给大家带来一篇关于自动化的文章，Auto js如何通过VS Code电脑进行调试？&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="爬虫" scheme="http://yoursite.com/categories/%E7%88%AC%E8%99%AB/"/>
+    
+    
+      <category term="自动化" scheme="http://yoursite.com/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/"/>
+    
+      <category term="爬虫" scheme="http://yoursite.com/tags/%E7%88%AC%E8%99%AB/"/>
+    
+  </entry>
   
   <entry>
     <title>mitmproxy安装和使用方法总结</title>
@@ -473,29 +498,6 @@
       <category term="面试集锦" scheme="http://yoursite.com/tags/%E9%9D%A2%E8%AF%95%E9%9B%86%E9%94%A6/"/>
     
       <category term="https" scheme="http://yoursite.com/tags/https/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>bloomfilter</title>
-    <link href="http://yoursite.com/2021/06/06/bloomfilter/"/>
-    <id>http://yoursite.com/2021/06/06/bloomfilter/</id>
-    <published>2021-06-06T05:01:39.000Z</published>
-    <updated>2021-06-06T09:58:14.687Z</updated>
-    
-    <content type="html"><![CDATA[<p>布隆过滤器介绍</p><a id="more"></a><h2 id="什么是布隆过滤器"><a href="#什么是布隆过滤器" class="headerlink" title="什么是布隆过滤器"></a><strong>什么是布隆过滤器</strong></h2><p>本质上布隆过滤器是一种数据结构，比较巧妙的概率型数据结构（probabilistic data structure），特点是高效地插入和查询，可以用来告诉你 <strong>“某样东西一定不存在或者可能存在”</strong>。</p><p>相比于传统的 List、Set、Map 等数据结构，它更高效、占用空间更少，但是缺点是其返回的结果是概率性的，而不是确切的。</p><h2 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a><strong>实现原理</strong></h2><p><strong>HashMap 的问题</strong></p><p>讲述布隆过滤器的原理之前，我们先思考一下，通常你判断某个元素是否存在用的是什么？应该蛮多人回答 HashMap 吧，确实可以将值映射到 HashMap 的 Key，然后可以在 O(1) 的时间复杂度内返回结果，效率奇高。但是 HashMap 的实现也有缺点，例如存储容量占比高，考虑到负载因子的存在，通常空间是不能被用满的，而一旦你的值很多例如上亿的时候，那 HashMap 占据的内存大小就变得很可观了。</p><p>还比如说你的数据集存储在远程服务器上，本地服务接受输入，而数据集非常大不可能一次性读进内存构建 HashMap 的时候，也会存在问题。</p><p><strong>布隆过滤器数据结构</strong></p><p>布隆过滤器是一个 bit 向量或者说 bit 数组，长这样：</p><p><img src="/2021/06/06/bloomfilter/1.jpg" alt></p><p>如果我们要映射一个值到布隆过滤器中，我们需要使用<strong>多个不同的哈希函数</strong>生成<strong>多个哈希值，</strong>并对每个生成的哈希值指向的 bit 位置 1，例如针对值 “baidu” 和三个不同的哈希函数分别生成了哈希值 1、4、7，则上图转变为：</p><p><img src="/2021/06/06/bloomfilter/2.jpg" alt></p><p>Ok，我们现在再存一个值 “tencent”，如果哈希函数返回 3、4、8 的话，图继续变为：</p><p><img src="/2021/06/06/bloomfilter/3.jpg" alt></p><p>值得注意的是，4 这个 bit 位由于两个值的哈希函数都返回了这个 bit 位，因此它被覆盖了。现在我们如果想查询 “dianping” 这个值是否存在，哈希函数返回了 1、5、8三个值，结果我们发现 5 这个 bit 位上的值为 0，<strong>说明没有任何一个值映射到这个 bit 位上</strong>，因此我们可以很确定地说 “dianping” 这个值不存在。而当我们需要查询 “baidu” 这个值是否存在的话，那么哈希函数必然会返回 1、4、7，然后我们检查发现这三个 bit 位上的值均为 1，那么我们可以说 “baidu” <strong>存在了么？答案是不可以，只能是 “baidu” 这个值可能存在。</strong></p><p>这是为什么呢？答案跟简单，因为随着增加的值越来越多，被置为 1 的 bit 位也会越来越多，这样某个值 “taobao” 即使没有被存储过，但是万一哈希函数返回的三个 bit 位都被其他值置位了 1 ，那么程序还是会判断 “taobao” 这个值存在。</p><h2 id="支持删除么"><a href="#支持删除么" class="headerlink" title="支持删除么"></a>支持删除么</h2><p>感谢评论区提醒，传统的布隆过滤器并不支持删除操作。但是名为 Counting Bloom filter 的变种可以用来测试元素计数个数是否绝对小于某个阈值，它支持元素删除。可以参考文章 <a href="https://link.zhihu.com/?target=https%3A//cloud.tencent.com/developer/article/1136056">Counting Bloom Filter 的原理和实现</a></p><h2 id="如何选择哈希函数个数和布隆过滤器长度"><a href="#如何选择哈希函数个数和布隆过滤器长度" class="headerlink" title="如何选择哈希函数个数和布隆过滤器长度"></a><strong>如何选择哈希函数个数和布隆过滤器长度</strong></h2><p>很显然，过小的布隆过滤器很快所有的 bit 位均为 1，那么查询任何值都会返回“可能存在”，起不到过滤的目的了。布隆过滤器的长度会直接影响误报率，布隆过滤器越长其误报率越小。</p><p>另外，哈希函数的个数也需要权衡，个数越多则布隆过滤器 bit 位置位 1 的速度越快，且布隆过滤器的效率越低；但是如果太少的话，那我们的误报率会变高。</p><p><img src="/2021/06/06/bloomfilter/4.jpg" alt>k 为哈希函数个数，m 为布隆过滤器长度，n 为插入的元素个数，p 为误报率</p><p>如何选择适合业务的 k 和 m 值呢，这里直接贴一个公式：</p><p><img src="/2021/06/06/bloomfilter/5.png" alt></p><p>如何推导这个公式这里只是提一句，因为对于使用来说并没有太大的意义，你让一个高中生来推会推得很快。k 次哈希函数某一 bit 位未被置为 1 的概率为：</p><p><img src="/2021/06/06/bloomfilter/6.png" alt></p><p>插入n个元素后依旧为 0 的概率和为 1 的概率分别是：</p><p><img src="/2021/06/06/bloomfilter/7.png" alt></p><p>标明某个元素是否在集合中所需的 k 个位置都按照如上的方法设置为 1，但是该方法可能会使算法错误的认为某一原本不在集合中的元素却被检测为在该集合中（False Positives），该概率由以下公式确定</p><p><img src="/2021/06/06/bloomfilter/8.png" alt></p><h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a><strong>最佳实践</strong></h2><p>常见的适用常见有，利用布隆过滤器减少磁盘 IO 或者网络请求，因为一旦一个值必定不存在的话，我们可以不用进行后续昂贵的查询请求。</p><p>另外，既然你使用布隆过滤器来加速查找和判断是否存在，那么性能很低的哈希函数不是个好选择，推荐 MurmurHash、Fnv 这些。</p><p><strong>大Value拆分</strong></p><p>Redis 因其支持 setbit 和 getbit 操作，且纯内存性能高等特点，因此天然就可以作为布隆过滤器来使用。但是布隆过滤器的不当使用极易产生大 Value，增加 Redis 阻塞风险，因此生成环境中建议对体积庞大的布隆过滤器进行拆分。</p><p>拆分的形式方法多种多样，但是本质是不要将 Hash(Key) 之后的请求分散在多个节点的多个小 bitmap 上，而是应该拆分成多个小 bitmap 之后，对一个 Key 的所有哈希函数都落在这一个小 bitmap 上。</p><p><strong>参考资料：</strong></p><p><a href="https://hackernoon.com/probabilistic-data-structures-bloom-filter-5374112a7832" target="_blank" rel="noopener">https://hackernoon.com/probabilistic-data-structures-bloom-filter-5374112a7832</a></p><p><a href="https://www.jasondavies.com/bloomfilter/" target="_blank" rel="noopener">https://www.jasondavies.com/bloomfilter/</a></p><p><strong>转载</strong> ：<a href="https://zhuanlan.zhihu.com/p/43263751" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/43263751</a></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;布隆过滤器介绍&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="去重" scheme="http://yoursite.com/categories/%E5%8E%BB%E9%87%8D/"/>
-    
-    
-      <category term="去重， 面试集锦" scheme="http://yoursite.com/tags/%E5%8E%BB%E9%87%8D%EF%BC%8C-%E9%9D%A2%E8%AF%95%E9%9B%86%E9%94%A6/"/>
     
   </entry>
   
