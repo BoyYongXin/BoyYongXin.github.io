@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>fastapi数据库操作之创建数据库</title>
+    <title>fastapi数据库操作之数据库操作</title>
     <url>/2022/03/19/fastapi%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<p>hello 大家好我是Monday，今天给大家带来一篇FastAPI中通过SQLAlchemy操作mysql数据库的文章</p>
 <a id="more"></a>
