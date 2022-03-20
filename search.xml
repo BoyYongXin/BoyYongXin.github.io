@@ -39,7 +39,7 @@
 <p>Locust也可以做分布式执行，需要装一个pyzmq（未做测试，记录下来留作以后备用）。</p>
 <p>性能测试首先而在于分析性能测试的需求，设计性能测试场景，尽可能的模拟真实环境中的压力（正常和异常情况）。然后结果是考察并发用户数、响应时间、tps这类指标。</p>
 <p><strong>项目完整代码：</strong></p>
-<p><a href="https://github.com/BoyYongXin/wx_pub_artcole_code" target="_blank" rel="noopener">BoyYongXin/wx_pub_artcole_code: 博客发文使用的代码 (github.com)</a></p>
+<p><a href="https://github.com/BoyYongXin/wx_pub_artcole_code" target="_blank" rel="noopener">BoyYongXin/wx_pub_article_code: 博客发文使用的代码 (github.com)</a></p>
 <p><strong>参考文献：</strong></p>
 <p><a href="https://cloud.tencent.com/developer/article/1516546?from=article.detail.1594240" target="_blank" rel="noopener">基于web界面的locust性能测试 - 云+社区 - 腾讯云 (tencent.com)</a></p>
 <p><a href="https://mp.weixin.qq.com/s/_FbeXmGDsBpEpSXUNZrRQA" target="_blank" rel="noopener">如何利用Python对服务器的接口进行压力测试 (qq.com)</a></p>
@@ -100,7 +100,7 @@
 <p><strong>查询用户：</strong></p>
 <p><img src="/2022/03/19/fastapi%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/4.jpg" style="zoom: 50%;"></p>
 <p><strong>项目完整代码：</strong></p>
-<p><a href="https://github.com/BoyYongXin/wx_pub_artcole_code" target="_blank" rel="noopener">BoyYongXin/wx_pub_artcole_code: 博客发文使用的代码 (github.com)</a></p>
+<p><a href="https://github.com/BoyYongXin/wx_pub_artcole_code" target="_blank" rel="noopener">BoyYongXin/wx_pub_article_code: 博客发文使用的代码 (github.com)</a></p>
 <p><strong>结束语</strong>：</p>
 <p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
 <p><img src="/2022/03/19/fastapi%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/微信.png" style="zoom: 50%;"></p>
