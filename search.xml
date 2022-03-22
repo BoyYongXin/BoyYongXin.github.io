@@ -1,6 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>FastApi开发三个常用知识分享</title>
+    <url>/2022/03/22/FastApi%E5%BC%80%E5%8F%91%E4%B8%89%E4%B8%AA%E5%B8%B8%E7%94%A8%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天给大家带来一篇FastAPI开发的三个常用知识分享</p>
+<a id="more"></a>
+<p>前言：</p>
+<p>本文所用原代码，以下所有知识点代码操作都在这个 基础上</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># !/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*-coding=utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> fastapi <span class="keyword">import</span> FastAPI, Depends, HTTPException</span><br><span class="line"><span class="keyword">import</span> crud, schemas</span><br><span class="line"><span class="keyword">from</span> database <span class="keyword">import</span> SessionLocal, engine, Base</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.orm <span class="keyword">import</span> Session</span><br><span class="line"><span class="keyword">import</span> uvicorn</span><br><span class="line"></span><br><span class="line">Base.metadata.create_all(bind=engine)  <span class="comment"># 数据库初始化，如果没有库或者表，会自动创建</span></span><br><span class="line"></span><br><span class="line">app = FastAPI()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Dependency</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_db</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    每一个请求处理完毕后会关闭当前连接，不同的请求使用不同的连接</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    db = SessionLocal()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">yield</span> db</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        db.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 新建用户</span></span><br><span class="line"><span class="meta">@app.post("/users/", response_model=schemas.User)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_user</span><span class="params">(user: schemas.UserCreate, db: Session = Depends<span class="params">(get_db)</span>)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> crud.db_create_user(db=db, user=user)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过id查询用户</span></span><br><span class="line"><span class="meta">@app.get("/user/&#123;user_id&#125;", response_model=schemas.User)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_user</span><span class="params">(user_id: int, db: Session = Depends<span class="params">(get_db)</span>)</span>:</span></span><br><span class="line">    db_user = crud.get_user(db, user_id=user_id)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> db_user:</span><br><span class="line">        <span class="keyword">raise</span> HTTPException(status_code=<span class="number">404</span>, detail=<span class="string">"User not found"</span>)</span><br><span class="line">    <span class="keyword">return</span> db_user</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    uvicorn.run(app=<span class="string">"main:app"</span>, host=<span class="string">"0.0.0.0"</span>, port=<span class="number">8000</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="1、知识点一（屏蔽不想开放的文档）"><a href="#1、知识点一（屏蔽不想开放的文档）" class="headerlink" title="1、知识点一（屏蔽不想开放的文档）"></a>1、知识点一（屏蔽不想开放的文档）</h2><p> 在实际的开发中呢，我们可能有些接口呢，不能对比进行开放，那么我们肯定想着如何在接口文档中进行屏蔽，那么我们看下应该如何实现呢。</p>
+<p>只需要这个参数   就可以了  include_in_schema=False</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 通过id查询用户</span></span><br><span class="line"><span class="meta">@app.get("/user/&#123;user_id&#125;", response_model=schemas.User, include_in_schema=False)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_user</span><span class="params">(user_id: int, db: Session = Depends<span class="params">(get_db)</span>)</span>:</span></span><br><span class="line">    db_user = crud.get_user(db, user_id=user_id)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> db_user:</span><br><span class="line">        <span class="keyword">raise</span> HTTPException(status_code=<span class="number">404</span>, detail=<span class="string">"User not found"</span>)</span><br><span class="line">    <span class="keyword">return</span> db_user</span><br></pre></td></tr></table></figure>
+<p>我们在（通过id查询用户的接口）上加之前效果</p>
+<p><img src="/2022/03/22/FastApi%E5%BC%80%E5%8F%91%E4%B8%89%E4%B8%AA%E5%B8%B8%E7%94%A8%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/1.jpg" style="zoom: 50%;"></p>
+<p>加之后效果</p>
+<p><img src="/2022/03/22/FastApi%E5%BC%80%E5%8F%91%E4%B8%89%E4%B8%AA%E5%B8%B8%E7%94%A8%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/2.jpg" style="zoom: 50%;"></p>
+<h2 id="2、知识点二（优雅的对外展示我们的接口文档）"><a href="#2、知识点二（优雅的对外展示我们的接口文档）" class="headerlink" title="2、知识点二（优雅的对外展示我们的接口文档）"></a>2、知识点二（优雅的对外展示我们的接口文档）</h2><p>拿新建用户的接口我们做示例：</p>
+<p><strong>默认开放文档展示如下</strong></p>
+<p><img src="/2022/03/22/FastApi%E5%BC%80%E5%8F%91%E4%B8%89%E4%B8%AA%E5%B8%B8%E7%94%A8%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/3.jpg" style="zoom: 50%;"></p>
+<p><strong>我们改变以下代码如下：</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 新建用户</span></span><br><span class="line"><span class="meta">@app.post("/users/", response_model=schemas.User)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_user</span><span class="params">(user: schemas.UserCreate, db: Session = Depends<span class="params">(get_db)</span>)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    - **email**: 用户的邮箱</span></span><br><span class="line"><span class="string">    - **password**: 用户密码</span></span><br><span class="line"><span class="string">    - **user_name**: 用户名称</span></span><br><span class="line"><span class="string">    - **full_name**: 用户全称</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">return</span> crud.db_create_user(db=db, user=user)</span><br></pre></td></tr></table></figure>
+<p>看下效果：</p>
+<p><img src="/2022/03/22/FastApi%E5%BC%80%E5%8F%91%E4%B8%89%E4%B8%AA%E5%B8%B8%E7%94%A8%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/4.jpg" style="zoom: 50%;"></p>
+<p>我们可以看到，在接口文档中，我们去描述了我们的参数。文档内正常展示了，那么我们可以用这个，对接口的参数进行一些描述后，就可以展示在我们对外的接口文档中，方便去理解每个字段</p>
+<h2 id="3、知识点三（startup-和-shutdown）"><a href="#3、知识点三（startup-和-shutdown）" class="headerlink" title="3、知识点三（startup 和 shutdown）"></a>3、知识点三（startup 和 shutdown）</h2><p> 我们在实际的开发中呢，总会遇到这样的场景（在 写爬虫的时候经常用到），我们想在启动或者终止的时候，做一些事情，fastapi提供了这样的操作，我们看下具体是怎么实现的呢</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">@app.on_event(&quot;startup&quot;)</span><br><span class="line">def startup_event():</span><br><span class="line">    print(&quot;startup&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.on_event(&quot;shutdown&quot;)</span><br><span class="line">def shutdown_event():</span><br><span class="line">    print(&quot;shutdown&quot;)</span><br></pre></td></tr></table></figure>
+<p>只需要加上如上代码，就可以了，一般应用场景</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1.数据库的连接，断开连接，可以放在开始和结束前。</span><br><span class="line">2.初始化一些前置条件</span><br><span class="line">3.终止程序前需要处理一些后续，清理之类。</span><br></pre></td></tr></table></figure>
+<p><strong>我的应用场景：</strong></p>
+<p><strong>在写爬虫任务前</strong>，需要对任务状态进行初始化，比如 1做完，2正在做，0未做，在每次做任务前，都需要把状态为2 的任务重置为0</p>
+<p><strong>当任务执行结束后</strong>，会发个钉钉消息或者邮件发送给我，</p>
+<p><strong>项目完整代码：</strong></p>
+<p><a href="https://github.com/BoyYongXin/wx_pub_artcole_code" target="_blank" rel="noopener">BoyYongXin/wx_pub_article_code: 博客发文使用的代码 (github.com)</a></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/03/22/FastApi%E5%BC%80%E5%8F%91%E4%B8%89%E4%B8%AA%E5%B8%B8%E7%94%A8%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/微信.png" style="zoom: 50%;"></p>
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>后端</tag>
+        <tag>fastapi</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>基于web界面的locust对接口进行性能测试</title>
     <url>/2022/03/20/%E5%9F%BA%E4%BA%8Eweb%E7%95%8C%E9%9D%A2%E7%9A%84locust%E5%AF%B9%E6%8E%A5%E5%8F%A3%E8%BF%9B%E8%A1%8C%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/</url>
     <content><![CDATA[<p>hello 大家好我是Monday，今天在上一篇文章<a href="https://boyyongxin.github.io/2022/03/19/fastapi数据库操作/#more" target="_blank" rel="noopener">fastapi 数据库操作之数据库操作 | 菜鸟童靴 (boyyongxin.github.io)</a>的基础上，给大家带来一篇利用locust对接口进行性能测试的文章。</p>
@@ -357,8 +401,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>测试</tag>
         <tag>内网穿透</tag>
+        <tag>测试</tag>
       </tags>
   </entry>
   <entry>
@@ -386,8 +430,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>科学上网</tag>
         <tag>mitmproxy</tag>
+        <tag>科学上网</tag>
       </tags>
   </entry>
   <entry>
@@ -500,8 +544,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>科学上网</tag>
         <tag>mitmproxy</tag>
+        <tag>科学上网</tag>
       </tags>
   </entry>
   <entry>
@@ -627,8 +671,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>github</tag>
         <tag>科学上网</tag>
+        <tag>github</tag>
       </tags>
   </entry>
   <entry>
