@@ -1,11 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Charles和Postern如何配合使用抓包</title>
+    <url>/2022/03/23/Charles%E5%92%8CPostern%E5%A6%82%E4%BD%95%E9%85%8D%E5%90%88%E4%BD%BF%E7%94%A8%E6%8A%93%E5%8C%85/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天给大家带来一篇关于部分阿里系app的成功抓包方案第一篇Charles和Postern配合使用；</p>
+<a id="more"></a>
+<p><strong>前言：</strong></p>
+<p>charles 安装配置参考我以前写的文章 <a href="https://mp.weixin.qq.com/s/Zv42Ji1W38qNpf78ogqZEA" target="_blank" rel="noopener">抓包工具charles安装配置</a></p>
+<p>根据操作教程安装配置好以后：</p>
+<p>1、我们打开charles软件</p>
+<p><img src="/2022/03/23/Charles%E5%92%8CPostern%E5%A6%82%E4%BD%95%E9%85%8D%E5%90%88%E4%BD%BF%E7%94%A8%E6%8A%93%E5%8C%85/0.0.jpg" style="zoom: 50%;"></p>
+<p>2、配置socket代理</p>
+<p><img src="/2022/03/23/Charles%E5%92%8CPostern%E5%A6%82%E4%BD%95%E9%85%8D%E5%90%88%E4%BD%BF%E7%94%A8%E6%8A%93%E5%8C%85/0.jpg" style="zoom: 50%;"></p>
+<h3 id="2、Postern"><a href="#2、Postern" class="headerlink" title="2、Postern"></a>2、Postern</h3><h4 id="Postern简介"><a href="#Postern简介" class="headerlink" title="Postern简介"></a>Postern简介</h4><p>Postern并不是抓包工具,他是一个代理工具</p>
+<p>它可以将http请求转为<a href="https://so.csdn.net/so/search?q=socket&amp;spm=1001.2101.3001.7020" target="_blank" rel="noopener">socket</a>,并且包转发到Charles上,这样就可以抓到更多的包</p>
+<p>如何下载安装，此处自动过滤</p>
+<h5 id="（1）配置代理规则"><a href="#（1）配置代理规则" class="headerlink" title="（1）配置代理规则"></a>（1）配置代理规则</h5><p><img src="/2022/03/23/Charles%E5%92%8CPostern%E5%A6%82%E4%BD%95%E9%85%8D%E5%90%88%E4%BD%BF%E7%94%A8%E6%8A%93%E5%8C%85/1.jpg" style="zoom: 150%;"></p>
+<h5 id="（2）添加代理服务器"><a href="#（2）添加代理服务器" class="headerlink" title="（2）添加代理服务器"></a>（2）添加代理服务器</h5><p><img src="/2022/03/23/Charles%E5%92%8CPostern%E5%A6%82%E4%BD%95%E9%85%8D%E5%90%88%E4%BD%BF%E7%94%A8%E6%8A%93%E5%8C%85/2.jpg" style="zoom: 150%;"></p>
+<h5 id="（3）配置规则"><a href="#（3）配置规则" class="headerlink" title="（3）配置规则"></a>（3）配置规则</h5><p><img src="/2022/03/23/Charles%E5%92%8CPostern%E5%A6%82%E4%BD%95%E9%85%8D%E5%90%88%E4%BD%BF%E7%94%A8%E6%8A%93%E5%8C%85/3.jpg" style="zoom: 150%;"></p>
+<h5 id="（4）添加规则"><a href="#（4）添加规则" class="headerlink" title="（4）添加规则"></a>（4）添加规则</h5><p><img src="/2022/03/23/Charles%E5%92%8CPostern%E5%A6%82%E4%BD%95%E9%85%8D%E5%90%88%E4%BD%BF%E7%94%A8%E6%8A%93%E5%8C%85/4.jpg" style="zoom: 150%;"></p>
+<h5 id="（5）打开-关闭Postern"><a href="#（5）打开-关闭Postern" class="headerlink" title="（5）打开/关闭Postern"></a>（5）打开/关闭Postern</h5><p><img src="/2022/03/23/Charles%E5%92%8CPostern%E5%A6%82%E4%BD%95%E9%85%8D%E5%90%88%E4%BD%BF%E7%94%A8%E6%8A%93%E5%8C%85/5.jpg" style="zoom: 150%;"></p>
+<p><strong>tips：</strong></p>
+<p>​    搭配xposed框架+justMe插件或者+ justMeplush插件更柔顺丝滑</p>
+<p><strong>参考文章：</strong></p>
+<p><a href="https://blog.csdn.net/tianyi19/article/details/121254560" target="_blank" rel="noopener">(59条消息) Charles+Postern抓包_Tian翊的博客-CSDN博客_charles postern</a></p>
+<p><strong>其他相关文章分享：</strong></p>
+<p>1、<a href="https://mp.weixin.qq.com/s/2ClY1nV5nZJdBzKzWeclVw" target="_blank" rel="noopener">如何抓取国外网站、app的包</a></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/03/23/Charles%E5%92%8CPostern%E5%A6%82%E4%BD%95%E9%85%8D%E5%90%88%E4%BD%BF%E7%94%A8%E6%8A%93%E5%8C%85/微信.png" style="zoom: 150%;"></p>
+]]></content>
+      <categories>
+        <category>抓包</category>
+      </categories>
+      <tags>
+        <tag>抓包</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>FastApi开发学习之Depends依赖项介绍</title>
+    <url>/2022/03/23/FastApi%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E4%B9%8BDepends%E4%BE%9D%E8%B5%96%E9%A1%B9%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天给大家带来一篇FastAPI开发的三个常用知识分享</p>
+<a id="more"></a>]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>后端</tag>
+        <tag>fastapi</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>FastApi开发三个常用知识分享</title>
     <url>/2022/03/22/FastApi%E5%BC%80%E5%8F%91%E4%B8%89%E4%B8%AA%E5%B8%B8%E7%94%A8%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/</url>
     <content><![CDATA[<p>hello 大家好我是Monday，今天给大家带来一篇FastAPI开发的三个常用知识分享</p>
 <a id="more"></a>
-<p>前言：</p>
+<p><strong>前言：</strong></p>
 <p>本文所用原代码，以下所有知识点代码操作都在这个 基础上</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># !/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*-coding=utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> fastapi <span class="keyword">import</span> FastAPI, Depends, HTTPException</span><br><span class="line"><span class="keyword">import</span> crud, schemas</span><br><span class="line"><span class="keyword">from</span> database <span class="keyword">import</span> SessionLocal, engine, Base</span><br><span class="line"><span class="keyword">from</span> sqlalchemy.orm <span class="keyword">import</span> Session</span><br><span class="line"><span class="keyword">import</span> uvicorn</span><br><span class="line"></span><br><span class="line">Base.metadata.create_all(bind=engine)  <span class="comment"># 数据库初始化，如果没有库或者表，会自动创建</span></span><br><span class="line"></span><br><span class="line">app = FastAPI()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Dependency</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_db</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    每一个请求处理完毕后会关闭当前连接，不同的请求使用不同的连接</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    db = SessionLocal()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">yield</span> db</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        db.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 新建用户</span></span><br><span class="line"><span class="meta">@app.post("/users/", response_model=schemas.User)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_user</span><span class="params">(user: schemas.UserCreate, db: Session = Depends<span class="params">(get_db)</span>)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> crud.db_create_user(db=db, user=user)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过id查询用户</span></span><br><span class="line"><span class="meta">@app.get("/user/&#123;user_id&#125;", response_model=schemas.User)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_user</span><span class="params">(user_id: int, db: Session = Depends<span class="params">(get_db)</span>)</span>:</span></span><br><span class="line">    db_user = crud.get_user(db, user_id=user_id)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> db_user:</span><br><span class="line">        <span class="keyword">raise</span> HTTPException(status_code=<span class="number">404</span>, detail=<span class="string">"User not found"</span>)</span><br><span class="line">    <span class="keyword">return</span> db_user</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    uvicorn.run(app=<span class="string">"main:app"</span>, host=<span class="string">"0.0.0.0"</span>, port=<span class="number">8000</span>)</span><br></pre></td></tr></table></figure>
 <h2 id="1、知识点一（屏蔽不想开放的文档）"><a href="#1、知识点一（屏蔽不想开放的文档）" class="headerlink" title="1、知识点一（屏蔽不想开放的文档）"></a>1、知识点一（屏蔽不想开放的文档）</h2><p> 在实际的开发中呢，我们可能有些接口呢，不能对比进行开放，那么我们肯定想着如何在接口文档中进行屏蔽，那么我们看下应该如何实现呢。</p>
