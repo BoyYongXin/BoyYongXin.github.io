@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>hexo的next主题下添加访客、访问、文章阅读数统计</title>
+    <url>/2022/03/25/hexo%E7%9A%84next%E4%B8%BB%E9%A2%98%E4%B8%8B%E6%B7%BB%E5%8A%A0%E8%AE%BF%E5%AE%A2%E3%80%81%E8%AE%BF%E9%97%AE%E3%80%81%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E6%95%B0%E7%BB%9F%E8%AE%A1/</url>
+    <content><![CDATA[<p>小编使用hexo 写博客时，一直想实现访客、访问、文章阅读数统计，今天正好有兴致搞了一搞</p>
+<a id="more"></a>
+<p><strong>一、前言：</strong></p>
+<p><strong>1、由 <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> 强力驱动 v4.1.1</strong>    <strong>2、主题 – <a href="https://pisces.theme-next.org/" target="_blank" rel="noopener">NexT.Pisces</a> v7.6.0</strong></p>
+<p><strong>二、具体操作：</strong></p>
+<p><strong>1、打开next主题配置文件\themes\next 文件下的_config.yml，</strong></p>
+<p>搜索找到 <strong>busuanzi_count</strong>，把enable设置为true</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Show Views &#x2F; Visitors of the website &#x2F; page with busuanzi.#展示访问数</span><br><span class="line"># Get more information on http:&#x2F;&#x2F;ibruce.info&#x2F;2015&#x2F;04&#x2F;04&#x2F;busuanzi</span><br><span class="line">busuanzi_count:</span><br><span class="line">  enable: true</span><br><span class="line">  total_visitors: true   #统计访客数</span><br><span class="line">  total_visitors_icon: user</span><br><span class="line">  total_views: true    #统计访问数</span><br><span class="line">  total_views_icon: eye</span><br><span class="line">  post_views: true   #统计文章阅读数</span><br><span class="line">  post_views_icon: eye</span><br></pre></td></tr></table></figure>
+<p><strong>2、打开next主题配置文件\themes\next 文件下的_config.yml，</strong></p>
+<p>搜索<strong>footer</strong>，在它底下添加counter，设值为true</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#统计</span><br><span class="line">counter: true</span><br></pre></td></tr></table></figure>
+<p><strong>3、来到\themes\next\layout 文件下的_partials，找到footer.swig文件，</strong></p>
+<p>打开编辑，在底下添加代码</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;% if theme.footer.counter %&#125;</span><br><span class="line">    &lt;script async src&#x3D;&quot;&#x2F;&#x2F;dn-lbstatics.qbox.me&#x2F;busuanzi&#x2F;2.3&#x2F;busuanzi.pure.mini.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>设置效果一:</strong></p>
+<p><img src="/2022/03/25/hexo%E7%9A%84next%E4%B8%BB%E9%A2%98%E4%B8%8B%E6%B7%BB%E5%8A%A0%E8%AE%BF%E5%AE%A2%E3%80%81%E8%AE%BF%E9%97%AE%E3%80%81%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E6%95%B0%E7%BB%9F%E8%AE%A1/2.jpg" style="zoom: 100%;"></p>
+<p><strong>设置效果二：</strong></p>
+<p><img src="/2022/03/25/hexo%E7%9A%84next%E4%B8%BB%E9%A2%98%E4%B8%8B%E6%B7%BB%E5%8A%A0%E8%AE%BF%E5%AE%A2%E3%80%81%E8%AE%BF%E9%97%AE%E3%80%81%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E6%95%B0%E7%BB%9F%E8%AE%A1/1.jpg" style="zoom: 100%;"></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/03/25/hexo%E7%9A%84next%E4%B8%BB%E9%A2%98%E4%B8%8B%E6%B7%BB%E5%8A%A0%E8%AE%BF%E5%AE%A2%E3%80%81%E8%AE%BF%E9%97%AE%E3%80%81%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E6%95%B0%E7%BB%9F%E8%AE%A1/微信.png" style="zoom: 100%;"></p>
+]]></content>
+      <categories>
+        <category>爬虫</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Charles和Postern如何配合使用抓包</title>
     <url>/2022/03/23/Charles%E5%92%8CPostern%E5%A6%82%E4%BD%95%E9%85%8D%E5%90%88%E4%BD%BF%E7%94%A8%E6%8A%93%E5%8C%85/</url>
     <content><![CDATA[<p>hello 大家好我是Monday，今天给大家带来一篇关于部分阿里系app的成功抓包方案第一篇Charles和Postern配合使用；</p>
@@ -523,8 +556,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>mitmproxy</tag>
         <tag>科学上网</tag>
+        <tag>mitmproxy</tag>
       </tags>
   </entry>
   <entry>
@@ -637,8 +670,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>mitmproxy</tag>
         <tag>科学上网</tag>
+        <tag>mitmproxy</tag>
       </tags>
   </entry>
   <entry>
@@ -764,8 +797,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>科学上网</tag>
         <tag>github</tag>
+        <tag>科学上网</tag>
       </tags>
   </entry>
   <entry>
