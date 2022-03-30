@@ -2,11 +2,6 @@
 <search>
   <entry>
     <title>FastApi开发之自定义中间件</title>
-    <url>/2022/03/30/FastApi%E5%BC%80%E5%8F%91%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%AD%E9%97%B4%E4%BB%B6-1/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>FastApi开发之自定义中间件</title>
     <url>/2022/03/30/FastApi%E5%BC%80%E5%8F%91%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%AD%E9%97%B4%E4%BB%B6/</url>
     <content><![CDATA[<p>hello 大家好我是Monday，今天给大家带来一篇FastAPI中自定义中间件的文章。</p>
 <a id="more"></a>
