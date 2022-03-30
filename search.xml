@@ -72,6 +72,54 @@
 <a id="more"></a>
 <p><strong>CORS 或者跨域资源共享：</strong> </p>
 <p>​    指浏览器中运行的前端拥有与后端通信的 JavaScript 代码，而后端处于与前端不同的「源」的情况。</p>
+<h4 id="1、源"><a href="#1、源" class="headerlink" title="1、源"></a>1、源</h4><p>源是协议（<code>http</code>，<code>https</code>）、域（<code>myapp.com</code>，<code>localhost</code>，<code>localhost.tiangolo.com</code>）以及端口（<code>80</code>、<code>443</code>、<code>8080</code>）的组合。</p>
+<p>因此，这些都是不同的源：</p>
+<ul>
+<li><code>http://localhost</code></li>
+<li><code>https://localhost</code></li>
+<li><code>http://localhost:8080</code></li>
+</ul>
+<p>即使它们都在 <code>localhost</code> 中，但是它们使用不同的协议或者端口，所以它们都是不同的「源」。</p>
+<h4 id="2、步骤"><a href="#2、步骤" class="headerlink" title="2、步骤"></a>2、步骤</h4><p>假设你的浏览器中有一个前端运行在 <code>http://localhost:8080</code>，并且它的 JavaScript 正在尝试与运行在 <code>http://localhost</code> 的后端通信（因为我们没有指定端口，浏览器会采用默认的端口 <code>80</code>）。</p>
+<p>然后，浏览器会向后端发送一个 HTTP <code>OPTIONS</code> 请求，如果后端发送适当的 headers 来授权来自这个不同源（<code>http://localhost:8080</code>）的通信，浏览器将允许前端的 JavaScript 向后端发送请求。</p>
+<p>为此，后端必须有一个「允许的源」列表。</p>
+<p>在这种情况下，它必须包含 <code>http://localhost:8080</code>，前端才能正常工作。</p>
+<h4 id="3、通配符"><a href="#3、通配符" class="headerlink" title="3、通配符"></a>3、通配符</h4><p>也可以使用 <code>&quot;*&quot;</code>（一个「通配符」）声明这个列表，表示全部都是允许的。</p>
+<p>但这仅允许某些类型的通信，不包括所有涉及凭据的内容：像 Cookies 以及那些使用 Bearer 令牌的授权 headers 等。</p>
+<p>因此，为了一切都能正常工作，最好显式地指定允许的源。</p>
+<h4 id="4、使用-CORSMiddleware"><a href="#4、使用-CORSMiddleware" class="headerlink" title="4、使用 CORSMiddleware"></a>4、使用 CORSMiddleware</h4><p>你可以在 <strong>FastAPI</strong> 应用中使用 <code>CORSMiddleware</code> 来配置它。</p>
+<ul>
+<li>导入 <code>CORSMiddleware</code>。</li>
+<li>创建一个允许的源列表（由字符串组成）。</li>
+<li>将其作为「中间件」添加到你的 <strong>FastAPI</strong> 应用中。</li>
+</ul>
+<p>你也可以指定后端是否允许：</p>
+<ul>
+<li>凭证（授权 headers，Cookies 等）。</li>
+<li>特定的 HTTP 方法（<code>POST</code>，<code>PUT</code>）或者使用通配符 <code>&quot;*&quot;</code> 允许所有方法。</li>
+<li>特定的 HTTP headers 或者使用通配符 <code>&quot;*&quot;</code> 允许所有 headers。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> fastapi <span class="keyword">import</span> FastAPI</span><br><span class="line"><span class="keyword">from</span> fastapi.middleware.cors <span class="keyword">import</span> CORSMiddleware</span><br><span class="line"></span><br><span class="line">app = FastAPI()</span><br><span class="line"></span><br><span class="line">origins = [</span><br><span class="line">    <span class="string">"http://localhost.tiangolo.com"</span>,</span><br><span class="line">    <span class="string">"https://localhost.tiangolo.com"</span>,</span><br><span class="line">    <span class="string">"http://localhost"</span>,</span><br><span class="line">    <span class="string">"http://localhost:8080"</span>,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">app.add_middleware(</span><br><span class="line">    CORSMiddleware,</span><br><span class="line">    allow_origins=origins,</span><br><span class="line">    allow_credentials=<span class="literal">True</span>,</span><br><span class="line">    allow_methods=[<span class="string">"*"</span>],</span><br><span class="line">    allow_headers=[<span class="string">"*"</span>],</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.get("/")</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">"message"</span>: <span class="string">"Hello World"</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>默认情况下，这个 <code>CORSMiddleware</code> 实现所使用的默认参数较为保守，所以你需要显式地启用特定的源、方法或者 headers，以便浏览器能够在跨域上下文中使用它们。</p>
+<p>支持以下参数：</p>
+<ul>
+<li><code>allow_origins</code> - 一个允许跨域请求的源列表。例如 <code>[&#39;https://example.org&#39;, &#39;https://www.example.org&#39;]</code>。你可以使用 <code>[&#39;*&#39;]</code> 允许任何源。</li>
+<li><code>allow_origin_regex</code> - 一个正则表达式字符串，匹配的源允许跨域请求。例如 <code>&#39;https://.*\.example\.org&#39;</code>。</li>
+<li><code>allow_methods</code> - 一个允许跨域请求的 HTTP 方法列表。默认为 <code>[&#39;GET&#39;]</code>。你可以使用 <code>[&#39;*&#39;]</code> 来允许所有标准方法。</li>
+<li><code>allow_headers</code> - 一个允许跨域请求的 HTTP 请求头列表。默认为 <code>[]</code>。你可以使用 <code>[&#39;*&#39;]</code> 允许所有的请求头。<code>Accept</code>、<code>Accept-Language</code>、<code>Content-Language</code> 以及 <code>Content-Type</code> 请求头总是允许 CORS 请求。</li>
+<li><code>allow_credentials</code> - 指示跨域请求支持 cookies。默认是 <code>False</code>。另外，允许凭证时 <code>allow_origins</code> 不能设定为 <code>[&#39;*&#39;]</code>，必须指定源。</li>
+<li><code>expose_headers</code> - 指示可以被浏览器访问的响应头。默认为 <code>[]</code>。</li>
+<li><code>max_age</code> - 设定浏览器缓存 CORS 响应的最长时间，单位是秒。默认为 <code>600</code>。</li>
+</ul>
+<p>中间件响应两种特定类型的 HTTP 请求……</p>
+<h4 id="5、CORS-预检请求"><a href="#5、CORS-预检请求" class="headerlink" title="5、CORS 预检请求"></a>5、CORS 预检请求</h4><p>这是些带有 <code>Origin</code> 和 <code>Access-Control-Request-Method</code> 请求头的 <code>OPTIONS</code> 请求。</p>
+<p>在这种情况下，中间件将拦截传入的请求并进行响应，出于提供信息的目的返回一个使用了适当的 CORS headers 的 <code>200</code> 或 <code>400</code> 响应。</p>
+<h4 id="6、简单请求"><a href="#6、简单请求" class="headerlink" title="6、简单请求"></a>6、简单请求</h4><p>任何带有 <code>Origin</code> 请求头的请求。在这种情况下，中间件将像平常一样传递请求，但是在响应中包含适当的 CORS headers。</p>
+<p><strong>更多详见：</strong></p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS" target="_blank" rel="noopener">跨域资源共享 （CORS） - HTTP |断续器 (mozilla.org)</a></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/03/30/FastApi%E5%BC%80%E5%8F%91%E4%B9%8BCORS%E8%B7%A8%E5%9F%9F%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB/微信.png" style="zoom: 50%;"></p>
 ]]></content>
       <categories>
         <category>后端</category>
