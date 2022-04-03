@@ -128,7 +128,45 @@
   <entry>
     <title>FastApi开发之项目文件结构</title>
     <url>/2022/03/31/FastApi%E5%BC%80%E5%8F%91%E4%B9%8B%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<p>hello 大家好我是Monday，前面我已写了多篇关于fastapi的文章，我们可以开发一些web应用了，今天给大家带来一篇FastApi开发之项目文件结构的文章。</p>
+<a id="more"></a>
+<p>根据自己的项目项目需求，组合了一套项目文件结构，今天的文章很短，主要是分享一下，每一个web应用的项目结构搭建</p>
+<p><strong>1、项目结构如下：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">├─ceshi_server</span><br><span class="line">│      active_send_request_ceshi.py</span><br><span class="line">├─chain</span><br><span class="line">│      scheduled_task.py</span><br><span class="line">│      __init__.py</span><br><span class="line">│</span><br><span class="line">├─common</span><br><span class="line">│  │  ceshi_db.py</span><br><span class="line">│  │  MysqlSaveMethod.py</span><br><span class="line">│  │  __init__.py</span><br><span class="line">├─create_table</span><br><span class="line">│      create_table.py</span><br><span class="line">│      __init__.py</span><br><span class="line">│</span><br><span class="line">├─datas</span><br><span class="line">│  ├─20220323</span><br><span class="line">│  │      0e25fc005f6de92cfc618e6ff3d6d615.jpg</span><br><span class="line">│  │      17416c4efa75596d835a39cced071b57.jpg</span><br><span class="line">├─db</span><br><span class="line">│  │  elastic_search_db.py</span><br><span class="line">│  │  mongo_db.py</span><br><span class="line">│  │  mysqldb.py</span><br><span class="line">│  │  redis_db.py</span><br><span class="line">│  │  __init__.py</span><br><span class="line">├─extract_data</span><br><span class="line">│  │  login.py</span><br><span class="line">│  │  report_contact.py</span><br><span class="line">│  │  report_new_msg.py</span><br><span class="line">│  │  report_new_room.py</span><br><span class="line">│  │  report_room_member_info.py</span><br><span class="line">│  │  report_room_member_update.py</span><br><span class="line">│  │  __init__.py</span><br><span class="line">├─logs</span><br><span class="line">│  └─loguru</span><br><span class="line">│          2022-03-22.log</span><br><span class="line">├─middleware</span><br><span class="line">│  │  extract_data.py</span><br><span class="line">│  │  limiter_tool.py</span><br><span class="line">│  │  __init__.py</span><br><span class="line">├─models</span><br><span class="line">│  │  user.py</span><br><span class="line">│  │  __init__.py</span><br><span class="line">├─routers</span><br><span class="line">│  │  index.py</span><br><span class="line">│  │  open_api.py</span><br><span class="line">│  │  pull_task.py</span><br><span class="line">│  │  push_task.py</span><br><span class="line">│  │  token_info.py</span><br><span class="line">│  │  upload_file.py</span><br><span class="line">│  │  __init__.py</span><br><span class="line">├─schemas</span><br><span class="line">│  │  user.py</span><br><span class="line">│  │  __init__.py</span><br><span class="line">│  </span><br><span class="line">├─utils</span><br><span class="line">│  │  loguru_handler.py</span><br><span class="line">│  │  __init__.py</span><br><span class="line">│  .gitignore</span><br><span class="line">│  base_task.py</span><br><span class="line">│  callback_server.py</span><br><span class="line">│  config.py</span><br><span class="line">│  crud.py</span><br><span class="line">│  database.py</span><br><span class="line">│  exceptions.py</span><br><span class="line">│  readme.md</span><br><span class="line">│  readme2.md</span><br><span class="line">│  requirements.txt</span><br><span class="line">│  start.sh</span><br><span class="line">│  worker.py</span><br><span class="line">│  __init__.py</span><br></pre></td></tr></table></figure>
+<p><strong>2、项目文件逐一介绍：</strong></p>
+<p>ceshi_server文件：存放对结构的一些代码测试实例</p>
+<p>chain和worker文件：是项目集成了，celery 处理一些后台任务脚本</p>
+<p>DB文件：封装了一些mysql 、MongoDB、等数据基础增删改差的基本功能封装</p>
+<p>common文件：做了一些公用的对DB数据库的常用方法封装</p>
+<p>utils文件：封装一些常用的工具类，日志等</p>
+<p>middleware：中间件模块，封装一些自定义中间件模块</p>
+<p>logs文件： 存放日志落地文件</p>
+<p>datas文件:存放数据缓存文件等</p>
+<p>routers文件： 文件里各个应用模块的内容（主要是根据不同功能分类的分组路由）</p>
+<p>models文件：存放数据模型</p>
+<p>extract_data文件：因为的我项目，有对不同数数据的解析提取分类，故有此类模块的存在</p>
+<p>schemas文件：对数据模型的合法校验</p>
+<p>start.sh：项目启动脚本</p>
+<p>exceptions：自定义异常类</p>
+<p> config文件：项目配置文件</p>
+<p>callback_server:项目启动主文件</p>
+<p>base_task.py： 里面主要封装了celery 的基类操作</p>
+<p> requirements.txt和readme.md这两个文件顾名思义，这里就不做介绍了</p>
+<p>今天的文章分享内容，就到这了</p>
+<p><strong>3、总结:</strong></p>
+<p>陆陆续续写了关于fastapi 的开发的一些文章，今天的文章也预示着，关于fastapi框架的技术分享暂告一段落了，但并不是落幕</p>
+<p>后续我还会对一些知识进行总结分享，感谢大家的观看</p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/03/31/FastApi%E5%BC%80%E5%8F%91%E4%B9%8B%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/微信.png" style="zoom: 50%;"></p>
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>后端</tag>
+        <tag>fastapi</tag>
+      </tags>
   </entry>
   <entry>
     <title>FastApi开发之自定义异常处理</title>
@@ -880,8 +918,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>内网穿透</tag>
         <tag>测试</tag>
+        <tag>内网穿透</tag>
       </tags>
   </entry>
   <entry>

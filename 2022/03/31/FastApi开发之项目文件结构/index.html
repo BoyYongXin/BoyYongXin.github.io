@@ -46,18 +46,21 @@
   };
 </script>
 
-  <meta name="description" content="涉猎的编程语言为 Python、Java、Js，领域涵盖爬虫、后端、安卓逆向">
+  <meta name="description" content="hello 大家好我是Monday，前面我已写了多篇关于fastapi的文章，我们可以开发一些web应用了，今天给大家带来一篇FastApi开发之项目文件结构的文章。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="FastApi开发之项目文件结构">
 <meta property="og:url" content="http://yoursite.com/2022/03/31/FastApi%E5%BC%80%E5%8F%91%E4%B9%8B%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/index.html">
 <meta property="og:site_name" content="菜鸟童靴">
-<meta property="og:description" content="涉猎的编程语言为 Python、Java、Js，领域涵盖爬虫、后端、安卓逆向">
+<meta property="og:description" content="hello 大家好我是Monday，前面我已写了多篇关于fastapi的文章，我们可以开发一些web应用了，今天给大家带来一篇FastApi开发之项目文件结构的文章。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/2022/03/31/FastApi%E5%BC%80%E5%8F%91%E4%B9%8B%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%BE%AE%E4%BF%A1.png">
 <meta property="article:published_time" content="2022-03-31T07:54:19.000Z">
-<meta property="article:modified_time" content="2022-03-31T07:54:19.093Z">
+<meta property="article:modified_time" content="2022-04-03T13:32:20.623Z">
 <meta property="article:author" content="Monday">
-<meta property="article:tag" content="Python爬虫">
+<meta property="article:tag" content="后端">
+<meta property="article:tag" content="fastapi">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2022/03/31/FastApi%E5%BC%80%E5%8F%91%E4%B9%8B%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%BE%AE%E4%BF%A1.png">
 
 <link rel="canonical" href="http://yoursite.com/2022/03/31/FastApi%E5%BC%80%E5%8F%91%E4%B9%8B%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/">
 
@@ -240,6 +243,24 @@
 
               <time title="创建时间：2022-03-31 15:54:19" itemprop="dateCreated datePublished" datetime="2022-03-31T15:54:19+08:00">2022-03-31</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-03 21:32:20" itemprop="dateModified" datetime="2022-04-03T21:32:20+08:00">2022-04-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index">
+                    <span itemprop="name">后端</span>
+                  </a>
+                </span>
+            </span>
 
           
             <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
@@ -259,7 +280,38 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <p>hello 大家好我是Monday，前面我已写了多篇关于fastapi的文章，我们可以开发一些web应用了，今天给大家带来一篇FastApi开发之项目文件结构的文章。</p>
+<a id="more"></a>
+<p>根据自己的项目项目需求，组合了一套项目文件结构，今天的文章很短，主要是分享一下，每一个web应用的项目结构搭建</p>
+<p><strong>1、项目结构如下：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">├─ceshi_server</span><br><span class="line">│      active_send_request_ceshi.py</span><br><span class="line">├─chain</span><br><span class="line">│      scheduled_task.py</span><br><span class="line">│      __init__.py</span><br><span class="line">│</span><br><span class="line">├─common</span><br><span class="line">│  │  ceshi_db.py</span><br><span class="line">│  │  MysqlSaveMethod.py</span><br><span class="line">│  │  __init__.py</span><br><span class="line">├─create_table</span><br><span class="line">│      create_table.py</span><br><span class="line">│      __init__.py</span><br><span class="line">│</span><br><span class="line">├─datas</span><br><span class="line">│  ├─20220323</span><br><span class="line">│  │      0e25fc005f6de92cfc618e6ff3d6d615.jpg</span><br><span class="line">│  │      17416c4efa75596d835a39cced071b57.jpg</span><br><span class="line">├─db</span><br><span class="line">│  │  elastic_search_db.py</span><br><span class="line">│  │  mongo_db.py</span><br><span class="line">│  │  mysqldb.py</span><br><span class="line">│  │  redis_db.py</span><br><span class="line">│  │  __init__.py</span><br><span class="line">├─extract_data</span><br><span class="line">│  │  login.py</span><br><span class="line">│  │  report_contact.py</span><br><span class="line">│  │  report_new_msg.py</span><br><span class="line">│  │  report_new_room.py</span><br><span class="line">│  │  report_room_member_info.py</span><br><span class="line">│  │  report_room_member_update.py</span><br><span class="line">│  │  __init__.py</span><br><span class="line">├─logs</span><br><span class="line">│  └─loguru</span><br><span class="line">│          2022-03-22.log</span><br><span class="line">├─middleware</span><br><span class="line">│  │  extract_data.py</span><br><span class="line">│  │  limiter_tool.py</span><br><span class="line">│  │  __init__.py</span><br><span class="line">├─models</span><br><span class="line">│  │  user.py</span><br><span class="line">│  │  __init__.py</span><br><span class="line">├─routers</span><br><span class="line">│  │  index.py</span><br><span class="line">│  │  open_api.py</span><br><span class="line">│  │  pull_task.py</span><br><span class="line">│  │  push_task.py</span><br><span class="line">│  │  token_info.py</span><br><span class="line">│  │  upload_file.py</span><br><span class="line">│  │  __init__.py</span><br><span class="line">├─schemas</span><br><span class="line">│  │  user.py</span><br><span class="line">│  │  __init__.py</span><br><span class="line">│  </span><br><span class="line">├─utils</span><br><span class="line">│  │  loguru_handler.py</span><br><span class="line">│  │  __init__.py</span><br><span class="line">│  .gitignore</span><br><span class="line">│  base_task.py</span><br><span class="line">│  callback_server.py</span><br><span class="line">│  config.py</span><br><span class="line">│  crud.py</span><br><span class="line">│  database.py</span><br><span class="line">│  exceptions.py</span><br><span class="line">│  readme.md</span><br><span class="line">│  readme2.md</span><br><span class="line">│  requirements.txt</span><br><span class="line">│  start.sh</span><br><span class="line">│  worker.py</span><br><span class="line">│  __init__.py</span><br></pre></td></tr></table></figure>
+<p><strong>2、项目文件逐一介绍：</strong></p>
+<p>ceshi_server文件：存放对结构的一些代码测试实例</p>
+<p>chain和worker文件：是项目集成了，celery 处理一些后台任务脚本</p>
+<p>DB文件：封装了一些mysql 、MongoDB、等数据基础增删改差的基本功能封装</p>
+<p>common文件：做了一些公用的对DB数据库的常用方法封装</p>
+<p>utils文件：封装一些常用的工具类，日志等</p>
+<p>middleware：中间件模块，封装一些自定义中间件模块</p>
+<p>logs文件： 存放日志落地文件</p>
+<p>datas文件:存放数据缓存文件等</p>
+<p>routers文件： 文件里各个应用模块的内容（主要是根据不同功能分类的分组路由）</p>
+<p>models文件：存放数据模型</p>
+<p>extract_data文件：因为的我项目，有对不同数数据的解析提取分类，故有此类模块的存在</p>
+<p>schemas文件：对数据模型的合法校验</p>
+<p>start.sh：项目启动脚本</p>
+<p>exceptions：自定义异常类</p>
+<p> config文件：项目配置文件</p>
+<p>callback_server:项目启动主文件</p>
+<p>base_task.py： 里面主要封装了celery 的基类操作</p>
+<p> requirements.txt和readme.md这两个文件顾名思义，这里就不做介绍了</p>
+<p>今天的文章分享内容，就到这了</p>
+<p><strong>3、总结:</strong></p>
+<p>陆陆续续写了关于fastapi 的开发的一些文章，今天的文章也预示着，关于fastapi框架的技术分享暂告一段落了，但并不是落幕</p>
+<p>后续我还会对一些知识进行总结分享，感谢大家的观看</p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/03/31/FastApi%E5%BC%80%E5%8F%91%E4%B9%8B%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/微信.png" style="zoom: 50%;"></p>
+
     </div>
 
     
@@ -267,6 +319,10 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%90%8E%E7%AB%AF/" rel="tag"># 后端</a>
+              <a href="/tags/fastapi/" rel="tag"># fastapi</a>
+          </div>
 
         
 
