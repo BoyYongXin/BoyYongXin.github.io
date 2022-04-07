@@ -1,6 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Linux如何使用手机共享网络</title>
+    <url>/2022/04/07/Linux%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E6%89%8B%E6%9C%BA%E5%85%B1%E4%BA%AB%E7%BD%91%E7%BB%9C/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天和大家聊聊关于Linux如何使用手机共享网络；</p>
+<a id="more"></a>
+<p><strong>(1)Linux通过手机USB网络共享上网</strong></p>
+<p><strong>设置方法如下：</strong></p>
+<p>　　<strong>1.连接好数据线并在手机设置中打开“USB网络共享”。</strong></p>
+<p>　　<strong>2. 终端中查看是否将USB接口识别为网络接口。</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">　 ip addr 或者 ifconfig</span><br></pre></td></tr></table></figure>
+<p>　　输出结果中会显示网络接口的名字，但是没有IP地址。（“usb0”，或者其他名字）</p>
+<p>　　<strong>3. 为网络接口分配IP地址。</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">　dhclient usb0</span><br></pre></td></tr></table></figure>
+<p>　　<strong>4.确认网络接口情况。</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">　 ip addr 或者 ifconfig</span><br></pre></td></tr></table></figure>
+<p>　　此时，usb0应该已被分配IP地址。</p>
+<p>　　<strong>5.确认已接入互联网。</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">　 ping www.baidu.com</span><br></pre></td></tr></table></figure>
+<p><strong>(2)Linux直接连接手机便携式热点</strong></p>
+<p>注意事项，手机设置wifi热点时。选择AP频段的时候，选择2.4GHZ频段方可使用</p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/04/07/Linux%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E6%89%8B%E6%9C%BA%E5%85%B1%E4%BA%AB%E7%BD%91%E7%BB%9C/微信.png" style="zoom: 50%;"></p>
+]]></content>
+      <categories>
+        <category>技术杂谈</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux安裝mitmproxy配置https证书</title>
+    <url>/2022/04/07/linux%E5%AE%89%E8%A3%9Dmitmproxy%E9%85%8D%E7%BD%AEhttps%E8%AF%81%E4%B9%A6/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天和大家聊聊关于linux安裝mitmproxy配置https证书；</p>
+<a id="more"></a>
+<h3 id="1-安装mitmproxy"><a href="#1-安装mitmproxy" class="headerlink" title="1.安装mitmproxy"></a><strong>1.安装mitmproxy</strong></h3><p>下载mitmproxy<a href="https://so.csdn.net/so/search?q=二进制&amp;spm=1001.2101.3001.7020" target="_blank" rel="noopener">二进制</a>安装包：</p>
+<p><a href="https://github.com/mitmproxy/mitmproxy/releases/" target="_blank" rel="noopener">https://github.com/mitmproxy/mitmproxy/releases/</a></p>
+<p>我下载的版本为mitmproxy-4.0.1-linux.tar.gz</p>
+<p>下载之后需要解压然后将其配置到<a href="https://so.csdn.net/so/search?q=环境变量&amp;spm=1001.2101.3001.7020" target="_blank" rel="noopener">环境变量</a>。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tar -zxvf mitmproxy-4.0.1-linux.tar.gz</span><br><span class="line">sudo mv mitmproxy mitmdump mitmweb /usr/bin</span><br></pre></td></tr></table></figure>
+<p>也可以直接使用python pip 的方式安装</p>
+<p>接下来需要安装证书</p>
+<h3 id="2-证书配置"><a href="#2-证书配置" class="headerlink" title="2. 证书配置"></a><strong>2. 证书配置</strong></h3><p>对于 MitmProxy 来说，如果想要截获 HTTPS 请求，我们就需要设置证书，MitmProxy 在安装后会提供一套 CA 证书，只要客户端信任了 MitmProxy 提供的证书，我们就可以通过 MitmProxy 获取 HTTPS 请求的具体内容，否则 MitmProxy 是无法解析 HTTPS 请求的。</p>
+<p>（1）首先运行一下命令产生 CA 证书，启动 MitmDump 即可：</p>
+<p>mitmdump</p>
+<p><strong>在root目录下生 成.mitmproxy</strong> 目录里面找到 CA 证书</p>
+<p>（2）如果在<a href="https://so.csdn.net/so/search?q=Ubuntu&amp;spm=1001.2101.3001.7020" target="_blank" rel="noopener">Ubuntu</a> 上如果遇到的是.pem的文件，必须先将其转换为.crt文件：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">openssl x509 -<span class="keyword">in</span> mitmproxy-ca-cert.pem -inform PEM -<span class="keyword">out</span> mitmproxy-ca-cert.crt</span><br></pre></td></tr></table></figure>
+<p>（3）在以下位置为额外的CA证书创建目录/usr/share/ca-certificates：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir /usr/share/ca-certificates/extra</span><br></pre></td></tr></table></figure>
+<p>（4）将CA .crt文件复制到此目录：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo cp  mitmproxy-ca-cert.crt /usr/share/ca-certificates/extra/mitmproxy-ca-cert.crt</span><br></pre></td></tr></table></figure>
+<p>（5）让Ubuntu添加.crt文件的路径相/usr/share/ca-certificates对于/etc/ca-certificates.conf：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo dpkg-reconfigure ca-certificates</span><br></pre></td></tr></table></figure>
+<p> （6）遇到一个安装界面，直接回车就可以了，安装完成</p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="./linux安裝mitmproxy配置https证书/微信.png" style="zoom: 50%;"></p>
+]]></content>
+      <categories>
+        <category>技术杂谈</category>
+      </categories>
+      <tags>
+        <tag>科学上网</tag>
+        <tag>mitmproxy</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>雪花算法介绍</title>
     <url>/2022/04/06/%E9%9B%AA%E8%8A%B1%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D/</url>
     <content><![CDATA[<p>hello 大家好我是Monday，今天和大家聊聊关于雪花算法的原理和实现；</p>
