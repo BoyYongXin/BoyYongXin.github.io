@@ -19,7 +19,14 @@
 <p>　　<strong>5.确认已接入互联网。</strong></p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">　 ping www.baidu.com</span><br></pre></td></tr></table></figure>
 <p><strong>(2)Linux直接连接手机便携式热点</strong></p>
-<p>注意事项，手机设置wifi热点时。选择AP频段的时候，选择2.4GHZ频段方可使用</p>
+<p>注意事项，手机设置wifi热点时。选择AP频段的时候，选择2.4GHZ频段方可使用（eg:ubuntu 只能搜索2.4GHZ的手机热点WiFi）</p>
+<p><strong>补充说明</strong>：</p>
+<p>　频段2.4GHz穿透性好，但传输距离近；5GHz穿透性差，传输距离远；</p>
+<p>根据您所在环境进行选择，如果障碍物较多环境，建议选择2.4GHz频段。</p>
+<p>以下是详细介绍：</p>
+<p>　　1、频段2.4GHz穿透性好，但传输距离近；5GHz穿透性差，传输距离远；</p>
+<p>　　2、由于目前大部分无线设备都采用2.4GHz的频段，因此在日常使用环境中经常会受到干扰，信号方面会不如5GHz，网速也会受到影响，目前绝大部分设备都已经支持5GHz，建议打开5GHz频段的WiFi，这样不容易受到干扰，但同时手机的耗电也会加快；</p>
+<p>　　3、不过，如果您的设备与开热点的手机相距一段距离，环境比较复杂，建议选择2.4GHz，这样即便是隔着障碍物都能够接收到一个较好的信号；</p>
 <p><strong>结束语</strong>：</p>
 <p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
 <p><img src="/2022/04/07/Linux%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E6%89%8B%E6%9C%BA%E5%85%B1%E4%BA%AB%E7%BD%91%E7%BB%9C/微信.png" style="zoom: 50%;"></p>
@@ -1051,8 +1058,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>测试</tag>
         <tag>内网穿透</tag>
+        <tag>测试</tag>
       </tags>
   </entry>
   <entry>
