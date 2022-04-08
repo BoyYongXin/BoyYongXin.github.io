@@ -1,6 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>大数据ETL工具Kettle入门实践二csv转换mysql</title>
+    <url>/2022/04/08/%E5%A4%A7%E6%95%B0%E6%8D%AEETL%E5%B7%A5%E5%85%B7Kettle%E5%85%A5%E9%97%A8%E5%AE%9E%E8%B7%B5%E4%BA%8Ccsv%E8%BD%AC%E6%8D%A2mysql/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天我们开启大数据ETL工具的学习的系列文章第二篇csv转换mysql。</p>
+<a id="more"></a>
+<h3 id="1、首先下载Mysql数据库的JDBC驱动jar包"><a href="#1、首先下载Mysql数据库的JDBC驱动jar包" class="headerlink" title="1、首先下载Mysql数据库的JDBC驱动jar包"></a><strong>1、首先下载Mysql数据库的JDBC驱动jar包</strong></h3><p>（1）进入此链接：</p>
+<p><a href="https://dev.mysql.com/downloads/" target="_blank" rel="noopener">https://dev.mysql.com/downloads/</a></p>
+<p>该jar包的作用：连接数据库！</p>
+<p><img src="/2022/04/08/%E5%A4%A7%E6%95%B0%E6%8D%AEETL%E5%B7%A5%E5%85%B7Kettle%E5%85%A5%E9%97%A8%E5%AE%9E%E8%B7%B5%E4%BA%8Ccsv%E8%BD%AC%E6%8D%A2mysql/11.jpg" style="zoom: 50%;"></p>
+<p><img src="/2022/04/08/%E5%A4%A7%E6%95%B0%E6%8D%AEETL%E5%B7%A5%E5%85%B7Kettle%E5%85%A5%E9%97%A8%E5%AE%9E%E8%B7%B5%E4%BA%8Ccsv%E8%BD%AC%E6%8D%A2mysql/22.jpg" style="zoom: 50%;"></p>
+<p><img src="/2022/04/08/%E5%A4%A7%E6%95%B0%E6%8D%AEETL%E5%B7%A5%E5%85%B7Kettle%E5%85%A5%E9%97%A8%E5%AE%9E%E8%B7%B5%E4%BA%8Ccsv%E8%BD%AC%E6%8D%A2mysql/33.jpg" style="zoom: 50%;"></p>
+<p>（2）需准备的其他东西：<br>数据库驱动，需将mysql的驱动放在kettle根目录的\data-integration\lib下面，然后到服务中启动mysql，重启kettle。</p>
+<h3 id="2、打开kettle"><a href="#2、打开kettle" class="headerlink" title="2、打开kettle"></a><strong>2、打开kettle</strong></h3><p>注意：kettle存放路径中不要包含中文，如果红圈处没有connect按钮，原因为资源库配置文件乱码造成<br>解决方法：</p>
+<p>​        1.找到.kettle目录</p>
+<p>​         2.然后把这个目录下的repositories.<a href="https://so.csdn.net/so/search?q=xml&amp;spm=1001.2101.3001.7020" target="_blank" rel="noopener">xml</a>，.spoonrc文件和db.cache文件都删掉，</p>
+<p>​         3.重启就OK。</p>
+<h3 id="3、开始实战操作"><a href="#3、开始实战操作" class="headerlink" title="3、开始实战操作"></a><strong>3、开始实战操作</strong></h3><p>csv输入已经在上篇文章讲述了，</p>
+<p>我们先创建匹配csv的mysql数据表</p>
+<p>我们这次直接从输出插入更新开始：</p>
+<p><img src="/2022/04/08/%E5%A4%A7%E6%95%B0%E6%8D%AEETL%E5%B7%A5%E5%85%B7Kettle%E5%85%A5%E9%97%A8%E5%AE%9E%E8%B7%B5%E4%BA%8Ccsv%E8%BD%AC%E6%8D%A2mysql/1.jpg" style="zoom: 50%;"></p>
+<p><strong>选择新建数据库连接：</strong></p>
+<p><img src="/2022/04/08/%E5%A4%A7%E6%95%B0%E6%8D%AEETL%E5%B7%A5%E5%85%B7Kettle%E5%85%A5%E9%97%A8%E5%AE%9E%E8%B7%B5%E4%BA%8Ccsv%E8%BD%AC%E6%8D%A2mysql/2.jpg" style="zoom: 50%;"></p>
+<p><strong>确认过后，浏览会出现如下bug：</strong></p>
+<p><img src="/2022/04/08/%E5%A4%A7%E6%95%B0%E6%8D%AEETL%E5%B7%A5%E5%85%B7Kettle%E5%85%A5%E9%97%A8%E5%AE%9E%E8%B7%B5%E4%BA%8Ccsv%E8%BD%AC%E6%8D%A2mysql/3.jpg" style="zoom: 50%;"></p>
+<p><strong>根据提示我们发现缺少jtds.jar包</strong></p>
+<p>百度云下载地址：<a href="https://links.jianshu.com/go?to=https%3A%2F%2Fpan.baidu.com%2Fs%2F1eRwzxnaOOeq7gERwFMFYdQ" target="_blank" rel="noopener">https://pan.baidu.com/s/1eRwzxnaOOeq7gERwFMFYdQ</a><br>提取码：2ri4</p>
+<p>（来自网络）</p>
+<p>下载完jar包，放入lib文件下，重启kettle</p>
+<p><strong>再次重复操作会发现</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Connection failed. Verify all connection parameters and confirm that the appropriate driver is installed.</span><br><span class="line">I&#x2F;O Error: Unknown packet type 0x4a</span><br></pre></td></tr></table></figure>
+<p>错误信息显示是jar包未安装，查阅资料了解到，一定要和自己使用的数据库版本一样的连接驱动，我的是mysql版本是8.0.26</p>
+<p><strong>下载匹配自己mysql 的数据库驱动后：</strong></p>
+<p><img src="/2022/04/08/%E5%A4%A7%E6%95%B0%E6%8D%AEETL%E5%B7%A5%E5%85%B7Kettle%E5%85%A5%E9%97%A8%E5%AE%9E%E8%B7%B5%E4%BA%8Ccsv%E8%BD%AC%E6%8D%A2mysql/4.jpg" style="zoom: 50%;"></p>
+<p>结果显示OK</p>
+<p>选择数据表</p>
+<p><img src="/2022/04/08/%E5%A4%A7%E6%95%B0%E6%8D%AEETL%E5%B7%A5%E5%85%B7Kettle%E5%85%A5%E9%97%A8%E5%AE%9E%E8%B7%B5%E4%BA%8Ccsv%E8%BD%AC%E6%8D%A2mysql/5.jpg" style="zoom: 50%;"></p>
+<p>分别点击获取字段、获取和更新字段，还可以点击编辑映射查看</p>
+<p><img src="/2022/04/08/%E5%A4%A7%E6%95%B0%E6%8D%AEETL%E5%B7%A5%E5%85%B7Kettle%E5%85%A5%E9%97%A8%E5%AE%9E%E8%B7%B5%E4%BA%8Ccsv%E8%BD%AC%E6%8D%A2mysql/6.jpg" style="zoom: 50%;"></p>
+<p>查看sql语句：</p>
+<p><img src="/2022/04/08/%E5%A4%A7%E6%95%B0%E6%8D%AEETL%E5%B7%A5%E5%85%B7Kettle%E5%85%A5%E9%97%A8%E5%AE%9E%E8%B7%B5%E4%BA%8Ccsv%E8%BD%AC%E6%8D%A2mysql/7.jpg" style="zoom: 50%;"></p>
+<p>启动转换，查看mysql数据表结果</p>
+<p><img src="/2022/04/08/%E5%A4%A7%E6%95%B0%E6%8D%AEETL%E5%B7%A5%E5%85%B7Kettle%E5%85%A5%E9%97%A8%E5%AE%9E%E8%B7%B5%E4%BA%8Ccsv%E8%BD%AC%E6%8D%A2mysql/8.jpg" style="zoom: 50%;"></p>
+<p>数据有了，转换结束</p>
+<p><strong>参考文献：</strong></p>
+<p>Kettle下载和安装：<a href="https://www.jianshu.com/p/c76bac247cce" target="_blank" rel="noopener">https://www.jianshu.com/p/c76bac247cce</a></p>
+<p>大数据ETL工具 Kettle 入门实践 <a href="https://mp.weixin.qq.com/s/ltMTBHwJ10Xbj0g7QiXvEA" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/ltMTBHwJ10Xbj0g7QiXvEA</a></p>
+<p>window下怎么重启MySQl服务？<a href="https://www.php.cn/mysql-tutorials-419563.html" target="_blank" rel="noopener">https://www.php.cn/mysql-tutorials-419563.html</a></p>
+<p>【Kettle】2、文件夹与界面介绍 <a href="https://www.cnblogs.com/Zeros/p/7551714.html" target="_blank" rel="noopener">https://www.cnblogs.com/Zeros/p/7551714.html</a></p>
+<p>通过kettle读取csv文件到mysql表中 <a href="https://www.likecs.com/show-203707054.html" target="_blank" rel="noopener">https://www.likecs.com/show-203707054.html</a></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/04/08/%E5%A4%A7%E6%95%B0%E6%8D%AEETL%E5%B7%A5%E5%85%B7Kettle%E5%85%A5%E9%97%A8%E5%AE%9E%E8%B7%B5%E4%BA%8Ccsv%E8%BD%AC%E6%8D%A2mysql/微信.png" style="zoom: 50%;"></p>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>大数据</tag>
+        <tag>ETL</tag>
+        <tag>Kettle</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux如何使用手机共享网络</title>
     <url>/2022/04/07/Linux%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E6%89%8B%E6%9C%BA%E5%85%B1%E4%BA%AB%E7%BD%91%E7%BB%9C/</url>
     <content><![CDATA[<p>hello 大家好我是Monday，今天和大家聊聊关于Linux如何使用手机共享网络；</p>
@@ -184,23 +246,33 @@
 <p>需准备的其他东西：<strong>数据库驱动</strong>，如将驱动放在 Kettle 根目录的 bin 文件夹下面即可。</p>
 <p>打开 Kettle 只需要运行 Spoon.bat (win)/ spoon.sh (Linux / macOS)，即可打开 Spoon 图形工具。</p>
 <p><strong>3、kettle文件夹介绍</strong></p>
-<p>Lib：存放Kettle的核心(core)jar包、工作引擎(engine)jar包、数据库(DB) jar包、图形界面(UI) jar包。</p>
-<p>Plugins：存放Kettle自定义插件时，需要把自定义好的插件打成jar放在此目录。</p>
-<p>Docs：存放Kettle各种语言版本的API文档。</p>
-<p>Pwd：存放Kettle配置集群时所需要的配置文件与加密文件。</p>
-<p>Libswt：存放Kettle对应不同平台的相关UI jar包。</p>
-<p>Samples：存放Kettle自带的一些Job与Trans实例(建议大家多去查看)。</p>
-<p>Launcher：存放Kettle Spoon加载的一些配置信息。</p>
-<p>Ui：存放Kettle初始化使用到的图片及配置信息。</p>
-<p><strong>5、下载Mysql数据库的JDBC驱动jar包</strong></p>
-<p><strong>该jar包的作用：连接数据库！</strong></p>
-<p>（1）进入此链接：</p>
-<p><a href="https://dev.mysql.com/downloads/" target="_blank" rel="noopener">https://dev.mysql.com/downloads/</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Lib：存放Kettle的核心(core)jar包、工作引擎(engine)jar包、数据库(DB) jar包、图形界面(UI) jar包。</span><br><span class="line"></span><br><span class="line">Plugins：存放Kettle自定义插件时，需要把自定义好的插件打成jar放在此目录。</span><br><span class="line"></span><br><span class="line">Docs：存放Kettle各种语言版本的API文档。</span><br><span class="line"></span><br><span class="line">Pwd：存放Kettle配置集群时所需要的配置文件与加密文件。</span><br><span class="line"></span><br><span class="line">Libswt：存放Kettle对应不同平台的相关UI jar包。</span><br><span class="line"></span><br><span class="line">Samples：存放Kettle自带的一些Job与Trans实例(建议大家多去查看)。</span><br><span class="line"></span><br><span class="line">Launcher：存放Kettle Spoon加载的一些配置信息。</span><br><span class="line"></span><br><span class="line">Ui：存放Kettle初始化使用到的图片及配置信息。</span><br></pre></td></tr></table></figure>
+<p><strong>4、如下图，执行  <code>./spoon.bat</code> 命令</strong></p>
+<p><img src="/2022/04/01/%E5%A4%A7%E6%95%B0%E6%8D%AEETL%E5%B7%A5%E5%85%B7Kettle%E5%85%A5%E9%97%A8%E5%AE%9E%E8%B7%B5%E4%B8%80/0.0.jpg" style="zoom: 50%;"></p>
+<p><strong>5、安装完我们就去实战操作一下：</strong></p>
+<p><strong>需求：把数据从 CSV 文件复制到 Excel 文件</strong></p>
+<p>（1）将 「CSV 文件输入」拖拽到右侧的工作区</p>
+<p><img src="/2022/04/01/%E5%A4%A7%E6%95%B0%E6%8D%AEETL%E5%B7%A5%E5%85%B7Kettle%E5%85%A5%E9%97%A8%E5%AE%9E%E8%B7%B5%E4%B8%80/0.1.jpg" style="zoom: 50%;"></p>
+<p>（2）双击进行编辑，浏览选择准备好的测试文件</p>
+<p><img src="/2022/04/01/%E5%A4%A7%E6%95%B0%E6%8D%AEETL%E5%B7%A5%E5%85%B7Kettle%E5%85%A5%E9%97%A8%E5%AE%9E%E8%B7%B5%E4%B8%80/0.2.jpg" style="zoom: 50%;"></p>
+<p>（3）点击「获取字段」自动获取 CSV 文件中表头信息</p>
+<p><img src="/2022/04/01/%E5%A4%A7%E6%95%B0%E6%8D%AEETL%E5%B7%A5%E5%85%B7Kettle%E5%85%A5%E9%97%A8%E5%AE%9E%E8%B7%B5%E4%B8%80/0.3.jpg" style="zoom: 50%;"></p>
+<p>（4）预览数据</p>
+<p><img src="/2022/04/01/%E5%A4%A7%E6%95%B0%E6%8D%AEETL%E5%B7%A5%E5%85%B7Kettle%E5%85%A5%E9%97%A8%E5%AE%9E%E8%B7%B5%E4%B8%80/0.4.jpg" style="zoom: 50%;"></p>
+<p>（5）输入配置完成，下一步进行输出配置。</p>
+<p>将 「Excel 输出」拖拽到右侧的工作区，双击进行编辑，这步比较简单，浏览选择输出目录和设置文件名，完成配置。</p>
+<p><img src="/2022/04/01/%E5%A4%A7%E6%95%B0%E6%8D%AEETL%E5%B7%A5%E5%85%B7Kettle%E5%85%A5%E9%97%A8%E5%AE%9E%E8%B7%B5%E4%B8%80/0.5.jpg" style="zoom: 50%;"></p>
+<p><img src="/2022/04/01/%E5%A4%A7%E6%95%B0%E6%8D%AEETL%E5%B7%A5%E5%85%B7Kettle%E5%85%A5%E9%97%A8%E5%AE%9E%E8%B7%B5%E4%B8%80/0.6.jpg" style="zoom: 50%;"></p>
+<p><img src="/2022/04/01/%E5%A4%A7%E6%95%B0%E6%8D%AEETL%E5%B7%A5%E5%85%B7Kettle%E5%85%A5%E9%97%A8%E5%AE%9E%E8%B7%B5%E4%B8%80/0.7.jpg" style="zoom: 50%;"></p>
+<p>over文件生成已经在选择的目录下了。</p>
 <p><strong>参考文献：</strong></p>
 <p>Kettle下载和安装：<a href="https://www.jianshu.com/p/c76bac247cce" target="_blank" rel="noopener">https://www.jianshu.com/p/c76bac247cce</a></p>
-<p>大数据ETL工具 Kettle 入门实践<a href="https://mp.weixin.qq.com/s/ltMTBHwJ10Xbj0g7QiXvEA" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/ltMTBHwJ10Xbj0g7QiXvEA</a></p>
-<p><a href="https://www.php.cn/mysql-tutorials-419563.html" target="_blank" rel="noopener">https://www.php.cn/mysql-tutorials-419563.html</a></p>
-<p><a href="https://www.cnblogs.com/Zeros/p/7551714.html" target="_blank" rel="noopener">https://www.cnblogs.com/Zeros/p/7551714.html</a></p>
+<p>大数据ETL工具 Kettle 入门实践 <a href="https://mp.weixin.qq.com/s/ltMTBHwJ10Xbj0g7QiXvEA" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/ltMTBHwJ10Xbj0g7QiXvEA</a></p>
+<p>window下怎么重启MySQl服务？<a href="https://www.php.cn/mysql-tutorials-419563.html" target="_blank" rel="noopener">https://www.php.cn/mysql-tutorials-419563.html</a></p>
+<p>【Kettle】2、文件夹与界面介绍 <a href="https://www.cnblogs.com/Zeros/p/7551714.html" target="_blank" rel="noopener">https://www.cnblogs.com/Zeros/p/7551714.html</a></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/04/01/%E5%A4%A7%E6%95%B0%E6%8D%AEETL%E5%B7%A5%E5%85%B7Kettle%E5%85%A5%E9%97%A8%E5%AE%9E%E8%B7%B5%E4%B8%80/微信.png" style="zoom: 50%;"></p>
 ]]></content>
       <categories>
         <category>大数据</category>
