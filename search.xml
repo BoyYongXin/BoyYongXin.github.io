@@ -1,6 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Android脱壳工具整理第一篇</title>
+    <url>/2022/04/25/Android%E8%84%B1%E5%A3%B3%E5%B7%A5%E5%85%B7%E6%95%B4%E7%90%86%E7%AC%AC%E4%B8%80%E7%AF%87/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天给大家带来一篇Android脱壳工具的文章。</p>
+<a id="more"></a>
+<p><strong>背景：</strong></p>
+<p>现在混淆的代码，也很容易被破解，所以就出现了加固工具，让反编译的难度更大。但是有了加固技术，就会有反加固技术，正所谓道高一尺魔高一丈。</p>
+<p>下面开始介绍几个开源的脱壳工具：</p>
+<p><strong>（1）FART</strong></p>
+<p>这款脱壳工具是寒冰大佬写的，是通过刷入大佬定制的系统，进而在程序运行中动态脱壳。</p>
+<p>具体介绍可见大佬的github：<a href="https://github.com/hanbinglengyue/FART" target="_blank" rel="noopener">https://github.com/hanbinglengyue/FART</a><br>原理介绍：<a href="https://bbs.pediy.com/thread-252630.htm" target="_blank" rel="noopener">https://bbs.pediy.com/thread-252630.htm</a></p>
+<p>有些人可能觉得刷机麻烦，同时大佬也提供了Frida版的，可以直接使用frida hook脚本动态脱壳。</p>
+<p>我们解压该文件后，将lib文件夹中的<code>fart.so</code>和<code>fart64.so</code>拷贝到<code>/data/app</code>目录下，并使用 <code>chmod 777</code> 提权，接下来就可以正常使用frida hook脚本脱壳了</p>
+<p><img src="/2022/04/25/Android%E8%84%B1%E5%A3%B3%E5%B7%A5%E5%85%B7%E6%95%B4%E7%90%86%E7%AC%AC%E4%B8%80%E7%AF%87/1.jpg" style="zoom: 50%;"></p>
+<p>使用方式：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">frida -U -f [包名] -l .&#x2F;frida_fart_hook.js --no-pause</span><br></pre></td></tr></table></figure>
+<p><strong>（2）FRIDA-DEXDump</strong></p>
+<p>这款基于frida的脱壳工具是葫芦娃大佬写的<br>github地址：<a href="https://github.com/hluwa/FRIDA-DEXDump" target="_blank" rel="noopener">https://github.com/hluwa/FRIDA-DEXDump</a></p>
+<p>原理介绍：<a href="https://mp.weixin.qq.com/s/n2XHGhshTmvt2FhxyFfoMA[深入" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/n2XHGhshTmvt2FhxyFfoMA[深入</a> FRIDA-DEXDump 中的矛与盾 (qq.com)](<a href="https://mp.weixin.qq.com/s/n2XHGhshTmvt2FhxyFfoMA" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/n2XHGhshTmvt2FhxyFfoMA</a>)</p>
+<p>我们可以直接用pip命令安装：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip3 install frida-dexdump</span><br></pre></td></tr></table></figure>
+<p>CLI arguments base on <a href="https://github.com/frida/frida-tools" target="_blank" rel="noopener">frida-tools</a>, you can quickly dump the foreground application like this:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">frida-dexdump -FU</span><br></pre></td></tr></table></figure>
+<p>Or specify and spawn app like this:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">frida-dexdump -U -f com.app.pkgname</span><br><span class="line">frida-dexdump -FU -f com.app.pkgname -d --sleep 5 -o .&#x2F;</span><br></pre></td></tr></table></figure>
+<p>Additionally, you can see in <code>-h</code> that the new options provided by frida-dexdump are:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-o OUTPUT, --output OUTPUT  Output folder path, default is &#39;.&#x2F;&lt;appname&gt;&#x2F;&#39;.</span><br><span class="line">-d, --deep-search           Enable deep search mode.</span><br><span class="line">--sleep SLEEP               Waiting times for start, spawn mode default is 5s.</span><br></pre></td></tr></table></figure>
+<p>When using, I suggest using the <code>-d, --deep-search</code> option, which may take more time, but the results will be more complete.</p>
+<p>使用截图：</p>
+<p><img src="/2022/04/25/Android%E8%84%B1%E5%A3%B3%E5%B7%A5%E5%85%B7%E6%95%B4%E7%90%86%E7%AC%AC%E4%B8%80%E7%AF%87/2.jpg" style="zoom: 50%;"></p>
+<p><strong>（3）总结</strong></p>
+<p>当然还有一些其他的脱壳工具，Ratel（平头哥），FDex2 等，相比较来说，Ratel（平头哥）和FRIDA-DEXDump 这个两个工具我使用的较多，目前更新的频率也新一些。</p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/04/25/Android%E8%84%B1%E5%A3%B3%E5%B7%A5%E5%85%B7%E6%95%B4%E7%90%86%E7%AC%AC%E4%B8%80%E7%AF%87/微信.png" style="zoom: 50%;"></p>
+]]></content>
+      <categories>
+        <category>逆向</category>
+      </categories>
+      <tags>
+        <tag>逆向</tag>
+        <tag>脱壳</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>大数据ETL工具Kettle入门实践二csv转换mysql</title>
     <url>/2022/04/08/%E5%A4%A7%E6%95%B0%E6%8D%AEETL%E5%B7%A5%E5%85%B7Kettle%E5%85%A5%E9%97%A8%E5%AE%9E%E8%B7%B5%E4%BA%8Ccsv%E8%BD%AC%E6%8D%A2mysql/</url>
     <content><![CDATA[<p>hello 大家好我是Monday，今天我们开启大数据ETL工具的学习的系列文章第二篇csv转换mysql。</p>
@@ -227,9 +271,9 @@
         <category>逆向</category>
       </categories>
       <tags>
+        <tag>逆向</tag>
         <tag>Hook</tag>
         <tag>frida</tag>
-        <tag>逆向</tag>
       </tags>
   </entry>
   <entry>
@@ -1966,9 +2010,9 @@
         <category>逆向</category>
       </categories>
       <tags>
+        <tag>逆向</tag>
         <tag>Hook</tag>
         <tag>frida</tag>
-        <tag>逆向</tag>
       </tags>
   </entry>
   <entry>
@@ -2272,9 +2316,9 @@
         <category>逆向</category>
       </categories>
       <tags>
+        <tag>逆向</tag>
         <tag>Hook</tag>
         <tag>frida</tag>
-        <tag>逆向</tag>
       </tags>
   </entry>
   <entry>
