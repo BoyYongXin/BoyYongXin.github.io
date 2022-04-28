@@ -1,6 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>手把手教你开发一个apk查壳软件</title>
+    <url>/2022/04/28/%E6%89%8B%E6%8A%8A%E6%89%8B%E6%95%99%E4%BD%A0%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AAapk%E6%9F%A5%E5%A3%B3%E8%BD%AF%E4%BB%B6/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天给大家带来一篇开发Android查壳工具的文章。</p>
+<a id="more"></a>
+<p><strong>1、背景：</strong></p>
+<p>当我拿到一个APK准备逆向分析之前，首先要知道的是，这个apk是否加壳，以及是通过什么方式加的壳，以便于我们下一步的脱壳操作。</p>
+<p><strong>2、安卓应用壳是什么</strong></p>
+<p>安卓应用的安装文件格式为 .apk 格式，该格式其实为一个压缩包格式，包含安卓应用的源码、配置文件、资源文件等。因为简单的apk是使用了归档压缩包格式保存所有源码，可以用简单的解压后，得到apk的指令集dex文件，在反编译几乎可以拿到源码级别的java代码。这个对于编写软件的工程师来说是一个灾难。那么应该如何防护呢？</p>
+<p>最常见的防护方式“壳”运营而生。从字面可以看到，“壳”是用来保护重要内容的。安卓应用的壳也是一样，用来保护应用源码不被非法修改或反编译。通常壳是一段程序，一般优先于真正程序运行，获得系统控制权，然后保护真正需要运行的软件。（来源于网络）</p>
+<p><strong>3、查壳：</strong></p>
+<p>一般网络上流行着各种查壳小工具，比如说 PKID的</p>
+<p>PKID有两个版本，最开始是只有Windows版本的，后来有位大佬用Mac，觉得每次用的时候都要开虚拟机太麻烦了于是写了个Java版的，读者请根据自己的情况下载不同的版本。</p>
+<p><a href="https://www.secpulse.com/archives/68886.html" target="_blank" rel="noopener">https://www.secpulse.com/archives/68886.html</a></p>
+<p>Windows版下载地址：<a href="https://www.jb51.net/softs/603472.html#downintro2" target="_blank" rel="noopener">https://www.jb51.net/softs/603472.html#downintro2</a></p>
+<p>Java版的看雪论坛下载地址：<a href="https://bbs.pediy.com/thread-225120.htm" target="_blank" rel="noopener">https://bbs.pediy.com/thread-225120.htm</a></p>
+<p>具体使用也很简单，直接下载启动，拖入apk即可</p>
+<p><strong>4、 识别原理简介</strong></p>
+<p>对于加了壳的apk，包里面会有一些符合特定特征的文件，比较简单的方式就是通过检测apk是否符合这些特征，当然随着各大加固平台不断的迭代，其特征也可能会不断的迭代。</p>
+<p>我们只需要知道大概原理就可以了，常见的特征判断是判断lib下是否存在特定的so文件，比如看雪上有人总结过的：</p>
+<p><a href="https://bbs.pediy.com/thread-223248.htm" target="_blank" rel="noopener">https://bbs.pediy.com/thread-223248.htm</a></p>
+<p><strong>5、开发查壳工具</strong></p>
+<p>接下来我们根据我们了解到知识，也开发一个类似的查壳工具</p>
+<p><strong>思想</strong>：首先，我们把apk后缀改为.zip并对它进行解压，一般来说，我们可以在assets目录或者lib中找到痕迹</p>
+<p><img src="/2022/04/28/%E6%89%8B%E6%8A%8A%E6%89%8B%E6%95%99%E4%BD%A0%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AAapk%E6%9F%A5%E5%A3%B3%E8%BD%AF%E4%BB%B6/1.jpg" style="zoom: 50%;"></p>
+<p>进行文件名对比即可；</p>
+<p><strong>优点：</strong></p>
+<p>写个属于自己的查壳脚本，它的优点在于，以后有新的加固方式，只需要更新自己加固库就可以了。</p>
+<p><strong>6、开始开发：</strong></p>
+<p><strong>1、确认壳特征：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">self.features &#x3D; &#123;</span><br><span class="line">            &quot;libchaosvmp.so&quot;: &quot;娜迦&quot;,</span><br><span class="line">            &quot;libddog.so&quot;: &quot;娜迦&quot;,</span><br><span class="line">            &quot;libfdog.so&quot;: &quot;娜迦&quot;,</span><br><span class="line">            &quot;libedog.so&quot;: &quot;娜迦企业版&quot;,</span><br><span class="line">            &quot;libexecmain.so&quot;: &quot;爱加密&quot;,</span><br><span class="line">            &quot;ijiami.dat&quot;: &quot;爱加密&quot;,</span><br><span class="line">            &quot;ijiami.ajm&quot;: &quot;爱加密企业版&quot;,</span><br><span class="line">            &quot;libsecexe.so&quot;: &quot;梆梆免费版&quot;,</span><br><span class="line">            &quot;libsecmain.so&quot;: &quot;梆梆免费版&quot;,</span><br><span class="line">            &quot;libSecShell.so&quot;: &quot;梆梆免费版&quot;,</span><br><span class="line">            &quot;libDexHelper.so&quot;: &quot;梆梆企业版&quot;,</span><br><span class="line">            &quot;libDexHelper-x86.so&quot;: &quot;梆梆企业版&quot;,</span><br><span class="line">            &quot;libprotectClass.so&quot;: &quot;360&quot;,</span><br><span class="line">            &quot;libjiagu.so&quot;: &quot;360&quot;,</span><br><span class="line">            &quot;libjiagu_art.so&quot;: &quot;360&quot;,</span><br><span class="line">            &quot;libjiagu_x86.so&quot;: &quot;360&quot;,</span><br><span class="line">            &quot;libegis.so&quot;: &quot;通付盾&quot;,</span><br><span class="line">            &quot;libNSaferOnly.so&quot;: &quot;通付盾&quot;,</span><br><span class="line">            &quot;libnqshield.so&quot;: &quot;网秦&quot;,</span><br><span class="line">            &quot;libbaiduprotect.so&quot;: &quot;百度&quot;,</span><br><span class="line">            &quot;aliprotect.dat&quot;: &quot;阿里聚安全&quot;,</span><br><span class="line">            &quot;libsgmain.so&quot;: &quot;阿里聚安全&quot;,</span><br><span class="line">            &quot;libsgsecuritybody.so&quot;: &quot;阿里聚安全&quot;,</span><br><span class="line">            &quot;libmobisec.so&quot;: &quot;阿里聚安全&quot;,</span><br><span class="line">            &quot;libtup.so&quot;: &quot;腾讯&quot;,</span><br><span class="line">            &quot;libexec.so&quot;: &quot;腾讯&quot;,</span><br><span class="line">            &quot;libshell.so&quot;: &quot;腾讯&quot;,</span><br><span class="line">            &quot;mix.dex&quot;: &quot;腾讯&quot;,</span><br><span class="line">            &quot;lib&#x2F;armeabi&#x2F;mix.dex&quot;: &quot;腾讯&quot;,</span><br><span class="line">            &quot;lib&#x2F;armeabi&#x2F;mixz.dex&quot;: &quot;腾讯&quot;,</span><br><span class="line">            &quot;libtosprotection.armeabi.so&quot;: &quot;腾讯御安全&quot;,</span><br><span class="line">            &quot;libtosprotection.armeabi-v7a.so&quot;: &quot;腾讯御安全&quot;,</span><br><span class="line">            &quot;libtosprotection.x86.so&quot;: &quot;腾讯御安全&quot;,</span><br><span class="line">            &quot;libnesec.so&quot;: &quot;网易易盾&quot;,</span><br><span class="line">            &quot;libAPKProtect.so&quot;: &quot;APKProtect&quot;,</span><br><span class="line">            &quot;libkwscmm.so&quot;: &quot;几维安全&quot;,</span><br><span class="line">            &quot;libkwscr.so&quot;: &quot;几维安全&quot;,</span><br><span class="line">            &quot;libkwslinker.so&quot;: &quot;几维安全&quot;,</span><br><span class="line">            &quot;libx3g.so&quot;: &quot;顶像科技&quot;,</span><br><span class="line">            &quot;libapssec.so&quot;: &quot;盛大&quot;,</span><br><span class="line">            &quot;librsprotect.so&quot;: &quot;瑞星&quot;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>2、编写，解压文件和判断特征文件是否在目录里</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">chake</span><span class="params">(self, apk_path)</span>:</span></span><br><span class="line">    zipfiles = zipfile.ZipFile(apk_path)</span><br><span class="line">    name_list = zipfiles.namelist()</span><br><span class="line">    <span class="keyword">for</span> filename <span class="keyword">in</span> name_list:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">for</span> shell <span class="keyword">in</span> self.features.keys():</span><br><span class="line">                <span class="keyword">if</span> shell <span class="keyword">in</span> filename:</span><br><span class="line">                    shell_type = self.features[shell]</span><br><span class="line">                    result = <span class="string">f"该apk使用了《 <span class="subst">&#123;shell_type&#125;</span> 》加固"</span></span><br><span class="line">                    <span class="keyword">return</span> result</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"unknown"</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"该APK未加固或采用未知加固厂商\n"</span></span><br></pre></td></tr></table></figure>
+<p><strong>3、最后tkinter 编写GUI界面</strong></p>
+<p><strong>4、最结果展示：</strong></p>
+<p><img src="/2022/04/28/%E6%89%8B%E6%8A%8A%E6%89%8B%E6%95%99%E4%BD%A0%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AAapk%E6%9F%A5%E5%A3%B3%E8%BD%AF%E4%BB%B6/2.jpg" style="zoom: 100%;"></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/04/28/%E6%89%8B%E6%8A%8A%E6%89%8B%E6%95%99%E4%BD%A0%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AAapk%E6%9F%A5%E5%A3%B3%E8%BD%AF%E4%BB%B6/微信.png" style="zoom: 50%;"></p>
+]]></content>
+      <categories>
+        <category>逆向</category>
+      </categories>
+      <tags>
+        <tag>逆向</tag>
+        <tag>查壳</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Android脱壳工具整理第二篇</title>
+    <url>/2022/04/25/Android%E8%84%B1%E5%A3%B3%E5%B7%A5%E5%85%B7%E6%95%B4%E7%90%86%E7%AC%AC%E4%BA%8C%E7%AF%87/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天给大家带来一篇Android脱壳工具的文章的第二篇。</p>
+<a id="more"></a>
+<p><strong>背景：</strong></p>
+<p>现在混淆的代码，也很容易被破解，所以就出现了加固工具，让反编译的难度更大。但是有了加固技术，就会有反加固技术，正所谓道高一尺魔高一丈。</p>
+<p><a href="https://github.com/CodingGay/BlackDex" target="_blank" rel="noopener">https://github.com/CodingGay/BlackDex</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;storage&#x2F;emulated&#x2F;0&#x2F;Android&#x2F;data&#x2F;top.niunaijun.blackdexa32&#x2F;dump</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">tar -zcvf cn.com.spdb.mobilebank.per.tar.gz  .&#x2F;cn.com.spdb.mobilebank.per&#x2F;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>逆向</category>
+      </categories>
+      <tags>
+        <tag>逆向</tag>
+        <tag>脱壳</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Android脱壳工具整理第一篇</title>
     <url>/2022/04/25/Android%E8%84%B1%E5%A3%B3%E5%B7%A5%E5%85%B7%E6%95%B4%E7%90%86%E7%AC%AC%E4%B8%80%E7%AF%87/</url>
     <content><![CDATA[<p>hello 大家好我是Monday，今天给大家带来一篇Android脱壳工具的文章。</p>
@@ -17,7 +84,8 @@
 <p>使用方式：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">frida -U -f [包名] -l .&#x2F;frida_fart_hook.js --no-pause</span><br></pre></td></tr></table></figure>
 <p><strong>（2）FRIDA-DEXDump</strong></p>
-<p>这款基于frida的脱壳工具是葫芦娃大佬写的<br>github地址：<a href="https://github.com/hluwa/FRIDA-DEXDump" target="_blank" rel="noopener">https://github.com/hluwa/FRIDA-DEXDump</a></p>
+<p>这款基于frida的脱壳工具是葫芦娃大佬写的</p>
+<p>github地址：<a href="https://github.com/hluwa/FRIDA-DEXDump" target="_blank" rel="noopener">https://github.com/hluwa/FRIDA-DEXDump</a></p>
 <p>原理介绍：<a href="https://mp.weixin.qq.com/s/n2XHGhshTmvt2FhxyFfoMA[深入" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/n2XHGhshTmvt2FhxyFfoMA[深入</a> FRIDA-DEXDump 中的矛与盾 (qq.com)](<a href="https://mp.weixin.qq.com/s/n2XHGhshTmvt2FhxyFfoMA" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/n2XHGhshTmvt2FhxyFfoMA</a>)</p>
 <p>我们可以直接用pip命令安装：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip3 install frida-dexdump</span><br></pre></td></tr></table></figure>
