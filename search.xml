@@ -1,6 +1,424 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>SpringBoot如何自定义配置文件</title>
+    <url>/2022/05/13/SpringBoot%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<h3 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a><strong>1. 前言</strong></h3><p>SpringBoot最核心的就是自动配置类，而自动配置类需要读取配置文件的信息，来自动创建实例，因此配置文件就显得非常重要了。因此本文主要介绍SpringBoot的配置文件、以及自动配置类和配置文件之间的关系，即SpringBoot的运行原理。</p>
+<h3 id="2-SpringBoot-配置文件"><a href="#2-SpringBoot-配置文件" class="headerlink" title="2. SpringBoot 配置文件"></a><strong>2. SpringBoot 配置文件</strong></h3><p>SpringBoot<strong>默认加载</strong>的配置文件是在classpath根目录的<strong>application.properties</strong>或者</p>
+<p><strong>application.yml</strong>配置文件。</p>
+<p><strong>—注意：</strong></p>
+<blockquote>
+<p>[1] 文件名不能写错，因为默认的文件名写死在SpringBoot配置代码中。<br>[2] SpringBoot支持properties和yml两个格式的配置文件。</p>
+</blockquote>
+<p>3、</p>
+<p><strong>- 多个环境配置文件</strong></p>
+<ol>
+<li>在现实的开发环境中我们可能需要多个不同环境(开发,调试,生产)的配置文件可以使用 application-{profile}.properties进行配置如</li>
+</ol>
+<ul>
+<li>application-dev.properties : 开发环境</li>
+<li>application-test.properties : 测试环境</li>
+<li>application-prod.properties : 生产环境</li>
+</ul>
+<ol>
+<li>使用 : 在application.properties中配置</li>
+</ol>
+<p>spring.profiles.active=dev 表示启动 开发环境</p>
+<ol>
+<li>启动程序发现端口变成了 dev 下配置的</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>Java学习笔记之重写Override与重载Overload介绍</title>
+    <url>/2022/05/13/Java%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E9%87%8D%E5%86%99Override%E4%B8%8E%E9%87%8D%E8%BD%BDOverload%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天我们开启回补java的学习的系列文章之重写Override与重载Overload介绍</p>
+<a id="more"></a>
+<p><strong>重写(Override)</strong></p>
+<p>重写是子类对父类的允许访问的方法的实现过程进行重新编写, 返回值和形参都不能改变。即外壳不变，核心重写！</p>
+<p>重写的好处在于子类可以根据需要，定义特定于自己的行为。 也就是说子类能够根据需要实现父类的方法。</p>
+<p>重写方法不能抛出新的检查异常或者比被重写方法申明更加宽泛的异常。例如： 父类的一个方法申明了一个检查异常 IOException，但是在重写这个方法的时候不能抛出 Exception 异常，因为 Exception 是 IOException 的父类，只能抛出 IOException 的子类异常。</p>
+<p>在面向对象原则里，重写意味着可以重写任何现有方法。实例如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">move</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"动物可以移动"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> <span class="keyword">extends</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">move</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"狗可以跑和走"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestDog</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">        Animal a = <span class="keyword">new</span> Animal(); <span class="comment">// Animal 对象</span></span><br><span class="line">        Animal b = <span class="keyword">new</span> Dog(); <span class="comment">// Dog 对象</span></span><br><span class="line">        a.move(); <span class="comment">// 执行 Animal 类的方法</span></span><br><span class="line">        b.move(); <span class="comment">//执行 Dog 类的方法</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">运行结果</span></span><br><span class="line"><span class="comment">动物可以移动</span></span><br><span class="line"><span class="comment">狗可以跑和走</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>在上面的例子中可以看到，尽管b属于Animal类型，但是它运行的是Dog类的move方法。</p>
+<p>这是由于在编译阶段，只是检查参数的引用类型。</p>
+<p>然而在运行时，Java虚拟机(JVM)指定对象的类型并且运行该对象的方法。</p>
+<p>因此在上面的例子中，之所以能编译成功，是因为Animal类中存在move方法，然而运行时，运行的是特定对象的方法。</p>
+<p>思考以下例子：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span></span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">move</span><span class="params">()</span></span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"动物可以移动"</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> <span class="keyword">extends</span> <span class="title">Animal</span></span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">move</span><span class="params">()</span></span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"狗可以跑和走"</span>);</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bark</span><span class="params">()</span></span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"狗可以吠叫"</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestDog</span></span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</span><br><span class="line">      Animal a = <span class="keyword">new</span> Animal(); <span class="comment">// Animal 对象</span></span><br><span class="line">      Animal b = <span class="keyword">new</span> Dog(); <span class="comment">// Dog 对象</span></span><br><span class="line"></span><br><span class="line">      a.move();<span class="comment">// 执行 Animal 类的方法</span></span><br><span class="line">      b.move();<span class="comment">//执行 Dog 类的方法</span></span><br><span class="line">      b.bark();</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">运行结果：</span></span><br><span class="line"><span class="comment">TestDog.java:30: cannot find symbol</span></span><br><span class="line"><span class="comment">symbol  : method bark()</span></span><br><span class="line"><span class="comment">location: class Animal</span></span><br><span class="line"><span class="comment">                b.bark();</span></span><br><span class="line"><span class="comment">                 ^</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>该程序将抛出一个编译错误，因为b的引用类型Animal没有bark方法。</p>
+<p><strong>方法的重写规则</strong></p>
+<p>1、参数列表必须完全与被重写方法的相同。</p>
+<p>2、返回类型与被重写方法的返回类型可以不相同，但是必须是父类返回值的派生类（java5 及更早版本返回类型要一样，java7 及更高版本可以不同）。</p>
+<p>3、访问权限不能比父类中被重写的方法的访问权限更低。例如：如果父类的一个方法被声明为 public，那么在子类中重写该方法就不能声明为 protected。</p>
+<p>4、父类的成员方法只能被它的子类重写。</p>
+<p>5、声明为 final 的方法不能被重写。</p>
+<p>6、声明为 static 的方法不能被重写，但是能够被再次声明。</p>
+<p>7、子类和父类在同一个包中，那么子类可以重写父类所有方法，除了声明为 private 和 final 的方法。</p>
+<p>8、子类和父类不在同一个包中，那么子类只能够重写父类的声明为 public 和 protected 的非 final 方法。</p>
+<p>9、重写的方法能够抛出任何非强制异常，无论被重写的方法是否抛出异常。但是，重写的方法不能抛出新的强制性异常，或者比被重写方法声明的更广泛的强制性异常，反之则可以。</p>
+<p>10、构造方法不能被重写。</p>
+<p>11、如果不能继承一个方法，则不能重写这个方法。</p>
+<p><strong>Super 关键字的使用</strong></p>
+<p>当需要在子类中调用父类的被重写方法时，要使用 super 关键字。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span></span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">move</span><span class="params">()</span></span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"动物可以移动"</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> <span class="keyword">extends</span> <span class="title">Animal</span></span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">move</span><span class="params">()</span></span>&#123;</span><br><span class="line">      <span class="keyword">super</span>.move(); <span class="comment">// 应用super类的方法</span></span><br><span class="line">      System.out.println(<span class="string">"狗可以跑和走"</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestDog</span></span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</span><br><span class="line"></span><br><span class="line">      Animal b = <span class="keyword">new</span> Dog(); <span class="comment">// Dog 对象</span></span><br><span class="line">      b.move(); <span class="comment">//执行 Dog类的方法</span></span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">动物可以移动</span></span><br><span class="line"><span class="comment">狗可以跑和走</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p><strong>重载(Overload)</strong><br>1、重载(overloading) 是在一个类里面，方法名字相同，而参数不同。返回类型可以相同也可以不同。</p>
+<p>2、每个重载的方法（或者构造函数）都必须有一个独一无二的参数类型列表。</p>
+<p>3、最常用的地方就是构造器的重载。</p>
+<p><strong>重载规则:</strong></p>
+<p>1、被重载的方法必须改变参数列表(参数个数或类型不一样)；</p>
+<p>2、被重载的方法可以改变返回类型；</p>
+<p>3、被重载的方法可以改变访问修饰符；</p>
+<p>4、被重载的方法可以声明新的或更广的检查异常；</p>
+<p>5、方法能够在同一个类中或者在一个子类中被重载。</p>
+<p>6、无法以返回值类型作为重载函数的区分标准。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Overloading</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"test1"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> a)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"test2"</span>);</span><br><span class="line">    &#125;   </span><br><span class="line">     </span><br><span class="line">    <span class="comment">//以下两个参数类型顺序不同</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">(<span class="keyword">int</span> a,String s)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"test3"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"returntest3"</span>;</span><br><span class="line">    &#125;   </span><br><span class="line">     </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">(String s,<span class="keyword">int</span> a)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"test4"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"returntest4"</span>;</span><br><span class="line">    &#125;   </span><br><span class="line">     </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Overloading o = <span class="keyword">new</span> Overloading();</span><br><span class="line">        System.out.println(o.test());</span><br><span class="line">        o.test(<span class="number">1</span>);</span><br><span class="line">        System.out.println(o.test(<span class="number">1</span>,<span class="string">"test3"</span>));</span><br><span class="line">        System.out.println(o.test(<span class="string">"test4"</span>,<span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>重写与重载之间的区别</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">区别点</th>
+<th style="text-align:left">重载方法</th>
+<th style="text-align:left">重写方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">参数列表</td>
+<td style="text-align:left">必须修改</td>
+<td style="text-align:left">一定不能修改</td>
+</tr>
+<tr>
+<td style="text-align:left">返回类型</td>
+<td style="text-align:left">可以修改</td>
+<td style="text-align:left">一定不能修改</td>
+</tr>
+<tr>
+<td style="text-align:left">异常</td>
+<td style="text-align:left">可以修改</td>
+<td style="text-align:left">可以减少或删除，一定不能抛出新的或者更广的异常</td>
+</tr>
+<tr>
+<td style="text-align:left">访问</td>
+<td style="text-align:left">可以修改</td>
+<td style="text-align:left">一定不能做更严格的限制（可以降低限制）</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>总结</strong><br>方法的重写(Overriding)和重载(Overloading)是java多态性的不同表现，重写是父类与子类之间多态性的一种表现，重载可以理解成多态的具体表现形式。</p>
+<p>(1)方法重载是一个类中定义了多个方法名相同,而他们的参数的数量不同或数量相同而类型和次序不同,则称为方法的重载(Overloading)。</p>
+<p>(2)方法重写是在子类存在方法与父类的方法的名字相同,而且参数的个数与类型一样,返回值也一样的方法,就称为重写(Overriding)。</p>
+<p>(3)方法重载是一个类的多态性表现,而方法重写是子类与父类的一种多态性表现。</p>
+<p>原文链接：<a href="https://blog.csdn.net/BigBoy_Coder/article/details/102951430" target="_blank" rel="noopener">https://blog.csdn.net/BigBoy_Coder/article/details/102951430</a></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/share/微信.png" style="zoom: 50%;"></p>
+]]></content>
+      <categories>
+        <category>JAVA</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java学习笔记之构造函数介绍</title>
+    <url>/2022/05/13/Java%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天我们开启回补java的学习的系列文章之构造函数介绍。</p>
+<a id="more"></a>
+<p>我们人出生的时候，有些人一出生之后再起名字的，但是有些人一旦出生就已经起好名字的。那么我们在 java 里面怎么在对象一旦创建就赋值呢？</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">String name; <span class="comment">//    姓名</span></span><br><span class="line"><span class="keyword">int</span> age; <span class="comment">//    年龄</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Person p = <span class="keyword">new</span> Person(); <span class="comment">//    创建了Person类型的p对象</span></span><br><span class="line">    System.out.println(<span class="string">"姓名: "</span> + p.name + <span class="string">" 年龄: "</span> + p.age); <span class="comment">//    name = null, age = 0;</span></span><br><span class="line">    <span class="comment">//这个小孩刚出生的时候没有姓名和年龄</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那我们怎么在出生后给小孩起名字呢：</p>
+<p>看看我们如何构造的：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">String name; <span class="comment">//    姓名</span></span><br><span class="line"><span class="keyword">int</span> age; <span class="comment">//    年龄</span></span><br><span class="line"><span class="comment">//    构造方法</span></span><br><span class="line">Person(String name,<span class="keyword">int</span> age)&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name; <span class="comment">//     给对象赋予name值</span></span><br><span class="line">    <span class="keyword">this</span>.age = age; <span class="comment">//    给对象赋予age值</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Person p = <span class="keyword">new</span> Person(<span class="string">"张三"</span>,<span class="number">1</span>); <span class="comment">//    创建了Person类型的p对象,并且调用构造方法赋予该对象属性值</span></span><br><span class="line">    System.out.println(<span class="string">"姓名: "</span> + p.name + <span class="string">" 年龄: "</span> + p.age); <span class="comment">//    name = 张三, age = 1;</span></span><br><span class="line">    <span class="comment">//这个小孩刚出生的时候已经有了姓名和年龄</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>到这里我们引出构造方法的作用：</strong></p>
+<p>1).创建对象,凡是必须和new一起使用.</p>
+<p>2).对对象进行初始化.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">String name; <span class="comment">//    姓名</span></span><br><span class="line"><span class="keyword">int</span> age; <span class="comment">//    年龄</span></span><br><span class="line"><span class="comment">//    全参构造方法</span></span><br><span class="line">Person(String name,<span class="keyword">int</span> age)&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name; <span class="comment">//     给对象赋予name值</span></span><br><span class="line">    <span class="keyword">this</span>.age = age; <span class="comment">//    给对象赋予age值</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//    无参构造方法</span></span><br><span class="line">Person()&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Person p = <span class="keyword">new</span> Person(<span class="string">"张三"</span>,<span class="number">1</span>); </span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">         根据创建对象的实参个数,jvm回去寻找合适的构造方法,</span></span><br><span class="line"><span class="comment">         两个实参所有会调用含有两个参数的构造方法.Person(String name,int age)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    System.out.println(<span class="string">"姓名: "</span> + p.name + <span class="string">" 年龄: "</span> + p.age); <span class="comment">//    name = 张三, age = 1;</span></span><br><span class="line">    <span class="comment">//这个对象创建出来的时候已经有了自己的姓名和年龄</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>构造函数与普通函数的区别：</strong></p>
+<p>（1）. 一般函数是用于定义对象应该具备的功能。而构造函数定义的是，对象在调用功能之前，在建立时，应该具备的一些内容。也就是对象的初始化内容。</p>
+<p>（2）. 构造函数是在对象建立时由 jvm 调用, 给对象初始化。一般函数是对象建立后，当对象调用该功能时才会执行。</p>
+<p>（3）. 普通函数可以使用对象多次调用，构造函数就在创建对象时调用。</p>
+<p>（4）. 构造函数的函数名要与类名一样，而普通的函数只要符合标识符的命名规则即可。</p>
+<p>（5）. 构造函数没有返回值类型。</p>
+<p><strong>构造函数要注意的细节：</strong></p>
+<p>（1）. 当类中没有定义构造函数时，系统会指定给该类加上一个空参数的构造函数。这个是类中默认的构造函数。当类中如果自定义了构造函数，这时默认的构造函数就没有了。</p>
+<p>备注：可以通过 javap 命令验证。</p>
+<p>（2）. 在一个类中可以定义多个构造函数，以进行不同的初始化。多个构造函数存在于类中，是以重载的形式体现的。因为构造函数的名称都相同。</p>
+<p><strong>一段整合练习的代码：综合运用的以上所涉及的知识点，还有一点点的知识扩展：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">package com;</span><br><span class="line">import java.util.Random;</span><br><span class="line">public class Construction_demo1 &#123;</span><br><span class="line">    public String name; &#x2F;&#x2F;    姓名</span><br><span class="line">    public int age; &#x2F;&#x2F;    年龄</span><br><span class="line">    Construction_demo1() &#123;</span><br><span class="line">        System.out.println(&quot;无参构造方法&quot;);</span><br><span class="line">    &#125;;</span><br><span class="line">    Construction_demo1(String name, int age) &#123;</span><br><span class="line">        this.age &#x3D; age;</span><br><span class="line">        this.name &#x3D; name;</span><br><span class="line">    &#125;;</span><br><span class="line">    &#123;</span><br><span class="line">        cry();</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F;构造代码块，构造代码块和构造函数的区别，构造代码块是给所有对象进行统一初始化， 构造函数给对应的对象初始化。</span><br><span class="line">    &#x2F;&#x2F;构造代码块的作用：它的作用就是将所有构造方法中公共的信息进行抽取。</span><br><span class="line">    public void cry() &#123;</span><br><span class="line">        System.out.println(&quot;----------cry------------------&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Construction_demo1 p &#x3D; new Construction_demo1(); &#x2F;&#x2F;    创建了Person类型的p对象</span><br><span class="line">        System.out.println(&quot;姓名: &quot; + p.name + &quot; 年龄: &quot; + p.age); &#x2F;&#x2F;    name &#x3D; null, age &#x3D; 0;</span><br><span class="line">        &#x2F;&#x2F;这个小孩刚出生的时候没有姓名和年龄</span><br><span class="line">        Construction_demo1 p2 &#x3D; new Construction_demo1(&quot;xiaoli&quot;, 48);</span><br><span class="line">        System.out.println(&quot;姓名 ：&quot; + p2.name + &quot;年龄： &quot; + p2.age);</span><br><span class="line">        int result &#x3D; get_nonce(0, 100); &#x2F;&#x2F;如何调用静态方法</span><br><span class="line">        System.out.println(result);</span><br><span class="line">        p2.cry(); &#x2F;&#x2F;如何调用类里面的方法</span><br><span class="line">    &#125;</span><br><span class="line">    public static int get_nonce(int i, int i2) &#123;</span><br><span class="line">        if (i &gt; i2) &#123;</span><br><span class="line">            return 0;</span><br><span class="line">        &#125;</span><br><span class="line">        return i !&#x3D; i2 ? i + new Random().nextInt(i2 - i) : i;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>到这里java 的构造函数我们就告一段落了，</p>
+<p>原文链接：<a href="https://blog.csdn.net/BigBoy_Coder/article/details/102939143" target="_blank" rel="noopener">https://blog.csdn.net/BigBoy_Coder/article/details/102939143</a></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/share/微信.png" style="zoom: 50%;"></p>
+]]></content>
+      <categories>
+        <category>JAVA</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java学习笔记之泛型介绍</title>
+    <url>/2022/05/12/Java%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%B3%9B%E5%9E%8B%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天我们开启SpringBoot的学习的系列文章之SpringBoot项目引入本地Jar包。</p>
+<a id="more"></a>
+<p><strong>java 中泛型标记符：</strong></p>
+<ul>
+<li><p><strong>E</strong> - Element (在集合中使用，因为集合中存放的是元素)</p>
+</li>
+<li><p><strong>T</strong> - Type（Java 类）</p>
+</li>
+<li><p><strong>K</strong> - Key（键）</p>
+</li>
+<li><p><strong>V</strong> - Value（值）</p>
+</li>
+<li><p><strong>N</strong> - Number（数值类型）</p>
+</li>
+<li><p><strong>？</strong> - 表示不确定的 java 类型</p>
+</li>
+</ul>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>下面的例子演示了如何使用泛型方法打印不同类型的数组元素：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> fanxing;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* java 泛型</span></span><br><span class="line"><span class="comment">* */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GenericMethodTest</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">// 泛型方法 printArray</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt; E &gt; <span class="function"><span class="keyword">void</span> <span class="title">printArray</span><span class="params">( E[] inputArray )</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 输出数组元素</span></span><br><span class="line">        <span class="keyword">for</span> ( E element : inputArray )&#123;</span><br><span class="line">            System.out.printf( <span class="string">"%s "</span>, element );</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">( String args[] )</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 创建不同类型数组： Integer, Double 和 Character</span></span><br><span class="line">        Integer[] intArray = &#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span> &#125;;</span><br><span class="line">        Double[] doubleArray = &#123; <span class="number">1.1</span>, <span class="number">2.2</span>, <span class="number">3.3</span>, <span class="number">4.4</span> &#125;;</span><br><span class="line">        Character[] charArray = &#123; <span class="string">'H'</span>, <span class="string">'E'</span>, <span class="string">'L'</span>, <span class="string">'L'</span>, <span class="string">'O'</span> &#125;;</span><br><span class="line"></span><br><span class="line">        System.out.println( <span class="string">"整型数组元素为:"</span> );</span><br><span class="line">        printArray( intArray  ); <span class="comment">// 传递一个整型数组</span></span><br><span class="line"></span><br><span class="line">        System.out.println( <span class="string">"\n双精度型数组元素为:"</span> );</span><br><span class="line">        printArray( doubleArray ); <span class="comment">// 传递一个双精度型数组</span></span><br><span class="line"></span><br><span class="line">        System.out.println( <span class="string">"\n字符型数组元素为:"</span> );</span><br><span class="line">        printArray( charArray ); <span class="comment">// 传递一个字符型数组</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">整型数组元素为:</span><br><span class="line">1 2 3 4 5 </span><br><span class="line"></span><br><span class="line">双精度型数组元素为:</span><br><span class="line">1.1 2.2 3.3 4.4 </span><br><span class="line"></span><br><span class="line">字符型数组元素为:</span><br><span class="line">H E L L O</span><br></pre></td></tr></table></figure>
+<p><strong>参考文献：</strong></p>
+<p>​    <a href="https://www.runoob.com/java/java-generics.html" target="_blank" rel="noopener">https://www.runoob.com/java/java-generics.html</a></p>
+<p>​    <a href="https://www.cnblogs.com/coprince/p/8603492.html" target="_blank" rel="noopener">https://www.cnblogs.com/coprince/p/8603492.html</a></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/05/12/Java%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%B3%9B%E5%9E%8B%E4%BB%8B%E7%BB%8D/微信.png" style="zoom: 50%;"></p>
+]]></content>
+      <categories>
+        <category>jav</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SpringBoot项目引入本地Jar包</title>
+    <url>/2022/05/12/SpringBoot%E9%A1%B9%E7%9B%AE%E5%BC%95%E5%85%A5%E6%9C%AC%E5%9C%B0Jar%E5%8C%85/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天我们开启SpringBoot的学习的系列文章之SpringBoot项目引入本地Jar包。</p>
+<a id="more"></a>
+<p>在开发过程中有时会用到maven仓库里没有的jar包或者本地的jar包，这时没办法通过pom直接引入，那么该怎么解决呢</p>
+<ul>
+<li>这个jar包不在maven仓库里面，如果我们要引入这个下载的jar包。有两种方法可以试试：<ol>
+<li>本地直接引入，打包到依赖文件中。</li>
+<li>打包上传到maven本地仓库中，然后pom文件正常引入。</li>
+</ol>
+</li>
+</ul>
+<p>首先我们将下载好的jar包放到指定目录下</p>
+<p><img src="/2022/05/12/SpringBoot%E9%A1%B9%E7%9B%AE%E5%BC%95%E5%85%A5%E6%9C%AC%E5%9C%B0Jar%E5%8C%85/1.jpg" style="zoom: 150%;"></p>
+<p><strong>1、在根目录文件夹下面新建lib文件夹，需要的数据库jar包放到这里</strong></p>
+<p><strong>2、在pom文件中引入刚刚添加的文件。</strong></p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--引入本地资源--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>fastjson<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.27<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>system<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">systemPath</span>&gt;</span>$&#123;project.basedir&#125;/lib/fastjson-1.2.27.jar<span class="tag">&lt;/<span class="name">systemPath</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>groupId</code>和<code>artifactId</code>可以自定义，建议和所要引入的jar包不要有太大的出入,</p>
+<p><code>version</code>填写引入jar包的版本号即可。</p>
+<p><code>systemPath</code>这个路径填写jar包的所在路径。</p>
+<p><code>scope</code>需要填写system，这个不可省略，否则可能会报错。</p>
+<p><code>${project.basedir}</code>是一个系统常量，代表当前项目的根目录。</p>
+<p><strong>3、项目打包时引入本地jar包,需要在打包插件中引入<code>&lt;includeSystemScope&gt;</code>，具体的如下所示。</strong></p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">includeSystemScope</span>&gt;</span>true<span class="tag">&lt;/<span class="name">includeSystemScope</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>4、Maven 更新下配置：</strong></p>
+<p><img src="/2022/05/12/SpringBoot%E9%A1%B9%E7%9B%AE%E5%BC%95%E5%85%A5%E6%9C%AC%E5%9C%B0Jar%E5%8C%85/2.jpg" style="zoom: 150%;"></p>
+<p><strong>5、成功使用</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demo;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.JSON;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.JSONObject;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"><span class="comment">//            //把参数传进Map中</span></span><br><span class="line">        HashMap&lt;String,String&gt; paramsMap=<span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        paramsMap.put(<span class="string">"name"</span>,<span class="string">"哈哈"</span>);</span><br><span class="line">        paramsMap.put(<span class="string">"client"</span>,<span class="string">"Android"</span>);</span><br><span class="line">        paramsMap.put(<span class="string">"id"</span>,<span class="string">"3243598"</span>);</span><br><span class="line">        String jsonStr = JSONObject.toJSONString(paramsMap);</span><br><span class="line">        System.out.println(jsonStr);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：</p>
+<p>下载的jar一定要版本相对应，避免版本过高，不支持，一直显示无法导入，小编深陷此坑</p>
+<h3 id="上传jar包到maven仓库"><a href="#上传jar包到maven仓库" class="headerlink" title="上传jar包到maven仓库"></a>上传jar包到maven仓库</h3><p>我们还可以使用相关的maven命令，把相关的jar包上传到maven仓库，然后就可以在项目中直接引用了。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mvn install:install-file </span><br><span class="line">-Dfile=D:/Workspace/fastjson-1.2.27.jar</span><br><span class="line">-DgroupId=com.alibaba </span><br><span class="line">-DartifactId=fastjson</span><br><span class="line">-Dversion=1.2.27</span><br><span class="line">-Dpackaging=jar</span><br></pre></td></tr></table></figure>
+<p><code>-Dfile</code>：jar包文件的地址</p>
+<p><code>-DgroupId</code>：引入依赖时填写的groupId</p>
+<p><code>-DartifactId</code>：引入依赖时填写的artifactId</p>
+<p><code>-Dversion</code>：版本号</p>
+<p><code>-Dpackaging</code>：打包方式</p>
+<hr>
+<p>如此一来基本上可以满足我们的需求了。</p>
+<p><strong>参考文献：</strong></p>
+<p><a href="https://blog.csdn.net/yanmouren110/article/details/106922452" target="_blank" rel="noopener">https://blog.csdn.net/yanmouren110/article/details/106922452</a></p>
+<p><a href="https://www.jianshu.com/p/a8d6d76c5566" target="_blank" rel="noopener">https://www.jianshu.com/p/a8d6d76c5566</a></p>
+<p><a href="https://www.cnblogs.com/tudou1179006580/p/14875366.html" target="_blank" rel="noopener">https://www.cnblogs.com/tudou1179006580/p/14875366.html</a></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/05/12/SpringBoot%E9%A1%B9%E7%9B%AE%E5%BC%95%E5%85%A5%E6%9C%AC%E5%9C%B0Jar%E5%8C%85/微信.png" style="zoom: 50%;"></p>
+]]></content>
+      <categories>
+        <category>SpringBoot</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>SpringBoot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用setuptools打包盘python项目</title>
+    <url>/2022/05/10/%E4%BD%BF%E7%94%A8setuptools%E6%89%93%E5%8C%85%E7%9B%98python%E9%A1%B9%E7%9B%AE/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天给大家带来一篇关于简单介绍使用setuptools打包盘python项目</p>
+<p>的文章。</p>
+<a id="more"></a>
+<p>当我们写一个完整的项目，需要该项目文件中打包成分发包共享给他人或者上传到pypi社区以供他人下载。这就需要对该项目进行打包分发。</p>
+<h3 id="项目文件"><a href="#项目文件" class="headerlink" title="项目文件"></a>项目文件</h3><p>这是一个已写好的项目文件包，叫做<code>wxtool</code>，它的目录结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">├─wxtools</span><br><span class="line">│  __init__.py</span><br><span class="line">├─wxtool</span><br><span class="line">│  │  .gitignore</span><br><span class="line">│  │  callback_server.py</span><br><span class="line">│  │  config.py</span><br><span class="line">│  │  readme.txt</span><br><span class="line">│  │  requirements.txt</span><br><span class="line">│  │  scheduled_server.py</span><br><span class="line">│  │  worker.py</span><br><span class="line">│  ├─chain</span><br><span class="line">│  │  │  scheduled_task.py</span><br><span class="line">│  │  │  __init__.py</span><br><span class="line">│  ├─common</span><br><span class="line">│  │  │  MysqlSaveMethod.py</span><br><span class="line">│  │  │  __init__.py</span><br><span class="line">│  ├─create_table</span><br><span class="line">│  │  │  create_table.py</span><br><span class="line">│  │  │  create_table_ceshi.py</span><br><span class="line">│  │  │  __init__.py</span><br><span class="line">│  ├─datas</span><br><span class="line">│  ├─db</span><br><span class="line">│  │  │  mysqldb.py</span><br><span class="line">│  │  │  redis_db.py</span><br><span class="line">│  │  │  __init__.py</span><br><span class="line">│  ├─extract_data</span><br><span class="line">│  │  │  login.py</span><br><span class="line">│  │  │  __init__.py</span><br><span class="line">│  ├─logs</span><br><span class="line">│  ├─middleware</span><br><span class="line">│  │  │  extract_data.py</span><br><span class="line">│  │  │  __init__.py</span><br><span class="line">│  │  │</span><br><span class="line">│  │  └─__pycache__</span><br><span class="line">│  ├─routers</span><br><span class="line">│  │  │  pull_task.py</span><br><span class="line">│  │  │  upload_file.py</span><br><span class="line">│  │  │  __init__.py</span><br><span class="line">│  │  │</span><br><span class="line">│  │  └─__pycache__</span><br><span class="line">│  └─utils</span><br><span class="line">│      │  bas64_tools.py</span><br><span class="line">│      │  __init__.py</span><br></pre></td></tr></table></figure>
+<p>现在我们需要对这个wxtool进行打包。</p>
+<h3 id="创建包文件和setup-py文件"><a href="#创建包文件和setup-py文件" class="headerlink" title="创建包文件和setup.py文件"></a>创建包文件和setup.py文件</h3><p><code>wxtool</code>是将打包的Python包文件，在<code>wxtool</code>的同级目录下分别创建以下文件：</p>
+<ul>
+<li>setup.py —— 打包脚本文件，执行该脚本将自动完成打包</li>
+<li>LICENCE —— 许可证文件</li>
+<li>README —— 包的介绍和说明</li>
+</ul>
+<p>创建后文件目录结构部分如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">├─wxtools</span><br><span class="line">│  setup.py</span><br><span class="line">│  LICENCE</span><br><span class="line">│  README</span><br><span class="line">│  __init__.py</span><br><span class="line">├─wxtool</span><br></pre></td></tr></table></figure>
+<h3 id="setup-py配置"><a href="#setup-py配置" class="headerlink" title="setup.py配置"></a>setup.py配置</h3><p>打开setup.py文件，写入以下内容</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">Created on 2021-12-13 16:29:25</span><br><span class="line">---------</span><br><span class="line">@summary:</span><br><span class="line">---------</span><br><span class="line">@author: Monday</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">import setuptools  # 导入setuptools, 基于setuptools模块进行打包分发</span><br><span class="line">import os, shutil</span><br><span class="line"></span><br><span class="line"># 移除构建的build文件夹</span><br><span class="line">CUR_PATH &#x3D; os.path.dirname(os.path.abspath(__file__))</span><br><span class="line">path &#x3D; os.path.join(CUR_PATH, &#39;build&#39;)</span><br><span class="line">if os.path.isdir(path):</span><br><span class="line">    print(&#39;INFO del dir &#39;, path)</span><br><span class="line">    shutil.rmtree(path)</span><br><span class="line"></span><br><span class="line"># 将readme文件中内容加载进来，作为对包的详细说明（可以不需要）</span><br><span class="line"># with open(&quot;README.md&quot;, &quot;r&quot;,encoding&#x3D;&quot;utf-8&quot;) as fh:</span><br><span class="line">#     long_description &#x3D; fh.read()</span><br><span class="line"></span><br><span class="line"># 调用setuptools的setup进行打包，通过参数配置指定包的信息，这是打包的关键设置</span><br><span class="line">setuptools.setup(</span><br><span class="line">    name&#x3D;&quot;wxtool&quot;,  # 这是该包的名字，将来可能使用pip install 该包名直接下载</span><br><span class="line">    version&#x3D;&quot;1.0.1&quot;,  # 版本号，</span><br><span class="line">    author&#x3D;&quot;Monday&quot;,  # 作者</span><br><span class="line">    author_email&#x3D;&quot;author@example.com&quot;,  # 作者邮箱</span><br><span class="line">    description&#x3D;&quot;wxtool拦截消息入库功能&quot;,  # 包简短的描述</span><br><span class="line">    # long_description&#x3D;long_description,  # 详细的描述，这里使用从readme中读取的内容</span><br><span class="line">    # long_description_content_type&#x3D;&quot;text&#x2F;markdown&quot;,  # 详细描述来源文件的文件类型，这里使用markdomn</span><br><span class="line">    # url&#x3D;&quot;https:&#x2F;&#x2F;github.com&#x2F;pypa&#x2F;my_pkg&quot;,  # 可以将项目上传到github,gitlab等，在此指定链接地址以供下载。</span><br><span class="line"></span><br><span class="line">    # 指定需要打包的内容，输入需要打包包名字符串列表，打包时不会自动获取子包，需要手动指定，例如：[&quot;my_pkg&quot;, &quot;mypkg.utils&quot;]</span><br><span class="line">    packages&#x3D;setuptools.find_packages(),  # 使用该函数可以自动打包该同级目录下所有包</span><br><span class="line">    include_package_data&#x3D;True,  # 启用清单文件MANIFEST.in,包含数据文件</span><br><span class="line">    exclude_package_data&#x3D;&#123;&#39;wxtools&#39;: [&#39;readme.txt&#39;]&#125;,  # 排除文件</span><br><span class="line">    # 自动安装依赖</span><br><span class="line">    install_requires&#x3D;[&quot;amqp&#x3D;&#x3D;2.5.2&quot;,</span><br><span class="line">                      &quot;attrs&#x3D;&#x3D;19.3.0&quot;,</span><br><span class="line">                      &quot;demjson&quot;,</span><br><span class="line">                      &quot;fastapi&quot;,</span><br><span class="line">                      &quot;uvicorn&quot;,</span><br><span class="line">                      &quot;cachelib&quot;,</span><br><span class="line">                      &quot;WMI&quot;,</span><br><span class="line">                      &quot;psutil&quot;,</span><br><span class="line">                      &quot;apscheduler&quot;,</span><br><span class="line">                      &quot;better-exceptions&gt;&#x3D;0.2.2&quot;,</span><br><span class="line">                      &quot;redis-py-cluster&gt;&#x3D;2.1.0&quot;,</span><br><span class="line">                      &quot;boto3&quot;,</span><br><span class="line">                      &quot;schedule&quot;,</span><br><span class="line">                      &quot;python-jose&#x3D;&#x3D;3.2.0&quot;,</span><br><span class="line">                      &quot;passlib[Bcrypt]&#x3D;&#x3D;1.7.4&quot;,</span><br><span class="line">                      &quot;python-multipart&quot;,</span><br><span class="line">                      &quot;pyjwt&quot;,</span><br><span class="line">                      &quot;aiofiles&quot;,</span><br><span class="line">                      &quot;slowapi&quot;, ],</span><br><span class="line"></span><br><span class="line">    classifiers&#x3D;[  # 指定一些包的元数据信息，例如使用的协议，操作系统要求</span><br><span class="line">        &quot;Programming Language :: Python :: 3&quot;,</span><br><span class="line">        &quot;License :: OSI Approved :: MIT License&quot;,</span><br><span class="line">        &quot;Operating System :: OS Independent&quot;,</span><br><span class="line">    ],</span><br><span class="line">    python_requires&#x3D;&#39;&gt;&#x3D;3.9&#39;,  # 该包的Python版本要求</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>setup.py中除了上述内容，还可以添加包括以下的信息</p>
+<p>创建setup.py文件后，可通过执行“python setup.py —help”命令获得帮助信息</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">setup函数各参数详解：</span><br><span class="line">&gt;&gt;python setup.py --help</span><br><span class="line">  --name              包名称</span><br><span class="line">  --version (-V)      包版本</span><br><span class="line">  --author            程序的作者</span><br><span class="line">  --author_email      程序的作者的邮箱地址</span><br><span class="line">  --maintainer        维护者</span><br><span class="line">  --maintainer_email  维护者的邮箱地址</span><br><span class="line">  --url               程序的官网地址</span><br><span class="line">  --license           程序的授权信息</span><br><span class="line">  --description       程序的简单描述</span><br><span class="line">  --long_description  程序的详细描述</span><br><span class="line">  --platforms         程序适用的软件平台列表</span><br><span class="line">  --classifiers       程序的所属分类列表</span><br><span class="line">  --keywords          程序的关键字列表</span><br><span class="line">  --packages  需要打包的目录列表</span><br><span class="line">  --py_modules  需要打包的python文件列表</span><br><span class="line">  --download_url  程序的下载地址</span><br><span class="line">  --cmdclass  </span><br><span class="line">  --data_files  打包时需要打包的数据文件，如图片，配置文件等</span><br><span class="line">  --scripts  安装时需要执行的脚步列表</span><br></pre></td></tr></table></figure>
+<p>setup.py配置完成后，就可以执行这个文件进行打包了（在命令行使用Python解释器指定参数执行，不能直接执行），在此之前还有<code>LICENCE</code>和<code>README</code>两个文件需要完善（也可以不做处理，不影响打包执行）。</p>
+<h4 id="README"><a href="#README" class="headerlink" title="README"></a>README</h4><p>这个文件是该包的详细说明文件，包括各种信息，例如该包如何安装，需要的环境，如何使用等详细内容。</p>
+<h4 id="LICENCE"><a href="#LICENCE" class="headerlink" title="LICENCE"></a>LICENCE</h4><p>指定许可证信息，开源软件都遵循了不同的开源协议，这些协议规定了使用者使用该包后必须遵守的原则，可以查看不同开源协议内容 <a href="https://choosealicense.com/" target="_blank" rel="noopener">https://choosealicense.com/</a> ，选则一个协议，复制对应的协议内容到该文件中即可：</p>
+<p>示例选择MIT协议</p>
+<p><img src="/2022/05/10/%E4%BD%BF%E7%94%A8setuptools%E6%89%93%E5%8C%85%E7%9B%98python%E9%A1%B9%E7%9B%AE/1.jpg" style="zoom: 50%;"></p>
+<p>由于只是内部使用，所以就没有填写LICENCE</p>
+<h4 id="打包成wheel二进制包"><a href="#打包成wheel二进制包" class="headerlink" title="打包成wheel二进制包"></a>打包成wheel二进制包</h4><p>安装wheel</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip install wheel</span><br></pre></td></tr></table></figure>
+<p>这需要最新的setuptools 和 wheel包。执行以下命令更新</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">python</span> <span class="selector-tag">-m</span> <span class="selector-tag">pip</span> <span class="selector-tag">install</span> <span class="selector-tag">--user</span> <span class="selector-tag">--upgrade</span> <span class="selector-tag">setuptools</span> <span class="selector-tag">wheel</span></span><br></pre></td></tr></table></figure>
+<p>执行该setup.py文件并指定参数，指定打包为wheel二进制文件。</p>
+<figure class="highlight mipsasm"><table><tr><td class="code"><pre><span class="line">python setup.py sdist <span class="keyword">bdist_wheel</span></span><br></pre></td></tr></table></figure>
+<p>执行该命令后，该目录下会多出build、dist、三个目录。</p>
+<p><img src="/2022/05/10/%E4%BD%BF%E7%94%A8setuptools%E6%89%93%E5%8C%85%E7%9B%98python%E9%A1%B9%E7%9B%AE/3.jpg" style="zoom: 50%;"></p>
+<p>在dist目录下就是我们打包好的源代码文件（tar.gz）和wheel二进制文件(.whl)。</p>
+<p><img src="/2022/05/10/%E4%BD%BF%E7%94%A8setuptools%E6%89%93%E5%8C%85%E7%9B%98python%E9%A1%B9%E7%9B%AE/2.jpg" style="zoom: 50%;"></p>
+<p>直接安装使用：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">pip <span class="keyword">install</span> wxtool<span class="number">-0.0</span><span class="number">.1</span>-py3-<span class="keyword">none</span>-<span class="keyword">any</span>-whl</span><br></pre></td></tr></table></figure>
+<p>该命令会将这个包安装到python安装目录下/Lib/site-packages目录下，使用<code>pip list</code>命令可以看到在列表中出现了名为wxtool的包名，安装成功。该包可以使用了。</p>
+<p><img src="/2022/05/10/%E4%BD%BF%E7%94%A8setuptools%E6%89%93%E5%8C%85%E7%9B%98python%E9%A1%B9%E7%9B%AE/4.jpg" style="zoom: 50%;"></p>
+<p><img src="/2022/05/10/%E4%BD%BF%E7%94%A8setuptools%E6%89%93%E5%8C%85%E7%9B%98python%E9%A1%B9%E7%9B%AE/5.jpg" style="zoom: 50%;"></p>
+<p>安装成功可以使用了</p>
+<p>如果将该包上传到pypi社区供他人下载，需要注意自己包名不要和其他贡献者的包名相同，如何判断是否重复，尝试在未上传前使用<code>pip isntall 包名</code>进行安装，若没有找到找到该package表示该名可用，也可以上pypi官网搜索。上传成功后，直接使用<code>pip install 包名</code>进行安装。上传pypi过程见官网</p>
+<p>示例</p>
+<p><a href="https://packaging.python.org/tutorials/packaging-projects/#uploading-the-distribution-archives" target="_blank" rel="noopener">https://packaging.python.org/tutorials/packaging-projects/#uploading-the-distribution-archives</a></p>
+<h4 id="其他选项-来源于网络-："><a href="#其他选项-来源于网络-：" class="headerlink" title="其他选项(来源于网络)："></a>其他选项(来源于网络)：</h4><h4 id="二进制安装程序-bdist"><a href="#二进制安装程序-bdist" class="headerlink" title="二进制安装程序-bdist"></a>二进制安装程序-bdist</h4><p>打包为二进制安装包，生成目标操作系统的安装程序。</p>
+<p><strong>生成windows 安装程序</strong></p>
+<p>针对windows环境下，以下三条命令均可</p>
+<figure class="highlight mipsasm"><table><tr><td class="code"><pre><span class="line">python setup.py <span class="keyword">bdist_wininst</span></span><br><span class="line"><span class="keyword">Python </span>setup.py <span class="keyword">bdist_msi</span></span><br><span class="line"><span class="keyword">python </span>setup.py <span class="keyword">bdist </span>--format=msi</span><br></pre></td></tr></table></figure>
+<p>创建一个dist目录，生成一个安装程序，在Windows上直接双击即可安装该包。</p>
+<p><strong>生成rpm包</strong></p>
+<figure class="highlight mipsasm"><table><tr><td class="code"><pre><span class="line">python setup.py <span class="keyword">bdist_rpm</span></span><br><span class="line"><span class="keyword">python </span>setup.py <span class="keyword">bdist </span>-- format=rpm</span><br></pre></td></tr></table></figure>
+<p>在Linux系统中使用rpm命令进行安装。</p>
+<p><strong>生成压缩文件</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">python setup.py bdist --format=zip</span><br><span class="line">python setup.py bdist --format=gztar</span><br></pre></td></tr></table></figure>
+<p><strong>参考链接：</strong></p>
+<p><a href="https://zhuanlan.zhihu.com/p/162842824" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/162842824</a></p>
+<p><a href="https://www.cnblogs.com/anliven/p/9840583.html" target="_blank" rel="noopener">https://www.cnblogs.com/anliven/p/9840583.html</a></p>
+<p><a href="https://www.cnblogs.com/k5210202/p/13819403.html" target="_blank" rel="noopener">https://www.cnblogs.com/k5210202/p/13819403.html</a></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/05/10/%E4%BD%BF%E7%94%A8setuptools%E6%89%93%E5%8C%85%E7%9B%98python%E9%A1%B9%E7%9B%AE/微信.png" style="zoom: 50%;"></p>
+]]></content>
+      <categories>
+        <category>技术杂谈</category>
+      </categories>
+      <tags>
+        <tag>setuptools打包</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>初识Protobuf（一）</title>
+    <url>/2022/05/09/%E5%88%9D%E8%AF%86Protobuf%EF%BC%88%E4%B8%80%EF%BC%89/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天给大家带来一篇关于简单介绍Protobuf协议以及如何使用Protobuf来实现序列化与反序列化</p>
+<p>的文章。</p>
+<a id="more"></a>
+<h3 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h3><p>Protobuf即Protocol Buffers，是Google公司开发的一种跨语言和平台的序列化数据结构的方式，是一个灵活的、高效的用于序列化数据的协议。</p>
+<p>  与XML和JSON格式相比，Protobuf更小、更快、更便捷。Protobuf是跨语言的，并且自带一个编译器(protoc)，只需要用protoc进行编译，就可以编译成Java、Python、C++、C#、Go等多种语言代码，然后可以直接使用，不需要再写其它代码，自带有解析的代码。</p>
+<p>  只需要将要被序列化的结构化数据定义一次(在.proto文件定义)，便可以使用特别生成的源代码(使用Protobuf提供的生成工具)轻松的使用不同的数据流完成对结构数据的读写操作。甚至可以更新.proto文件中对数据结构的定义而不会破坏依赖旧格式编译出来的程序。</p>
+<p>  <strong>Protobuf的优点如下：</strong></p>
+<ul>
+<li>性能号，效率高。序列化后字节占用空间比XML少3-10倍，序列化的时间效率比XML快20-100倍。</li>
+<li>有代码生成机制。将对结构化数据的操作封装成一个类，便于使用。</li>
+<li>支持向后和向前兼容。当客户端和服务器同时使用一块协议的时候， 当客户端在协议中增加一个字节，并不会影响客户端的使用。</li>
+<li>支持多种编程语言。Protobuf目前已经支持Java，C++，Python、Go、Ruby等多种语言。</li>
+</ul>
+<p>  <strong>Protobuf的缺点如下：</strong></p>
+<ul>
+<li>二进制格式导致可读性差</li>
+<li>缺乏自描述</li>
+<li>应用不是很广泛</li>
+</ul>
+<p>（以上文字来源于网络）</p>
+<h3 id="Protobuf安装："><a href="#Protobuf安装：" class="headerlink" title="Protobuf安装："></a>Protobuf安装：</h3><p>（1）安装第三方库</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip install protobuf&#x3D;&#x3D;3.20.1</span><br></pre></td></tr></table></figure>
+<p>（2）下载proto编译器</p>
+<p><a href="https://github.com/protocolbuffers/protobuf/releases/" target="_blank" rel="noopener">https://github.com/protocolbuffers/protobuf/releases/</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">一个exe程序，把 proto.exe 加入到环境变量里</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/05/09/%E5%88%9D%E8%AF%86Protobuf%EF%BC%88%E4%B8%80%EF%BC%89/1.jpg" style="zoom: 50%;"></p>
+<p>下载对应的版本，小编使用的是windows+python语言，所以下载protoc-3.20.1-win64</p>
+<p>注意：</p>
+<p>电脑安装的编译器版本和 python包版本一定要相对应</p>
+<h3 id="Protobuf-正向流程："><a href="#Protobuf-正向流程：" class="headerlink" title="Protobuf 正向流程："></a>Protobuf 正向流程：</h3><p><img src="/2022/05/09/%E5%88%9D%E8%AF%86Protobuf%EF%BC%88%E4%B8%80%EF%BC%89/2.jpg" style="zoom: 150%;"></p>
+<h3 id="proto文件格式说明："><a href="#proto文件格式说明：" class="headerlink" title=".proto文件格式说明："></a>.proto文件格式说明：</h3><p>  在前面的简介部分已经说过，Protobuf在使用时定义序列化结构的文件为后缀是.proto的文件。</p>
+<p>  .proto文件有专门的语法结构，ProtoBuf有两个语法版本：v2与v3。message 用来定义一个数据结构。</p>
+<p>  我们先来看一个简单的.proto文件的例子：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">syntax = <span class="string">"proto3"</span>;</span><br><span class="line"></span><br><span class="line">message Person &#123;</span><br><span class="line">    int64 id = <span class="number">1</span>;</span><br><span class="line">    string name = <span class="number">2</span>;</span><br><span class="line">    repeated string skills = <span class="number">3</span>;  // 这里表示skills可以接受多个string类型的值</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>文件的首行生命该语法使用Protobuf3语法，同时在文件后面定义了Person消息，该消息有三个字段：id, name, skill。</p>
+<p>  每个字段的定义格式为 <code>指定字段规则 数据类型 变量名称=数字标识符</code>。</p>
+<p>  <code>指定字段规则</code>在Protobuf3语法中只有repeated、singular两种类型，</p>
+<p>其中singular类型（默认类型，不需要声明）表示有0个或者1个这种字段（但是不能超过1个）；</p>
+<p>repeated类型表示该字段可以重复任意多次(包括0次)，重复值的顺序会被保留。</p>
+<p>  <code>数据类型</code>常见的有double、float、int32、string、bytes、bool等，也可以是枚举、嵌套消息类型、Any、oneof等。</p>
+<p>正如你所见，在消息定义中，每个字段都有唯一的一个数字标识符。这些标识符是用来在消息的二进制格式中识别各个字段的，一旦开始使用就不能够再改变。注：[1,15]之内的标识号在编码的时候会占用一个字节。[16,2047]之内的标识号则占用2个字节。所以应该为那些频繁出现的消息元素保留 [1,15]之内的标识号。切记：要为将来有可能添加的、频繁出现的标识号预留一些标识号。</p>
+<p>最小的标识号可以从1开始，最大到2^29 - 1, or 536,870,911。不可以使用其中的[19000－19999]（ (从FieldDescriptor::kFirstReservedNumber 到 FieldDescriptor::kLastReservedNumber)）的标识号， Protobuf协议实现中对这些进行了预留。如果非要在.proto文件中使用这些预留标识号，编译时就会报警。同样你也不能使用早期保留的标识号。</p>
+<h3 id="从-proto文件生成了什么？"><a href="#从-proto文件生成了什么？" class="headerlink" title="从.proto文件生成了什么？"></a>从.proto文件生成了什么？</h3><p>当用protocol buffer编译器来运行.proto文件时，编译器将生成所选择语言的代码，这些代码可以操作在.proto文件中定义的消息类型，包括获取、设置字段值，将消息序列化到一个输出流中，以及从一个输入流中解析消息。</p>
+<ul>
+<li>对C++来说，编译器会为每个.proto文件生成一个.h文件和一个.cc文件，.proto文件中的每一个消息有一个对应的类。</li>
+<li>对Java来说，编译器为每一个消息类型生成了一个.java文件，以及一个特殊的Builder类（该类是用来创建消息类接口的）。</li>
+<li>对Python来说，有点不太一样——Python编译器为.proto文件中的每个消息类型生成一个含有静态描述符的模块，，该模块与一个元类（metaclass）在运行时（runtime）被用来创建所需的Python数据访问类。</li>
+<li>对go来说，编译器会位每个消息类型生成了一个.pd.go文件。</li>
+<li>对于Ruby来说，编译器会为每个消息类型生成了一个.rb文件。</li>
+<li>javaNano来说，编译器输出类似域java但是没有Builder类</li>
+<li>对于Objective-C来说，编译器会为每个消息类型生成了一个pbobjc.h文件和pbobjcm文件，.proto文件中的每一个消息有一个对应的类。</li>
+<li>对于C#来说，编译器会为每个消息类型生成了一个.cs文件，.proto文件中的每一个消息有一个对应的类。<br>你可以从如下的文档链接中获取每种语言更多API(proto3版本的内容很快就公布)。<a href="https://developers.google.com/protocol-buffers/docs/reference/overview" target="_blank" rel="noopener">API Reference</a></li>
+</ul>
+<h3 id="下面我们开始实际操作起来："><a href="#下面我们开始实际操作起来：" class="headerlink" title="下面我们开始实际操作起来："></a>下面我们开始实际操作起来：</h3><h3 id="序列化与反序列化"><a href="#序列化与反序列化" class="headerlink" title="序列化与反序列化"></a>序列化与反序列化</h3><p>下面将通过一个简单的里来介绍如何使用Protobuf来实现序列化与反序列化。</p>
+<p>  定义数据结构文件（<code>person_and_book.proto</code>）如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">syntax &#x3D; &quot;proto3&quot;;</span><br><span class="line"></span><br><span class="line">message Book &#123;  &#x2F;&#x2F; 书籍信息</span><br><span class="line">  string name &#x3D; 1;</span><br><span class="line">  float price &#x3D; 2;</span><br><span class="line">  string press &#x3D; 3;</span><br><span class="line">  repeated Person people &#x3D; 4;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message Person &#123;  &#x2F;&#x2F; 人物信息</span><br><span class="line">  int32 id &#x3D; 1;</span><br><span class="line">  string name &#x3D; 2;</span><br><span class="line">  int32 age &#x3D; 3;</span><br><span class="line">  string email &#x3D; 4;</span><br><span class="line">  string job &#x3D; 5;</span><br><span class="line">  bool work_status &#x3D; 6;</span><br><span class="line">  string city &#x3D; 7;</span><br><span class="line"></span><br><span class="line">  MyAddress maps &#x3D; 8;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message MyAddress &#123; &#x2F;&#x2F; 地址信息,字段类型为map</span><br><span class="line">  map&lt;string, string&gt; tell_address &#x3D; 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用protoc编译person_and_book.proto文件, 命令行如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">protoc.exe .&#x2F;person_and_book.proto  --python_out&#x3D;.&#x2F;</span><br></pre></td></tr></table></figure>
+<p>编译完毕，会自动生成person_and_book_pb2.py文件。在命令行中，./person_and_book.proto为需要编译的.proto文件所在路径，python_out为输出python脚本路径，./表示为当前路径。</p>
+<p>  接着我们使用一个新的脚本（add_person.py）针对该数据结构进行序列化与反序列化。完整代码如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> person_and_book_pb2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 书籍信息</span></span><br><span class="line">book = person_and_book_pb2.Book()</span><br><span class="line">book.name = <span class="string">"菜鸟童靴"</span></span><br><span class="line">book.price = <span class="number">8.5</span></span><br><span class="line">book.press = <span class="string">"NY Press"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加人物信息</span></span><br><span class="line">person = book.people.add()</span><br><span class="line">person.id = <span class="number">1</span></span><br><span class="line">person.name = <span class="string">"Monday"</span></span><br><span class="line">person.age = <span class="number">25</span></span><br><span class="line">person.email = <span class="string">"Monday@163.com"</span></span><br><span class="line">person.job = <span class="string">"college professor"</span></span><br><span class="line">person.work_status = <span class="literal">True</span></span><br><span class="line">person.city = <span class="string">"北京"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加人物的地址信息</span></span><br><span class="line">address_maps = person.maps</span><br><span class="line">address_maps.tell_address[<span class="string">"born place"</span>] = <span class="string">"内蒙古"</span></span><br><span class="line">address_maps.tell_address[<span class="string">"living place"</span>] = <span class="string">"北京"</span></span><br><span class="line">address_maps.tell_address[<span class="string">"visited place"</span>] = <span class="string">"内蒙古, 北京, 长春"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 序列化</span></span><br><span class="line">print(<span class="string">"===================序列化======================================"</span>)</span><br><span class="line">serializeToString = book.SerializeToString()</span><br><span class="line">print(type(serializeToString), serializeToString)</span><br><span class="line">print(<span class="string">"===================反序列化======================================"</span>)</span><br><span class="line"><span class="comment"># 反序列化</span></span><br><span class="line">parsed_book = person_and_book_pb2.Book()</span><br><span class="line">parsed_book.ParseFromString(serializeToString)</span><br><span class="line">print(type(parsed_book),parsed_book)</span><br><span class="line">print(<span class="string">"=======================输出书籍信息=================================="</span>)</span><br><span class="line"><span class="comment"># 输出书籍信息</span></span><br><span class="line">print(<span class="string">"book_name: %s, book_price: %s, book_press: %s"</span> % (parsed_book.name, parsed_book.price, parsed_book.press))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">print(<span class="string">"======================输出人物信息==================================="</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出人物信息</span></span><br><span class="line"><span class="keyword">for</span> person <span class="keyword">in</span> parsed_book.people:</span><br><span class="line">    print(<span class="string">"p_id: %s, p_name: %s, p_age: %s, p_email: %s, p_job: %s, p_work_status: %s, p_city: %s"</span></span><br><span class="line">          % (person.id, person.name, person.age, person.email, person.job, person.work_status, person.city))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> key <span class="keyword">in</span> person.maps.tell_address:</span><br><span class="line">        print(key, person.maps.tell_address[key])</span><br></pre></td></tr></table></figure>
+<p><strong>输出结果如下：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;序列化&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">&lt;class &#39;bytes&#39;&gt; b&#39;\n\x0c\xe8\x8f\x9c\xe9\xb8\x9f\xe7\xab\xa5\xe9\x9d\xb4\x15\x00\x00\x08A\x1a\x08NY Press&quot;\x98\x01\x08\x01\x12\x06Monday\x18\x19&quot;\x0eMonday@163.com*\x11college professor0\x01:\x06\xe5\x8c\x97\xe4\xba\xacB]\n\x16\n\x0cliving place\x12\x06\xe5\x8c\x97\xe4\xba\xac\n*\n\rvisited place\x12\x19\xe5\x86\x85\xe8\x92\x99\xe5\x8f\xa4, \xe5\x8c\x97\xe4\xba\xac, \xe9\x95\xbf\xe6\x98\xa5\n\x17\n\nborn place\x12\t\xe5\x86\x85\xe8\x92\x99\xe5\x8f\xa4&#39;</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;反序列化&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">&lt;class &#39;person_and_book_pb2.Book&#39;&gt; name: &quot;\350\217\234\351\270\237\347\253\245\351\235\264&quot;</span><br><span class="line">price: 8.5</span><br><span class="line">press: &quot;NY Press&quot;</span><br><span class="line">people &#123;</span><br><span class="line">  id: 1</span><br><span class="line">  name: &quot;Monday&quot;</span><br><span class="line">  age: 25</span><br><span class="line">  email: &quot;Monday@163.com&quot;</span><br><span class="line">  job: &quot;college professor&quot;</span><br><span class="line">  work_status: true</span><br><span class="line">  city: &quot;\345\214\227\344\272\254&quot;</span><br><span class="line">  maps &#123;</span><br><span class="line">    tell_address &#123;</span><br><span class="line">      key: &quot;born place&quot;</span><br><span class="line">      value: &quot;\345\206\205\350\222\231\345\217\244&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    tell_address &#123;</span><br><span class="line">      key: &quot;living place&quot;</span><br><span class="line">      value: &quot;\345\214\227\344\272\254&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    tell_address &#123;</span><br><span class="line">      key: &quot;visited place&quot;</span><br><span class="line">      value: &quot;\345\206\205\350\222\231\345\217\244, \345\214\227\344\272\254, \351\225\277\346\230\245&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;输出书籍信息&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">book_name: 菜鸟童靴, book_price: 8.5, book_press: NY Press</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;输出人物信息&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">p_id: 1, p_name: Monday, p_age: 25, p_email: Monday@163.com, p_job: college professor, p_work_status: True, p_city: 北京</span><br><span class="line">living place 北京</span><br><span class="line">born place 内蒙古</span><br><span class="line">visited place 内蒙古, 北京, 长春</span><br></pre></td></tr></table></figure>
+<p><strong>参考网址：</strong></p>
+<p>Protobuf3 语法指南 ： <a href="https://colobu.com/2017/03/16/Protobuf3-language-guide/" target="_blank" rel="noopener">https://colobu.com/2017/03/16/Protobuf3-language-guide/</a></p>
+<p>Protobuf协议逆向和仿真&amp;举个栗子 ： <a href="https://mp.weixin.qq.com/s/_Na2hjLKvcgVzRx5u_zbLg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/_Na2hjLKvcgVzRx5u_zbLg</a></p>
+<p><a href="https://mp.weixin.qq.com/s/QbLq5gVKjaHyoaY2Vv5MRQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/QbLq5gVKjaHyoaY2Vv5MRQ</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/38601419" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/38601419</a></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/05/09/%E5%88%9D%E8%AF%86Protobuf%EF%BC%88%E4%B8%80%EF%BC%89/微信.png" style="zoom: 50%;"></p>
+]]></content>
+      <categories>
+        <category>技术杂谈</category>
+      </categories>
+      <tags>
+        <tag>Protobuf</tag>
+        <tag>序列化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>安卓逆向objection的基本安装和使用</title>
+    <url>/2022/04/29/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91objection%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p><strong>objection启动并注入内存</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">objection -d -g package_name explore</span><br></pre></td></tr></table></figure>]]></content>
+  </entry>
+  <entry>
     <title>手把手教你开发一个apk查壳软件</title>
     <url>/2022/04/28/%E6%89%8B%E6%8A%8A%E6%89%8B%E6%95%99%E4%BD%A0%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AAapk%E6%9F%A5%E5%A3%B3%E8%BD%AF%E4%BB%B6/</url>
     <content><![CDATA[<p>hello 大家好我是Monday，今天给大家带来一篇开发Android查壳工具的文章。</p>
@@ -245,8 +663,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>科学上网</tag>
         <tag>mitmproxy</tag>
+        <tag>科学上网</tag>
       </tags>
   </entry>
   <entry>
@@ -1271,8 +1689,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>科学上网</tag>
         <tag>mitmproxy</tag>
+        <tag>科学上网</tag>
       </tags>
   </entry>
   <entry>
@@ -1385,8 +1803,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>科学上网</tag>
         <tag>mitmproxy</tag>
+        <tag>科学上网</tag>
       </tags>
   </entry>
   <entry>
@@ -1512,8 +1930,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>github</tag>
         <tag>科学上网</tag>
+        <tag>github</tag>
       </tags>
   </entry>
   <entry>

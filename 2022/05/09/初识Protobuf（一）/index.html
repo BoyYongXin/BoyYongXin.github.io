@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"mac"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    comments: {"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="hello 大家好我是Monday，今天给大家带来一篇关于简单介绍Protobuf协议以及如何使用Protobuf来实现序列化与反序列化 的文章。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识Protobuf（一）">
+<meta property="og:url" content="http://yoursite.com/2022/05/09/%E5%88%9D%E8%AF%86Protobuf%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
+<meta property="og:site_name" content="菜鸟童靴">
+<meta property="og:description" content="hello 大家好我是Monday，今天给大家带来一篇关于简单介绍Protobuf协议以及如何使用Protobuf来实现序列化与反序列化 的文章。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/2022/05/09/%E5%88%9D%E8%AF%86Protobuf%EF%BC%88%E4%B8%80%EF%BC%89/1.jpg">
+<meta property="og:image" content="http://yoursite.com/2022/05/09/%E5%88%9D%E8%AF%86Protobuf%EF%BC%88%E4%B8%80%EF%BC%89/2.jpg">
+<meta property="og:image" content="http://yoursite.com/2022/05/09/%E5%88%9D%E8%AF%86Protobuf%EF%BC%88%E4%B8%80%EF%BC%89/%E5%BE%AE%E4%BF%A1.png">
+<meta property="article:published_time" content="2022-05-09T10:05:09.000Z">
+<meta property="article:modified_time" content="2022-05-11T01:57:49.970Z">
+<meta property="article:author" content="Monday">
+<meta property="article:tag" content="Protobuf">
+<meta property="article:tag" content="序列化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2022/05/09/%E5%88%9D%E8%AF%86Protobuf%EF%BC%88%E4%B8%80%EF%BC%89/1.jpg">
+
+<link rel="canonical" href="http://yoursite.com/2022/05/09/%E5%88%9D%E8%AF%86Protobuf%EF%BC%88%E4%B8%80%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>初识Protobuf（一） | 菜鸟童靴</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="菜鸟童靴" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">菜鸟童靴</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">个人技术博客</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/BoyYongXin/BoyYongXin.github.io.git" class="github-corner" title="CoderYang GitHub" aria-label="CoderYang GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/05/09/%E5%88%9D%E8%AF%86Protobuf%EF%BC%88%E4%B8%80%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Monday">
+      <meta itemprop="description" content="涉猎的编程语言为 Python、Java、Js，领域涵盖爬虫、后端、安卓逆向">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="菜鸟童靴">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          初识Protobuf（一）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-09 18:05:09" itemprop="dateCreated datePublished" datetime="2022-05-09T18:05:09+08:00">2022-05-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-11 09:57:49" itemprop="dateModified" datetime="2022-05-11T09:57:49+08:00">2022-05-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" itemprop="url" rel="index">
+                    <span itemprop="name">技术杂谈</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>hello 大家好我是Monday，今天给大家带来一篇关于简单介绍Protobuf协议以及如何使用Protobuf来实现序列化与反序列化</p>
+<p>的文章。</p>
+<a id="more"></a>
+<h3 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h3><p>Protobuf即Protocol Buffers，是Google公司开发的一种跨语言和平台的序列化数据结构的方式，是一个灵活的、高效的用于序列化数据的协议。</p>
+<p>  与XML和JSON格式相比，Protobuf更小、更快、更便捷。Protobuf是跨语言的，并且自带一个编译器(protoc)，只需要用protoc进行编译，就可以编译成Java、Python、C++、C#、Go等多种语言代码，然后可以直接使用，不需要再写其它代码，自带有解析的代码。</p>
+<p>  只需要将要被序列化的结构化数据定义一次(在.proto文件定义)，便可以使用特别生成的源代码(使用Protobuf提供的生成工具)轻松的使用不同的数据流完成对结构数据的读写操作。甚至可以更新.proto文件中对数据结构的定义而不会破坏依赖旧格式编译出来的程序。</p>
+<p>  <strong>Protobuf的优点如下：</strong></p>
+<ul>
+<li>性能号，效率高。序列化后字节占用空间比XML少3-10倍，序列化的时间效率比XML快20-100倍。</li>
+<li>有代码生成机制。将对结构化数据的操作封装成一个类，便于使用。</li>
+<li>支持向后和向前兼容。当客户端和服务器同时使用一块协议的时候， 当客户端在协议中增加一个字节，并不会影响客户端的使用。</li>
+<li>支持多种编程语言。Protobuf目前已经支持Java，C++，Python、Go、Ruby等多种语言。</li>
+</ul>
+<p>  <strong>Protobuf的缺点如下：</strong></p>
+<ul>
+<li>二进制格式导致可读性差</li>
+<li>缺乏自描述</li>
+<li>应用不是很广泛</li>
+</ul>
+<p>（以上文字来源于网络）</p>
+<h3 id="Protobuf安装："><a href="#Protobuf安装：" class="headerlink" title="Protobuf安装："></a>Protobuf安装：</h3><p>（1）安装第三方库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install protobuf&#x3D;&#x3D;3.20.1</span><br></pre></td></tr></table></figure>
+<p>（2）下载proto编译器</p>
+<p><a href="https://github.com/protocolbuffers/protobuf/releases/" target="_blank" rel="noopener">https://github.com/protocolbuffers/protobuf/releases/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">一个exe程序，把 proto.exe 加入到环境变量里</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/05/09/%E5%88%9D%E8%AF%86Protobuf%EF%BC%88%E4%B8%80%EF%BC%89/1.jpg" style="zoom: 50%;"></p>
+<p>下载对应的版本，小编使用的是windows+python语言，所以下载protoc-3.20.1-win64</p>
+<p>注意：</p>
+<p>电脑安装的编译器版本和 python包版本一定要相对应</p>
+<h3 id="Protobuf-正向流程："><a href="#Protobuf-正向流程：" class="headerlink" title="Protobuf 正向流程："></a>Protobuf 正向流程：</h3><p><img src="/2022/05/09/%E5%88%9D%E8%AF%86Protobuf%EF%BC%88%E4%B8%80%EF%BC%89/2.jpg" style="zoom: 150%;"></p>
+<h3 id="proto文件格式说明："><a href="#proto文件格式说明：" class="headerlink" title=".proto文件格式说明："></a>.proto文件格式说明：</h3><p>  在前面的简介部分已经说过，Protobuf在使用时定义序列化结构的文件为后缀是.proto的文件。</p>
+<p>  .proto文件有专门的语法结构，ProtoBuf有两个语法版本：v2与v3。message 用来定义一个数据结构。</p>
+<p>  我们先来看一个简单的.proto文件的例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">syntax = <span class="string">"proto3"</span>;</span><br><span class="line"></span><br><span class="line">message Person &#123;</span><br><span class="line">    int64 id = <span class="number">1</span>;</span><br><span class="line">    string name = <span class="number">2</span>;</span><br><span class="line">    repeated string skills = <span class="number">3</span>;  // 这里表示skills可以接受多个string类型的值</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>文件的首行生命该语法使用Protobuf3语法，同时在文件后面定义了Person消息，该消息有三个字段：id, name, skill。</p>
+<p>  每个字段的定义格式为 <code>指定字段规则 数据类型 变量名称=数字标识符</code>。</p>
+<p>  <code>指定字段规则</code>在Protobuf3语法中只有repeated、singular两种类型，</p>
+<p>其中singular类型（默认类型，不需要声明）表示有0个或者1个这种字段（但是不能超过1个）；</p>
+<p>repeated类型表示该字段可以重复任意多次(包括0次)，重复值的顺序会被保留。</p>
+<p>  <code>数据类型</code>常见的有double、float、int32、string、bytes、bool等，也可以是枚举、嵌套消息类型、Any、oneof等。</p>
+<p>正如你所见，在消息定义中，每个字段都有唯一的一个数字标识符。这些标识符是用来在消息的二进制格式中识别各个字段的，一旦开始使用就不能够再改变。注：[1,15]之内的标识号在编码的时候会占用一个字节。[16,2047]之内的标识号则占用2个字节。所以应该为那些频繁出现的消息元素保留 [1,15]之内的标识号。切记：要为将来有可能添加的、频繁出现的标识号预留一些标识号。</p>
+<p>最小的标识号可以从1开始，最大到2^29 - 1, or 536,870,911。不可以使用其中的[19000－19999]（ (从FieldDescriptor::kFirstReservedNumber 到 FieldDescriptor::kLastReservedNumber)）的标识号， Protobuf协议实现中对这些进行了预留。如果非要在.proto文件中使用这些预留标识号，编译时就会报警。同样你也不能使用早期保留的标识号。</p>
+<h3 id="从-proto文件生成了什么？"><a href="#从-proto文件生成了什么？" class="headerlink" title="从.proto文件生成了什么？"></a>从.proto文件生成了什么？</h3><p>当用protocol buffer编译器来运行.proto文件时，编译器将生成所选择语言的代码，这些代码可以操作在.proto文件中定义的消息类型，包括获取、设置字段值，将消息序列化到一个输出流中，以及从一个输入流中解析消息。</p>
+<ul>
+<li>对C++来说，编译器会为每个.proto文件生成一个.h文件和一个.cc文件，.proto文件中的每一个消息有一个对应的类。</li>
+<li>对Java来说，编译器为每一个消息类型生成了一个.java文件，以及一个特殊的Builder类（该类是用来创建消息类接口的）。</li>
+<li>对Python来说，有点不太一样——Python编译器为.proto文件中的每个消息类型生成一个含有静态描述符的模块，，该模块与一个元类（metaclass）在运行时（runtime）被用来创建所需的Python数据访问类。</li>
+<li>对go来说，编译器会位每个消息类型生成了一个.pd.go文件。</li>
+<li>对于Ruby来说，编译器会为每个消息类型生成了一个.rb文件。</li>
+<li>javaNano来说，编译器输出类似域java但是没有Builder类</li>
+<li>对于Objective-C来说，编译器会为每个消息类型生成了一个pbobjc.h文件和pbobjcm文件，.proto文件中的每一个消息有一个对应的类。</li>
+<li>对于C#来说，编译器会为每个消息类型生成了一个.cs文件，.proto文件中的每一个消息有一个对应的类。<br>你可以从如下的文档链接中获取每种语言更多API(proto3版本的内容很快就公布)。<a href="https://developers.google.com/protocol-buffers/docs/reference/overview" target="_blank" rel="noopener">API Reference</a></li>
+</ul>
+<h3 id="下面我们开始实际操作起来："><a href="#下面我们开始实际操作起来：" class="headerlink" title="下面我们开始实际操作起来："></a>下面我们开始实际操作起来：</h3><h3 id="序列化与反序列化"><a href="#序列化与反序列化" class="headerlink" title="序列化与反序列化"></a>序列化与反序列化</h3><p>下面将通过一个简单的里来介绍如何使用Protobuf来实现序列化与反序列化。</p>
+<p>  定义数据结构文件（<code>person_and_book.proto</code>）如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">syntax &#x3D; &quot;proto3&quot;;</span><br><span class="line"></span><br><span class="line">message Book &#123;  &#x2F;&#x2F; 书籍信息</span><br><span class="line">  string name &#x3D; 1;</span><br><span class="line">  float price &#x3D; 2;</span><br><span class="line">  string press &#x3D; 3;</span><br><span class="line">  repeated Person people &#x3D; 4;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message Person &#123;  &#x2F;&#x2F; 人物信息</span><br><span class="line">  int32 id &#x3D; 1;</span><br><span class="line">  string name &#x3D; 2;</span><br><span class="line">  int32 age &#x3D; 3;</span><br><span class="line">  string email &#x3D; 4;</span><br><span class="line">  string job &#x3D; 5;</span><br><span class="line">  bool work_status &#x3D; 6;</span><br><span class="line">  string city &#x3D; 7;</span><br><span class="line"></span><br><span class="line">  MyAddress maps &#x3D; 8;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message MyAddress &#123; &#x2F;&#x2F; 地址信息,字段类型为map</span><br><span class="line">  map&lt;string, string&gt; tell_address &#x3D; 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用protoc编译person_and_book.proto文件, 命令行如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">protoc.exe .&#x2F;person_and_book.proto  --python_out&#x3D;.&#x2F;</span><br></pre></td></tr></table></figure>
+<p>编译完毕，会自动生成person_and_book_pb2.py文件。在命令行中，./person_and_book.proto为需要编译的.proto文件所在路径，python_out为输出python脚本路径，./表示为当前路径。</p>
+<p>  接着我们使用一个新的脚本（add_person.py）针对该数据结构进行序列化与反序列化。完整代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> person_and_book_pb2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 书籍信息</span></span><br><span class="line">book = person_and_book_pb2.Book()</span><br><span class="line">book.name = <span class="string">"菜鸟童靴"</span></span><br><span class="line">book.price = <span class="number">8.5</span></span><br><span class="line">book.press = <span class="string">"NY Press"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加人物信息</span></span><br><span class="line">person = book.people.add()</span><br><span class="line">person.id = <span class="number">1</span></span><br><span class="line">person.name = <span class="string">"Monday"</span></span><br><span class="line">person.age = <span class="number">25</span></span><br><span class="line">person.email = <span class="string">"Monday@163.com"</span></span><br><span class="line">person.job = <span class="string">"college professor"</span></span><br><span class="line">person.work_status = <span class="literal">True</span></span><br><span class="line">person.city = <span class="string">"北京"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加人物的地址信息</span></span><br><span class="line">address_maps = person.maps</span><br><span class="line">address_maps.tell_address[<span class="string">"born place"</span>] = <span class="string">"内蒙古"</span></span><br><span class="line">address_maps.tell_address[<span class="string">"living place"</span>] = <span class="string">"北京"</span></span><br><span class="line">address_maps.tell_address[<span class="string">"visited place"</span>] = <span class="string">"内蒙古, 北京, 长春"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 序列化</span></span><br><span class="line">print(<span class="string">"===================序列化======================================"</span>)</span><br><span class="line">serializeToString = book.SerializeToString()</span><br><span class="line">print(type(serializeToString), serializeToString)</span><br><span class="line">print(<span class="string">"===================反序列化======================================"</span>)</span><br><span class="line"><span class="comment"># 反序列化</span></span><br><span class="line">parsed_book = person_and_book_pb2.Book()</span><br><span class="line">parsed_book.ParseFromString(serializeToString)</span><br><span class="line">print(type(parsed_book),parsed_book)</span><br><span class="line">print(<span class="string">"=======================输出书籍信息=================================="</span>)</span><br><span class="line"><span class="comment"># 输出书籍信息</span></span><br><span class="line">print(<span class="string">"book_name: %s, book_price: %s, book_press: %s"</span> % (parsed_book.name, parsed_book.price, parsed_book.press))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">print(<span class="string">"======================输出人物信息==================================="</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出人物信息</span></span><br><span class="line"><span class="keyword">for</span> person <span class="keyword">in</span> parsed_book.people:</span><br><span class="line">    print(<span class="string">"p_id: %s, p_name: %s, p_age: %s, p_email: %s, p_job: %s, p_work_status: %s, p_city: %s"</span></span><br><span class="line">          % (person.id, person.name, person.age, person.email, person.job, person.work_status, person.city))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> key <span class="keyword">in</span> person.maps.tell_address:</span><br><span class="line">        print(key, person.maps.tell_address[key])</span><br></pre></td></tr></table></figure>
+<p><strong>输出结果如下：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;序列化&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">&lt;class &#39;bytes&#39;&gt; b&#39;\n\x0c\xe8\x8f\x9c\xe9\xb8\x9f\xe7\xab\xa5\xe9\x9d\xb4\x15\x00\x00\x08A\x1a\x08NY Press&quot;\x98\x01\x08\x01\x12\x06Monday\x18\x19&quot;\x0eMonday@163.com*\x11college professor0\x01:\x06\xe5\x8c\x97\xe4\xba\xacB]\n\x16\n\x0cliving place\x12\x06\xe5\x8c\x97\xe4\xba\xac\n*\n\rvisited place\x12\x19\xe5\x86\x85\xe8\x92\x99\xe5\x8f\xa4, \xe5\x8c\x97\xe4\xba\xac, \xe9\x95\xbf\xe6\x98\xa5\n\x17\n\nborn place\x12\t\xe5\x86\x85\xe8\x92\x99\xe5\x8f\xa4&#39;</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;反序列化&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">&lt;class &#39;person_and_book_pb2.Book&#39;&gt; name: &quot;\350\217\234\351\270\237\347\253\245\351\235\264&quot;</span><br><span class="line">price: 8.5</span><br><span class="line">press: &quot;NY Press&quot;</span><br><span class="line">people &#123;</span><br><span class="line">  id: 1</span><br><span class="line">  name: &quot;Monday&quot;</span><br><span class="line">  age: 25</span><br><span class="line">  email: &quot;Monday@163.com&quot;</span><br><span class="line">  job: &quot;college professor&quot;</span><br><span class="line">  work_status: true</span><br><span class="line">  city: &quot;\345\214\227\344\272\254&quot;</span><br><span class="line">  maps &#123;</span><br><span class="line">    tell_address &#123;</span><br><span class="line">      key: &quot;born place&quot;</span><br><span class="line">      value: &quot;\345\206\205\350\222\231\345\217\244&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    tell_address &#123;</span><br><span class="line">      key: &quot;living place&quot;</span><br><span class="line">      value: &quot;\345\214\227\344\272\254&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    tell_address &#123;</span><br><span class="line">      key: &quot;visited place&quot;</span><br><span class="line">      value: &quot;\345\206\205\350\222\231\345\217\244, \345\214\227\344\272\254, \351\225\277\346\230\245&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;输出书籍信息&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">book_name: 菜鸟童靴, book_price: 8.5, book_press: NY Press</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;输出人物信息&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">p_id: 1, p_name: Monday, p_age: 25, p_email: Monday@163.com, p_job: college professor, p_work_status: True, p_city: 北京</span><br><span class="line">living place 北京</span><br><span class="line">born place 内蒙古</span><br><span class="line">visited place 内蒙古, 北京, 长春</span><br></pre></td></tr></table></figure>
+<p><strong>参考网址：</strong></p>
+<p>Protobuf3 语法指南 ： <a href="https://colobu.com/2017/03/16/Protobuf3-language-guide/" target="_blank" rel="noopener">https://colobu.com/2017/03/16/Protobuf3-language-guide/</a></p>
+<p>Protobuf协议逆向和仿真&amp;举个栗子 ： <a href="https://mp.weixin.qq.com/s/_Na2hjLKvcgVzRx5u_zbLg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/_Na2hjLKvcgVzRx5u_zbLg</a></p>
+<p><a href="https://mp.weixin.qq.com/s/QbLq5gVKjaHyoaY2Vv5MRQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/QbLq5gVKjaHyoaY2Vv5MRQ</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/38601419" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/38601419</a></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/05/09/%E5%88%9D%E8%AF%86Protobuf%EF%BC%88%E4%B8%80%EF%BC%89/微信.png" style="zoom: 50%;"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Protobuf/" rel="tag"># Protobuf</a>
+              <a href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag"># 序列化</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/29/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91objection%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/" rel="prev" title="安卓逆向objection的基本安装和使用">
+      <i class="fa fa-chevron-left"></i> 安卓逆向objection的基本安装和使用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/10/%E4%BD%BF%E7%94%A8setuptools%E6%89%93%E5%8C%85%E7%9B%98python%E9%A1%B9%E7%9B%AE/" rel="next" title="使用setuptools打包盘python项目">
+      使用setuptools打包盘python项目 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言："><span class="nav-number">1.</span> <span class="nav-text">前言：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Protobuf安装："><span class="nav-number">2.</span> <span class="nav-text">Protobuf安装：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Protobuf-正向流程："><span class="nav-number">3.</span> <span class="nav-text">Protobuf 正向流程：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#proto文件格式说明："><span class="nav-number">4.</span> <span class="nav-text">.proto文件格式说明：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从-proto文件生成了什么？"><span class="nav-number">5.</span> <span class="nav-text">从.proto文件生成了什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下面我们开始实际操作起来："><span class="nav-number">6.</span> <span class="nav-text">下面我们开始实际操作起来：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#序列化与反序列化"><span class="nav-number">7.</span> <span class="nav-text">序列化与反序列化</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Monday"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Monday</p>
+  <div class="site-description" itemprop="description">涉猎的编程语言为 Python、Java、Js，领域涵盖爬虫、后端、安卓逆向</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">50</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+
+
+  
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+  <span class="author" itemprop="copyrightHolder">Monday</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.1.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.6.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      element.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: 'ddbb59d37878690e0e14# GitHub Application Client ID',
+      clientSecret: '13a61d6d6f9bb6f952b73077da21765a9337b760# GitHub Application Client Secret',
+      repo: 'boyyongxin.github.io# Repository name to store issues',
+      owner: 'CoderYang# GitHub repo owner',
+      admin: ['germey# GitHub repo owner and collaborators, only these guys can initialize gitHub issues'],
+      id: '0fea7cc820a8e3084ad84fc16f3dc82e',
+        language: 'zh-CN',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+</body>
+</html>
