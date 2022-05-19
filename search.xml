@@ -3,7 +3,9 @@
   <entry>
     <title>SpringBoot如何自定义配置文件</title>
     <url>/2022/05/13/SpringBoot%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<h3 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a><strong>1. 前言</strong></h3><p>SpringBoot最核心的就是自动配置类，而自动配置类需要读取配置文件的信息，来自动创建实例，因此配置文件就显得非常重要了。因此本文主要介绍SpringBoot的配置文件、以及自动配置类和配置文件之间的关系，即SpringBoot的运行原理。</p>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天我们开启SpringBoot的学习的系列文章之SpringBoot如何自定义配置文件。</p>
+<a id="more"></a>
+<h3 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a><strong>1. 前言</strong></h3><p>SpringBoot最核心的就是自动配置类，而自动配置类需要读取配置文件的信息，来自动创建实例，因此配置文件就显得非常重要了。因此本文主要介绍SpringBoot的配置文件、以及自动配置类和配置文件之间的关系，即SpringBoot的运行原理。</p>
 <h3 id="2-SpringBoot-配置文件"><a href="#2-SpringBoot-配置文件" class="headerlink" title="2. SpringBoot 配置文件"></a><strong>2. SpringBoot 配置文件</strong></h3><p>SpringBoot<strong>默认加载</strong>的配置文件是在classpath根目录的<strong>application.properties</strong>或者</p>
 <p><strong>application.yml</strong>配置文件。</p>
 <p><strong>—注意：</strong></p>
@@ -28,98 +30,11 @@
 <li>启动程序发现端口变成了 dev 下配置的</li>
 </ol>
 ]]></content>
-  </entry>
-  <entry>
-    <title>Java学习笔记之重写Override与重载Overload介绍</title>
-    <url>/2022/05/13/Java%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E9%87%8D%E5%86%99Override%E4%B8%8E%E9%87%8D%E8%BD%BDOverload%E4%BB%8B%E7%BB%8D/</url>
-    <content><![CDATA[<p>hello 大家好我是Monday，今天我们开启回补java的学习的系列文章之重写Override与重载Overload介绍</p>
-<a id="more"></a>
-<p><strong>重写(Override)</strong></p>
-<p>重写是子类对父类的允许访问的方法的实现过程进行重新编写, 返回值和形参都不能改变。即外壳不变，核心重写！</p>
-<p>重写的好处在于子类可以根据需要，定义特定于自己的行为。 也就是说子类能够根据需要实现父类的方法。</p>
-<p>重写方法不能抛出新的检查异常或者比被重写方法申明更加宽泛的异常。例如： 父类的一个方法申明了一个检查异常 IOException，但是在重写这个方法的时候不能抛出 Exception 异常，因为 Exception 是 IOException 的父类，只能抛出 IOException 的子类异常。</p>
-<p>在面向对象原则里，重写意味着可以重写任何现有方法。实例如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">move</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"动物可以移动"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> <span class="keyword">extends</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">move</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"狗可以跑和走"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestDog</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">        Animal a = <span class="keyword">new</span> Animal(); <span class="comment">// Animal 对象</span></span><br><span class="line">        Animal b = <span class="keyword">new</span> Dog(); <span class="comment">// Dog 对象</span></span><br><span class="line">        a.move(); <span class="comment">// 执行 Animal 类的方法</span></span><br><span class="line">        b.move(); <span class="comment">//执行 Dog 类的方法</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">运行结果</span></span><br><span class="line"><span class="comment">动物可以移动</span></span><br><span class="line"><span class="comment">狗可以跑和走</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
-<p>在上面的例子中可以看到，尽管b属于Animal类型，但是它运行的是Dog类的move方法。</p>
-<p>这是由于在编译阶段，只是检查参数的引用类型。</p>
-<p>然而在运行时，Java虚拟机(JVM)指定对象的类型并且运行该对象的方法。</p>
-<p>因此在上面的例子中，之所以能编译成功，是因为Animal类中存在move方法，然而运行时，运行的是特定对象的方法。</p>
-<p>思考以下例子：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span></span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">move</span><span class="params">()</span></span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"动物可以移动"</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> <span class="keyword">extends</span> <span class="title">Animal</span></span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">move</span><span class="params">()</span></span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"狗可以跑和走"</span>);</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bark</span><span class="params">()</span></span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"狗可以吠叫"</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestDog</span></span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</span><br><span class="line">      Animal a = <span class="keyword">new</span> Animal(); <span class="comment">// Animal 对象</span></span><br><span class="line">      Animal b = <span class="keyword">new</span> Dog(); <span class="comment">// Dog 对象</span></span><br><span class="line"></span><br><span class="line">      a.move();<span class="comment">// 执行 Animal 类的方法</span></span><br><span class="line">      b.move();<span class="comment">//执行 Dog 类的方法</span></span><br><span class="line">      b.bark();</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">运行结果：</span></span><br><span class="line"><span class="comment">TestDog.java:30: cannot find symbol</span></span><br><span class="line"><span class="comment">symbol  : method bark()</span></span><br><span class="line"><span class="comment">location: class Animal</span></span><br><span class="line"><span class="comment">                b.bark();</span></span><br><span class="line"><span class="comment">                 ^</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
-<p>该程序将抛出一个编译错误，因为b的引用类型Animal没有bark方法。</p>
-<p><strong>方法的重写规则</strong></p>
-<p>1、参数列表必须完全与被重写方法的相同。</p>
-<p>2、返回类型与被重写方法的返回类型可以不相同，但是必须是父类返回值的派生类（java5 及更早版本返回类型要一样，java7 及更高版本可以不同）。</p>
-<p>3、访问权限不能比父类中被重写的方法的访问权限更低。例如：如果父类的一个方法被声明为 public，那么在子类中重写该方法就不能声明为 protected。</p>
-<p>4、父类的成员方法只能被它的子类重写。</p>
-<p>5、声明为 final 的方法不能被重写。</p>
-<p>6、声明为 static 的方法不能被重写，但是能够被再次声明。</p>
-<p>7、子类和父类在同一个包中，那么子类可以重写父类所有方法，除了声明为 private 和 final 的方法。</p>
-<p>8、子类和父类不在同一个包中，那么子类只能够重写父类的声明为 public 和 protected 的非 final 方法。</p>
-<p>9、重写的方法能够抛出任何非强制异常，无论被重写的方法是否抛出异常。但是，重写的方法不能抛出新的强制性异常，或者比被重写方法声明的更广泛的强制性异常，反之则可以。</p>
-<p>10、构造方法不能被重写。</p>
-<p>11、如果不能继承一个方法，则不能重写这个方法。</p>
-<p><strong>Super 关键字的使用</strong></p>
-<p>当需要在子类中调用父类的被重写方法时，要使用 super 关键字。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span></span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">move</span><span class="params">()</span></span>&#123;</span><br><span class="line">      System.out.println(<span class="string">"动物可以移动"</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> <span class="keyword">extends</span> <span class="title">Animal</span></span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">move</span><span class="params">()</span></span>&#123;</span><br><span class="line">      <span class="keyword">super</span>.move(); <span class="comment">// 应用super类的方法</span></span><br><span class="line">      System.out.println(<span class="string">"狗可以跑和走"</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestDog</span></span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</span><br><span class="line"></span><br><span class="line">      Animal b = <span class="keyword">new</span> Dog(); <span class="comment">// Dog 对象</span></span><br><span class="line">      b.move(); <span class="comment">//执行 Dog类的方法</span></span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">动物可以移动</span></span><br><span class="line"><span class="comment">狗可以跑和走</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
-<p><strong>重载(Overload)</strong><br>1、重载(overloading) 是在一个类里面，方法名字相同，而参数不同。返回类型可以相同也可以不同。</p>
-<p>2、每个重载的方法（或者构造函数）都必须有一个独一无二的参数类型列表。</p>
-<p>3、最常用的地方就是构造器的重载。</p>
-<p><strong>重载规则:</strong></p>
-<p>1、被重载的方法必须改变参数列表(参数个数或类型不一样)；</p>
-<p>2、被重载的方法可以改变返回类型；</p>
-<p>3、被重载的方法可以改变访问修饰符；</p>
-<p>4、被重载的方法可以声明新的或更广的检查异常；</p>
-<p>5、方法能够在同一个类中或者在一个子类中被重载。</p>
-<p>6、无法以返回值类型作为重载函数的区分标准。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Overloading</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"test1"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> a)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"test2"</span>);</span><br><span class="line">    &#125;   </span><br><span class="line">     </span><br><span class="line">    <span class="comment">//以下两个参数类型顺序不同</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">(<span class="keyword">int</span> a,String s)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"test3"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"returntest3"</span>;</span><br><span class="line">    &#125;   </span><br><span class="line">     </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">(String s,<span class="keyword">int</span> a)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"test4"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"returntest4"</span>;</span><br><span class="line">    &#125;   </span><br><span class="line">     </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Overloading o = <span class="keyword">new</span> Overloading();</span><br><span class="line">        System.out.println(o.test());</span><br><span class="line">        o.test(<span class="number">1</span>);</span><br><span class="line">        System.out.println(o.test(<span class="number">1</span>,<span class="string">"test3"</span>));</span><br><span class="line">        System.out.println(o.test(<span class="string">"test4"</span>,<span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>重写与重载之间的区别</strong></p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:left">区别点</th>
-<th style="text-align:left">重载方法</th>
-<th style="text-align:left">重写方法</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">参数列表</td>
-<td style="text-align:left">必须修改</td>
-<td style="text-align:left">一定不能修改</td>
-</tr>
-<tr>
-<td style="text-align:left">返回类型</td>
-<td style="text-align:left">可以修改</td>
-<td style="text-align:left">一定不能修改</td>
-</tr>
-<tr>
-<td style="text-align:left">异常</td>
-<td style="text-align:left">可以修改</td>
-<td style="text-align:left">可以减少或删除，一定不能抛出新的或者更广的异常</td>
-</tr>
-<tr>
-<td style="text-align:left">访问</td>
-<td style="text-align:left">可以修改</td>
-<td style="text-align:left">一定不能做更严格的限制（可以降低限制）</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p><strong>总结</strong><br>方法的重写(Overriding)和重载(Overloading)是java多态性的不同表现，重写是父类与子类之间多态性的一种表现，重载可以理解成多态的具体表现形式。</p>
-<p>(1)方法重载是一个类中定义了多个方法名相同,而他们的参数的数量不同或数量相同而类型和次序不同,则称为方法的重载(Overloading)。</p>
-<p>(2)方法重写是在子类存在方法与父类的方法的名字相同,而且参数的个数与类型一样,返回值也一样的方法,就称为重写(Overriding)。</p>
-<p>(3)方法重载是一个类的多态性表现,而方法重写是子类与父类的一种多态性表现。</p>
-<p>原文链接：<a href="https://blog.csdn.net/BigBoy_Coder/article/details/102951430" target="_blank" rel="noopener">https://blog.csdn.net/BigBoy_Coder/article/details/102951430</a></p>
-<p><strong>结束语</strong>：</p>
-<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
-<p><img src="/2022/05/13/Java%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E9%87%8D%E5%86%99Override%E4%B8%8E%E9%87%8D%E8%BD%BDOverload%E4%BB%8B%E7%BB%8D/微信.png" style="zoom: 50%;"></p>
-]]></content>
       <categories>
-        <category>JAVA</category>
+        <category>SpringBoot</category>
       </categories>
       <tags>
+        <tag>SpringBoot</tag>
         <tag>java</tag>
       </tags>
   </entry>
@@ -160,100 +75,6 @@
       </categories>
       <tags>
         <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java学习笔记之泛型介绍</title>
-    <url>/2022/05/12/Java%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%B3%9B%E5%9E%8B%E4%BB%8B%E7%BB%8D/</url>
-    <content><![CDATA[<p>hello 大家好我是Monday，今天我们开启SpringBoot的学习的系列文章之SpringBoot项目引入本地Jar包。</p>
-<a id="more"></a>
-<p><strong>java 中泛型标记符：</strong></p>
-<ul>
-<li><p><strong>E</strong> - Element (在集合中使用，因为集合中存放的是元素)</p>
-</li>
-<li><p><strong>T</strong> - Type（Java 类）</p>
-</li>
-<li><p><strong>K</strong> - Key（键）</p>
-</li>
-<li><p><strong>V</strong> - Value（值）</p>
-</li>
-<li><p><strong>N</strong> - Number（数值类型）</p>
-</li>
-<li><p><strong>？</strong> - 表示不确定的 java 类型</p>
-</li>
-</ul>
-<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>下面的例子演示了如何使用泛型方法打印不同类型的数组元素：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> fanxing;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* java 泛型</span></span><br><span class="line"><span class="comment">* */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GenericMethodTest</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">// 泛型方法 printArray</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt; E &gt; <span class="function"><span class="keyword">void</span> <span class="title">printArray</span><span class="params">( E[] inputArray )</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 输出数组元素</span></span><br><span class="line">        <span class="keyword">for</span> ( E element : inputArray )&#123;</span><br><span class="line">            System.out.printf( <span class="string">"%s "</span>, element );</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">( String args[] )</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 创建不同类型数组： Integer, Double 和 Character</span></span><br><span class="line">        Integer[] intArray = &#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span> &#125;;</span><br><span class="line">        Double[] doubleArray = &#123; <span class="number">1.1</span>, <span class="number">2.2</span>, <span class="number">3.3</span>, <span class="number">4.4</span> &#125;;</span><br><span class="line">        Character[] charArray = &#123; <span class="string">'H'</span>, <span class="string">'E'</span>, <span class="string">'L'</span>, <span class="string">'L'</span>, <span class="string">'O'</span> &#125;;</span><br><span class="line"></span><br><span class="line">        System.out.println( <span class="string">"整型数组元素为:"</span> );</span><br><span class="line">        printArray( intArray  ); <span class="comment">// 传递一个整型数组</span></span><br><span class="line"></span><br><span class="line">        System.out.println( <span class="string">"\n双精度型数组元素为:"</span> );</span><br><span class="line">        printArray( doubleArray ); <span class="comment">// 传递一个双精度型数组</span></span><br><span class="line"></span><br><span class="line">        System.out.println( <span class="string">"\n字符型数组元素为:"</span> );</span><br><span class="line">        printArray( charArray ); <span class="comment">// 传递一个字符型数组</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>运行结果如下所示：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">整型数组元素为:</span><br><span class="line">1 2 3 4 5 </span><br><span class="line"></span><br><span class="line">双精度型数组元素为:</span><br><span class="line">1.1 2.2 3.3 4.4 </span><br><span class="line"></span><br><span class="line">字符型数组元素为:</span><br><span class="line">H E L L O</span><br></pre></td></tr></table></figure>
-<p><strong>参考文献：</strong></p>
-<p>​    <a href="https://www.runoob.com/java/java-generics.html" target="_blank" rel="noopener">https://www.runoob.com/java/java-generics.html</a></p>
-<p>​    <a href="https://www.cnblogs.com/coprince/p/8603492.html" target="_blank" rel="noopener">https://www.cnblogs.com/coprince/p/8603492.html</a></p>
-<p><strong>结束语</strong>：</p>
-<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
-<p><img src="/2022/05/12/Java%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%B3%9B%E5%9E%8B%E4%BB%8B%E7%BB%8D/微信.png" style="zoom: 50%;"></p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SpringBoot项目引入本地Jar包</title>
-    <url>/2022/05/12/SpringBoot%E9%A1%B9%E7%9B%AE%E5%BC%95%E5%85%A5%E6%9C%AC%E5%9C%B0Jar%E5%8C%85/</url>
-    <content><![CDATA[<p>hello 大家好我是Monday，今天我们开启SpringBoot的学习的系列文章之SpringBoot项目引入本地Jar包。</p>
-<a id="more"></a>
-<p>在开发过程中有时会用到maven仓库里没有的jar包或者本地的jar包，这时没办法通过pom直接引入，那么该怎么解决呢</p>
-<ul>
-<li>这个jar包不在maven仓库里面，如果我们要引入这个下载的jar包。有两种方法可以试试：<ol>
-<li>本地直接引入，打包到依赖文件中。</li>
-<li>打包上传到maven本地仓库中，然后pom文件正常引入。</li>
-</ol>
-</li>
-</ul>
-<p>首先我们将下载好的jar包放到指定目录下</p>
-<p><img src="/2022/05/12/SpringBoot%E9%A1%B9%E7%9B%AE%E5%BC%95%E5%85%A5%E6%9C%AC%E5%9C%B0Jar%E5%8C%85/1.jpg" style="zoom: 150%;"></p>
-<p><strong>1、在根目录文件夹下面新建lib文件夹，需要的数据库jar包放到这里</strong></p>
-<p><strong>2、在pom文件中引入刚刚添加的文件。</strong></p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--引入本地资源--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>fastjson<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.27<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>system<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">systemPath</span>&gt;</span>$&#123;project.basedir&#125;/lib/fastjson-1.2.27.jar<span class="tag">&lt;/<span class="name">systemPath</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><code>groupId</code>和<code>artifactId</code>可以自定义，建议和所要引入的jar包不要有太大的出入,</p>
-<p><code>version</code>填写引入jar包的版本号即可。</p>
-<p><code>systemPath</code>这个路径填写jar包的所在路径。</p>
-<p><code>scope</code>需要填写system，这个不可省略，否则可能会报错。</p>
-<p><code>${project.basedir}</code>是一个系统常量，代表当前项目的根目录。</p>
-<p><strong>3、项目打包时引入本地jar包,需要在打包插件中引入<code>&lt;includeSystemScope&gt;</code>，具体的如下所示。</strong></p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">includeSystemScope</span>&gt;</span>true<span class="tag">&lt;/<span class="name">includeSystemScope</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><strong>4、Maven 更新下配置：</strong></p>
-<p><img src="/2022/05/12/SpringBoot%E9%A1%B9%E7%9B%AE%E5%BC%95%E5%85%A5%E6%9C%AC%E5%9C%B0Jar%E5%8C%85/2.jpg" style="zoom: 150%;"></p>
-<p><strong>5、成功使用</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demo;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.JSON;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.JSONObject;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"><span class="comment">//            //把参数传进Map中</span></span><br><span class="line">        HashMap&lt;String,String&gt; paramsMap=<span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        paramsMap.put(<span class="string">"name"</span>,<span class="string">"哈哈"</span>);</span><br><span class="line">        paramsMap.put(<span class="string">"client"</span>,<span class="string">"Android"</span>);</span><br><span class="line">        paramsMap.put(<span class="string">"id"</span>,<span class="string">"3243598"</span>);</span><br><span class="line">        String jsonStr = JSONObject.toJSONString(paramsMap);</span><br><span class="line">        System.out.println(jsonStr);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>注意</strong>：</p>
-<p>下载的jar一定要版本相对应，避免版本过高，不支持，一直显示无法导入，小编深陷此坑</p>
-<h3 id="上传jar包到maven仓库"><a href="#上传jar包到maven仓库" class="headerlink" title="上传jar包到maven仓库"></a>上传jar包到maven仓库</h3><p>我们还可以使用相关的maven命令，把相关的jar包上传到maven仓库，然后就可以在项目中直接引用了。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mvn install:install-file </span><br><span class="line">-Dfile=D:/Workspace/fastjson-1.2.27.jar</span><br><span class="line">-DgroupId=com.alibaba </span><br><span class="line">-DartifactId=fastjson</span><br><span class="line">-Dversion=1.2.27</span><br><span class="line">-Dpackaging=jar</span><br></pre></td></tr></table></figure>
-<p><code>-Dfile</code>：jar包文件的地址</p>
-<p><code>-DgroupId</code>：引入依赖时填写的groupId</p>
-<p><code>-DartifactId</code>：引入依赖时填写的artifactId</p>
-<p><code>-Dversion</code>：版本号</p>
-<p><code>-Dpackaging</code>：打包方式</p>
-<hr>
-<p>如此一来基本上可以满足我们的需求了。</p>
-<p><strong>参考文献：</strong></p>
-<p><a href="https://blog.csdn.net/yanmouren110/article/details/106922452" target="_blank" rel="noopener">https://blog.csdn.net/yanmouren110/article/details/106922452</a></p>
-<p><a href="https://www.jianshu.com/p/a8d6d76c5566" target="_blank" rel="noopener">https://www.jianshu.com/p/a8d6d76c5566</a></p>
-<p><a href="https://www.cnblogs.com/tudou1179006580/p/14875366.html" target="_blank" rel="noopener">https://www.cnblogs.com/tudou1179006580/p/14875366.html</a></p>
-<p><strong>结束语</strong>：</p>
-<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
-<p><img src="/2022/05/12/SpringBoot%E9%A1%B9%E7%9B%AE%E5%BC%95%E5%85%A5%E6%9C%AC%E5%9C%B0Jar%E5%8C%85/微信.png" style="zoom: 50%;"></p>
-]]></content>
-      <categories>
-        <category>SpringBoot</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>SpringBoot</tag>
       </tags>
   </entry>
   <entry>
