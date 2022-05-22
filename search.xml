@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>SpringBoot访问数据库操作</title>
+    <url>/2022/05/20/SpringBoot%E8%AE%BF%E9%97%AE%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h3 id="访问数据库"><a href="#访问数据库" class="headerlink" title="\访问数据库**"></a><strong><em>\</em>访问数据库**</strong></h3><p>Spring Boot 无缝集成了 <strong>关系型数据库</strong> 和 <strong>NOSQL 数据库</strong> 。并且 Spring Boot 也提供了响应式的数据库访问支持。</p>
+<p>那我们如果想使用 Spring Boot 访问数据库，都需要做什么呢？稳住，你可能会震惊的。</p>
+<p>下面给大家看下我写的响应式编程数据库访问的测试代码，为了不依赖任何环境，让大家可以快速、直观的感受，我使用的是内存数据库 h2。</p>
+<ul>
+<li>将下面的代码，放到你的 Spring Boot 专属启动类中。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Springroad01Application</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(Springroad01Application<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 测试数据库访问，容器启动后会执行run方法</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DataWriter</span> <span class="keyword">implements</span> <span class="title">ApplicationRunner</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Logger log = LoggerFactory.getLogger(DataWriter<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> DatabaseClient client;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> UsersDao usersDao;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DataWriter</span><span class="params">(DatabaseClient client, UsersDao usersDao)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.client = client;</span><br><span class="line">        <span class="keyword">this</span>.usersDao = usersDao;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">(ApplicationArguments args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        List&lt;String&gt; statements = Arrays.asList(</span><br><span class="line">                <span class="string">"DROP TABLE IF EXISTS USERS;"</span>,</span><br><span class="line">                <span class="string">"CREATE TABLE IF NOT EXISTS USERS ( id SERIAL PRIMARY KEY, name VARCHAR(100) NOT NULL);"</span>);</span><br><span class="line"></span><br><span class="line">        statements.forEach(sql -&gt; client.sql(sql).fetch().rowsUpdated()</span><br><span class="line">                .doOnSuccess(count -&gt; log.info(<span class="string">"Schema created, rows updated: &#123;&#125;"</span>, count))</span><br><span class="line">                .doOnError(error -&gt; log.error(<span class="string">"got error : &#123;&#125;"</span>,error.getMessage(),error))</span><br><span class="line">                .subscribe()</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        Flux.just(<span class="string">"sevenluo"</span>,<span class="string">"tonyzhu"</span>,<span class="string">"jameschen"</span>).flatMap(name -&gt; usersDao.save(<span class="keyword">new</span> Users(<span class="keyword">null</span>,name))).subscribe(user -&gt; log.info(<span class="string">"User saved: &#123;&#125;"</span>,user));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// DAO 接口，不需要加注解，继承了 ReactiveCrudRepository 会自动生成实例的</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">UsersDao</span> <span class="keyword">extends</span> <span class="title">ReactiveCrudRepository</span>&lt;<span class="title">Users</span>, <span class="title">String</span>&gt; </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Users</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="keyword">private</span> Integer id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>执行 main 方法，输入结果；</li>
+</ul>
+<p><img src="https://mmbiz.qpic.cn/sz_mmbiz_png/Q2RNVw90n0BMQdgsicgKD6cJ5PXF4zau4xZtUIHZhiciaibzMmDagwae2ONv7MR7F8zr55aGMYlXVYZPKicnMae3GEA/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p>
+<p>就是这么赤鸡，结束了，啥配置没有，直接写了几行代码就可以访问数据库了。</p>
+]]></content>
+  </entry>
+  <entry>
     <title>SpringBoot如何自定义配置文件</title>
     <url>/2022/05/13/SpringBoot%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<p>hello 大家好我是Monday，今天我们开启SpringBoot的学习的系列文章之SpringBoot如何自定义配置文件。</p>
+    <content><![CDATA[<hr>
+<p>title: SpringBoot如何自定义配置文件<br>date: 2022-05-13 11:31:26<br>categories: SpringBoot</p>
+<h2 id="tags-SpringBoot-java"><a href="#tags-SpringBoot-java" class="headerlink" title="tags: [SpringBoot,java]"></a>tags: [SpringBoot,java]</h2><p>hello 大家好我是Monday，今天我们开启SpringBoot的学习的系列文章之SpringBoot如何自定义配置文件。</p>
 <a id="more"></a>
 <h3 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a><strong>1. 前言</strong></h3><p>SpringBoot最核心的就是自动配置类，而自动配置类需要读取配置文件的信息，来自动创建实例，因此配置文件就显得非常重要了。因此本文主要介绍SpringBoot的配置文件、以及自动配置类和配置文件之间的关系，即SpringBoot的运行原理。</p>
 <h3 id="2-SpringBoot-配置文件"><a href="#2-SpringBoot-配置文件" class="headerlink" title="2. SpringBoot 配置文件"></a><strong>2. SpringBoot 配置文件</strong></h3><p>SpringBoot<strong>默认加载</strong>的配置文件是在classpath根目录的<strong>application.properties</strong>或者</p>
@@ -12,23 +31,126 @@
 <blockquote>
 <p>[1] 文件名不能写错，因为默认的文件名写死在SpringBoot配置代码中。<br>[2] SpringBoot支持properties和yml两个格式的配置文件。</p>
 </blockquote>
-<p>3、</p>
-<p><strong>- 多个环境配置文件</strong></p>
-<ol>
-<li>在现实的开发环境中我们可能需要多个不同环境(开发,调试,生产)的配置文件可以使用 application-{profile}.properties进行配置如</li>
-</ol>
+<h3 id="3、-多个环境配置文件"><a href="#3、-多个环境配置文件" class="headerlink" title="3、- 多个环境配置文件"></a><strong>3、- 多个环境配置文件</strong></h3><p><strong>(1)、在现实的开发环境中我们可能需要多个不同环境(开发,调试,生产)的配置文件可以使用 application-{profile}.properties进行配置如</strong></p>
 <ul>
 <li>application-dev.properties : 开发环境</li>
 <li>application-test.properties : 测试环境</li>
 <li>application-prod.properties : 生产环境</li>
 </ul>
-<ol>
-<li>使用 : 在application.properties中配置</li>
+<p><strong>(2)、使用 : 在application.properties中配置</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">spring.profiles.active&#x3D;dev 表示启动 开发环境</span><br></pre></td></tr></table></figure>
+<p>我们在application-dev.properties，填写上如下信息</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">## 设置server参数</span><br><span class="line">## 端口</span><br><span class="line">server.port&#x3D;8081</span><br></pre></td></tr></table></figure>
+<p><strong>(3)、启动程序发现端口变成了 dev 下配置的</strong></p>
+<p><img src="/2022/05/13/SpringBoot%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/1.jpg" style="zoom: 50%;"></p>
+<h3 id="4、程序如何读取配置文件"><a href="#4、程序如何读取配置文件" class="headerlink" title="4、程序如何读取配置文件"></a>4、程序如何读取配置文件</h3><p><strong>（1）我们在application-dev.properties，填写上如下信息</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">application-dev.username&#x3D;root</span><br><span class="line">application-dev.password&#x3D;root</span><br></pre></td></tr></table></figure>
+<p><strong>（2）新建config文件并创建DevProperties.java文件</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demo.config;</span><br><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.context.properties.ConfigurationProperties;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@ConfigurationProperties</span>(value = <span class="string">"application-dev"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DevProperties</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUsername</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> username;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getPassword</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong></p>
+<p>@ConfigurationProperties(value = “application-dev”)表示的配置文件里属性的前缀都是application-dev开头<br>配置类上记得加上@Data和@Component注解（或者在启动类上加上@EnableConfigurationProperties(value =DevProperties.class)）</p>
+<p>如果有内部类对象，记得加上@Data，不然无法映射数据<br>.properties类型文件映射规则，短横线(-)后面的首个字母会变成大写，同时注意有内部类时的写法</p>
+<p><strong>（3）如何读取配置文件，LoadPropertiesService.java文件创建,具体代码</strong></p>
+<p>使用方法也很简单，直接使用spring的注解@Autowired引入即可</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demo.controller;</span><br><span class="line"><span class="keyword">import</span> com.example.demo.config.DevProperties;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.context.properties.EnableConfigurationProperties;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestController;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Service;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="meta">@EnableConfigurationProperties</span>(DevProperties<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">@<span class="title">RestController</span></span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">LoadPropertiesService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    DevProperties devProperties;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/testProperties"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">testProperties</span><span class="params">()</span></span>&#123;</span><br><span class="line">        String str = devProperties.getUsername();</span><br><span class="line">        String str2 = devProperties.getPassword();</span><br><span class="line">        System.out.println(str);</span><br><span class="line">        System.out.println(str2);</span><br><span class="line">        <span class="keyword">return</span> str+str2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>测试：</strong></p>
+<p><img src="/2022/05/13/SpringBoot%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/2.jpg" style="zoom: 150%;"></p>
+<p><strong>注意：</strong></p>
+<p>类型转换少，配置类可以直接定义常规类型<br>配置分类方便，一个地方维护，不用一个key到处写<br>更符合面向对象的写法<br>Spring Boot注解读取application.properties或者application-{profile}.properties文件时默认编码是ISO_8859_1，读取yaml配置文件时使用的是UTF-8的编码方式，如果有中文配置请使用.yml格式，或者使用我接下来的读取方式。</p>
+<p><strong>参考文献：</strong></p>
+<p>SpringBoot【配置文件&amp;运行原理篇】 :  <a href="https://zhuanlan.zhihu.com/p/102942848" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/102942848</a></p>
+<p>Spring Boot读取配置文件常用方式 ： <a href="https://blog.csdn.net/Alian_1223/article/details/118891954" target="_blank" rel="noopener">https://blog.csdn.net/Alian_1223/article/details/118891954</a></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/05/13/SpringBoot%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/微信.png" style="zoom: 50%;"></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Java学习笔记之构造函数介绍</title>
+    <url>/2022/05/13/Java%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天我们开启回补java的学习的系列文章之构造函数介绍。</p>
+<a id="more"></a>
+<p>我们人出生的时候，有些人一出生之后再起名字的，但是有些人一旦出生就已经起好名字的。那么我们在 java 里面怎么在对象一旦创建就赋值呢？</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">String name; <span class="comment">//    姓名</span></span><br><span class="line"><span class="keyword">int</span> age; <span class="comment">//    年龄</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Person p = <span class="keyword">new</span> Person(); <span class="comment">//    创建了Person类型的p对象</span></span><br><span class="line">    System.out.println(<span class="string">"姓名: "</span> + p.name + <span class="string">" 年龄: "</span> + p.age); <span class="comment">//    name = null, age = 0;</span></span><br><span class="line">    <span class="comment">//这个小孩刚出生的时候没有姓名和年龄</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那我们怎么在出生后给小孩起名字呢：</p>
+<p>看看我们如何构造的：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">String name; <span class="comment">//    姓名</span></span><br><span class="line"><span class="keyword">int</span> age; <span class="comment">//    年龄</span></span><br><span class="line"><span class="comment">//    构造方法</span></span><br><span class="line">Person(String name,<span class="keyword">int</span> age)&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name; <span class="comment">//     给对象赋予name值</span></span><br><span class="line">    <span class="keyword">this</span>.age = age; <span class="comment">//    给对象赋予age值</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Person p = <span class="keyword">new</span> Person(<span class="string">"张三"</span>,<span class="number">1</span>); <span class="comment">//    创建了Person类型的p对象,并且调用构造方法赋予该对象属性值</span></span><br><span class="line">    System.out.println(<span class="string">"姓名: "</span> + p.name + <span class="string">" 年龄: "</span> + p.age); <span class="comment">//    name = 张三, age = 1;</span></span><br><span class="line">    <span class="comment">//这个小孩刚出生的时候已经有了姓名和年龄</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>到这里我们引出构造方法的作用：</strong></p>
+<p>1).创建对象,凡是必须和new一起使用.</p>
+<p>2).对对象进行初始化.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">String name; <span class="comment">//    姓名</span></span><br><span class="line"><span class="keyword">int</span> age; <span class="comment">//    年龄</span></span><br><span class="line"><span class="comment">//    全参构造方法</span></span><br><span class="line">Person(String name,<span class="keyword">int</span> age)&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name; <span class="comment">//     给对象赋予name值</span></span><br><span class="line">    <span class="keyword">this</span>.age = age; <span class="comment">//    给对象赋予age值</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//    无参构造方法</span></span><br><span class="line">Person()&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Person p = <span class="keyword">new</span> Person(<span class="string">"张三"</span>,<span class="number">1</span>); </span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">         根据创建对象的实参个数,jvm回去寻找合适的构造方法,</span></span><br><span class="line"><span class="comment">         两个实参所有会调用含有两个参数的构造方法.Person(String name,int age)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    System.out.println(<span class="string">"姓名: "</span> + p.name + <span class="string">" 年龄: "</span> + p.age); <span class="comment">//    name = 张三, age = 1;</span></span><br><span class="line">    <span class="comment">//这个对象创建出来的时候已经有了自己的姓名和年龄</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>构造函数与普通函数的区别：</strong></p>
+<p>（1）. 一般函数是用于定义对象应该具备的功能。而构造函数定义的是，对象在调用功能之前，在建立时，应该具备的一些内容。也就是对象的初始化内容。</p>
+<p>（2）. 构造函数是在对象建立时由 jvm 调用, 给对象初始化。一般函数是对象建立后，当对象调用该功能时才会执行。</p>
+<p>（3）. 普通函数可以使用对象多次调用，构造函数就在创建对象时调用。</p>
+<p>（4）. 构造函数的函数名要与类名一样，而普通的函数只要符合标识符的命名规则即可。</p>
+<p>（5）. 构造函数没有返回值类型。</p>
+<p><strong>构造函数要注意的细节：</strong></p>
+<p>（1）. 当类中没有定义构造函数时，系统会指定给该类加上一个空参数的构造函数。这个是类中默认的构造函数。当类中如果自定义了构造函数，这时默认的构造函数就没有了。</p>
+<p>备注：可以通过 javap 命令验证。</p>
+<p>（2）. 在一个类中可以定义多个构造函数，以进行不同的初始化。多个构造函数存在于类中，是以重载的形式体现的。因为构造函数的名称都相同。</p>
+<p><strong>一段整合练习的代码：综合运用的以上所涉及的知识点，还有一点点的知识扩展：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">package com;</span><br><span class="line">import java.util.Random;</span><br><span class="line">public class Construction_demo1 &#123;</span><br><span class="line">    public String name; &#x2F;&#x2F;    姓名</span><br><span class="line">    public int age; &#x2F;&#x2F;    年龄</span><br><span class="line">    Construction_demo1() &#123;</span><br><span class="line">        System.out.println(&quot;无参构造方法&quot;);</span><br><span class="line">    &#125;;</span><br><span class="line">    Construction_demo1(String name, int age) &#123;</span><br><span class="line">        this.age &#x3D; age;</span><br><span class="line">        this.name &#x3D; name;</span><br><span class="line">    &#125;;</span><br><span class="line">    &#123;</span><br><span class="line">        cry();</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F;构造代码块，构造代码块和构造函数的区别，构造代码块是给所有对象进行统一初始化， 构造函数给对应的对象初始化。</span><br><span class="line">    &#x2F;&#x2F;构造代码块的作用：它的作用就是将所有构造方法中公共的信息进行抽取。</span><br><span class="line">    public void cry() &#123;</span><br><span class="line">        System.out.println(&quot;----------cry------------------&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Construction_demo1 p &#x3D; new Construction_demo1(); &#x2F;&#x2F;    创建了Person类型的p对象</span><br><span class="line">        System.out.println(&quot;姓名: &quot; + p.name + &quot; 年龄: &quot; + p.age); &#x2F;&#x2F;    name &#x3D; null, age &#x3D; 0;</span><br><span class="line">        &#x2F;&#x2F;这个小孩刚出生的时候没有姓名和年龄</span><br><span class="line">        Construction_demo1 p2 &#x3D; new Construction_demo1(&quot;xiaoli&quot;, 48);</span><br><span class="line">        System.out.println(&quot;姓名 ：&quot; + p2.name + &quot;年龄： &quot; + p2.age);</span><br><span class="line">        int result &#x3D; get_nonce(0, 100); &#x2F;&#x2F;如何调用静态方法</span><br><span class="line">        System.out.println(result);</span><br><span class="line">        p2.cry(); &#x2F;&#x2F;如何调用类里面的方法</span><br><span class="line">    &#125;</span><br><span class="line">    public static int get_nonce(int i, int i2) &#123;</span><br><span class="line">        if (i &gt; i2) &#123;</span><br><span class="line">            return 0;</span><br><span class="line">        &#125;</span><br><span class="line">        return i !&#x3D; i2 ? i + new Random().nextInt(i2 - i) : i;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>到这里java 的构造函数我们就告一段落了，</p>
+<p>原文链接：<a href="https://blog.csdn.net/BigBoy_Coder/article/details/102939143" target="_blank" rel="noopener">https://blog.csdn.net/BigBoy_Coder/article/details/102939143</a></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/05/13/Java%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E4%BB%8B%E7%BB%8D/微信.png" style="zoom: 50%;"></p>
+]]></content>
+      <categories>
+        <category>JAVA</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SpringBoot项目引入本地Jar包</title>
+    <url>/2022/05/12/SpringBoot%E9%A1%B9%E7%9B%AE%E5%BC%95%E5%85%A5%E6%9C%AC%E5%9C%B0Jar%E5%8C%85/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天我们开启SpringBoot的学习的系列文章之SpringBoot项目引入本地Jar包。</p>
+<a id="more"></a>
+<p>在开发过程中有时会用到maven仓库里没有的jar包或者本地的jar包，这时没办法通过pom直接引入，那么该怎么解决呢</p>
+<ul>
+<li>这个jar包不在maven仓库里面，如果我们要引入这个下载的jar包。有两种方法可以试试：<ol>
+<li>本地直接引入，打包到依赖文件中。</li>
+<li>打包上传到maven本地仓库中，然后pom文件正常引入。</li>
 </ol>
-<p>spring.profiles.active=dev 表示启动 开发环境</p>
-<ol>
-<li>启动程序发现端口变成了 dev 下配置的</li>
-</ol>
+</li>
+</ul>
+<p>首先我们将下载好的jar包放到指定目录下</p>
+<p><img src="/2022/05/12/SpringBoot%E9%A1%B9%E7%9B%AE%E5%BC%95%E5%85%A5%E6%9C%AC%E5%9C%B0Jar%E5%8C%85/1.jpg" style="zoom: 150%;"></p>
+<p><strong>1、在根目录文件夹下面新建lib文件夹，需要的数据库jar包放到这里</strong></p>
+<p><strong>2、在pom文件中引入刚刚添加的文件。</strong></p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--引入本地资源--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>fastjson<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.27<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>system<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">systemPath</span>&gt;</span>$&#123;project.basedir&#125;/lib/fastjson-1.2.27.jar<span class="tag">&lt;/<span class="name">systemPath</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>groupId</code>和<code>artifactId</code>可以自定义，建议和所要引入的jar包不要有太大的出入,</p>
+<p><code>version</code>填写引入jar包的版本号即可。</p>
+<p><code>systemPath</code>这个路径填写jar包的所在路径。</p>
+<p><code>scope</code>需要填写system，这个不可省略，否则可能会报错。</p>
+<p><code>${project.basedir}</code>是一个系统常量，代表当前项目的根目录。</p>
+<p><strong>3、项目打包时引入本地jar包,需要在打包插件中引入<code>&lt;includeSystemScope&gt;</code>，具体的如下所示。</strong></p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">includeSystemScope</span>&gt;</span>true<span class="tag">&lt;/<span class="name">includeSystemScope</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>4、Maven 更新下配置：</strong></p>
+<p><img src="/2022/05/12/SpringBoot%E9%A1%B9%E7%9B%AE%E5%BC%95%E5%85%A5%E6%9C%AC%E5%9C%B0Jar%E5%8C%85/2.jpg" style="zoom: 150%;"></p>
+<p><strong>5、成功使用</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demo;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.JSON;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.JSONObject;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"><span class="comment">//            //把参数传进Map中</span></span><br><span class="line">        HashMap&lt;String,String&gt; paramsMap=<span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        paramsMap.put(<span class="string">"name"</span>,<span class="string">"哈哈"</span>);</span><br><span class="line">        paramsMap.put(<span class="string">"client"</span>,<span class="string">"Android"</span>);</span><br><span class="line">        paramsMap.put(<span class="string">"id"</span>,<span class="string">"3243598"</span>);</span><br><span class="line">        String jsonStr = JSONObject.toJSONString(paramsMap);</span><br><span class="line">        System.out.println(jsonStr);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：</p>
+<p>下载的jar一定要版本相对应，避免版本过高，不支持，一直显示无法导入，小编深陷此坑</p>
+<h3 id="上传jar包到maven仓库"><a href="#上传jar包到maven仓库" class="headerlink" title="上传jar包到maven仓库"></a>上传jar包到maven仓库</h3><p>我们还可以使用相关的maven命令，把相关的jar包上传到maven仓库，然后就可以在项目中直接引用了。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mvn install:install-file </span><br><span class="line">-Dfile=D:/Workspace/fastjson-1.2.27.jar</span><br><span class="line">-DgroupId=com.alibaba </span><br><span class="line">-DartifactId=fastjson</span><br><span class="line">-Dversion=1.2.27</span><br><span class="line">-Dpackaging=jar</span><br></pre></td></tr></table></figure>
+<p><code>-Dfile</code>：jar包文件的地址</p>
+<p><code>-DgroupId</code>：引入依赖时填写的groupId</p>
+<p><code>-DartifactId</code>：引入依赖时填写的artifactId</p>
+<p><code>-Dversion</code>：版本号</p>
+<p><code>-Dpackaging</code>：打包方式</p>
+<hr>
+<p>如此一来基本上可以满足我们的需求了。</p>
+<p><strong>参考文献：</strong></p>
+<p><a href="https://blog.csdn.net/yanmouren110/article/details/106922452" target="_blank" rel="noopener">https://blog.csdn.net/yanmouren110/article/details/106922452</a></p>
+<p><a href="https://www.jianshu.com/p/a8d6d76c5566" target="_blank" rel="noopener">https://www.jianshu.com/p/a8d6d76c5566</a></p>
+<p><a href="https://www.cnblogs.com/tudou1179006580/p/14875366.html" target="_blank" rel="noopener">https://www.cnblogs.com/tudou1179006580/p/14875366.html</a></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/05/12/SpringBoot%E9%A1%B9%E7%9B%AE%E5%BC%95%E5%85%A5%E6%9C%AC%E5%9C%B0Jar%E5%8C%85/微信.png" style="zoom: 50%;"></p>
 ]]></content>
       <categories>
         <category>SpringBoot</category>
