@@ -42,14 +42,15 @@ xiaoHong.sayAge(); // 11
 
 
 
-上述例子中，方法“sayAge”是在原型上而非对象中。（关于对象与原型之间更为详细的内容，可阅读文章：[《浅谈JS中的构造函数、原型对象(prototype)、实例中的属性/方法之间的关系》](https://segmentfault.com/img/bVbkATy)）
+上述例子中，方法“sayAge”是在原型上而非对象中。
 
-**原型链的原理**
+[浅谈JS中的构造函数、原型对象(prototype)、实例中的属性/方法之间的关系 - SegmentFault 思否](https://segmentfault.com/a/1190000016951069?utm_source=sf-similar-article)
 
 原型自身也是一个对象（默认情况下所有对象都是Object的实例)。
 
 ```
-alert(xiaoming instanceof Object); // true alert(Person.prototype instanceof Object); // true
+alert(xiaoming instanceof Object); // true 
+alert(Person.prototype instanceof Object); // true
 ```
 
 每个对象都有自己的原型，所以Person的原型也有它自己的原型，那就是：Object.prototype(部分浏览器允许通过实例的“__proto__”属性访问其原型)

@@ -49,24 +49,40 @@ import os
 
 
 class PressureStart(HttpUser):
-    min_wait = 1  # 最小等待时间(ms)，模拟用户在执行每个任务之间等待的最小时间
-    max_wait = 2  # 最大等待时长(ms)，模拟用户在执行每个任务之间等待的最大时长
+    min_wait = 100  # 最小等待时间(ms)，模拟用户在执行每个任务之间等待的最小时间
+    max_wait = 500  # 最大等待时长(ms)，模拟用户在执行每个任务之间等待的最大时长
     wait_time = between(min_wait, max_wait)
     host = "http://localhost:8000"  # 访问的域名和端口
-    def on_start(self):
-        """
-         # 开始任务
-        适用于需要登录的才能访问的接口，再此先登录
-        :return:
-        """
-        print("start working ............")
-        # self.client.post("/login", json={"username": "foo", "password": "bar"})
+
+    # def on_start(self):
+    #     # login_result = self.client.post("/login", json={"username": "Tom", "password": "123456"}).text
+    #     print(" working start ............")
+    #
+    # def on_stop(self):
+    #     logout_result = self.client.post("/logout", json={"username": "Jim", "password": "456789"}).text
+    #     print(" working stop ............")
 
     @task(1)
     def region_get(self):
         header = {"Content-Type": "application/json"}
         self.client.get('/user/1', headers=header)
+
+    # @task(2)
+    # def region_get2(self):
+    #     header = {"Content-Type": "application/json"}
+    #     self.client.get('/user/1', headers=header)
 ```
+
+**on_start：开始前执行；
+on_stop：结束后执行。**
+
+这两个方法可以帮助我们在进行性能测试时，把一些前置操作和后置处理进行规范化管理。
+
+例如在on_start获取登录的token，在on_stop清理运行产生的冗余数据。
+
+**具体用例：**
+
+[(59条消息) locust2.0+教程：005 - on_start和on_stop_三爷带你飞的博客-CSDN博客](https://blog.csdn.net/hzblucky1314/article/details/120085654)
 
 #### 四，命令行执行
 
