@@ -1,6 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>pandas读取excel表格数据处理成json格式</title>
+    <url>/2022/11/23/pandas%E8%AF%BB%E5%8F%96excel%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E6%88%90json%E6%A0%BC%E5%BC%8F/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天给大家介绍下如何利用pandas 去处理excel文件数据成json格式</p>
+<a id="more"></a>
+<p><strong>一、首先我有这种格式的excel文件</strong></p>
+<p><img src="/2022/11/23/pandas%E8%AF%BB%E5%8F%96excel%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E6%88%90json%E6%A0%BC%E5%BC%8F/1.jpg" style="zoom: 50%;"></p>
+<p><strong>二、需求</strong></p>
+<p>把excel数据，读取成json格式的数据</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">&quot;title&quot; : &quot;俞敏洪老师带队转型直播间，鲜美生活邀请您~&quot; ,</span><br><span class="line">&quot;startLive&quot; : &quot;2022-11-22 07:45:19&quot; ,</span><br><span class="line">&quot;liveTime&quot; : &quot;15h49m50s&quot; ,</span><br><span class="line">&quot;totalUser&quot; : 9488071 ,</span><br><span class="line">&quot;goodsNum&quot; : 122 ,</span><br><span class="line">&quot;sales&quot; : &quot;20w+&quot; ,</span><br><span class="line">&quot;gmv&quot; : 16974690.350975998 ,</span><br><span class="line">&quot;url&quot; : &quot;&quot; ,</span><br><span class="line">&quot;userCount&quot; : 22633 ,</span><br><span class="line">&quot;uvVal&quot; : 1.79 ,</span><br><span class="line">&quot;pitProduction&quot; : &quot;10w+&quot; ,</span><br><span class="line">&quot;unitPrice&quot; : 62.12 ,</span><br><span class="line">&quot;salesConRate&quot; : &quot;2.88%&quot; ,</span><br><span class="line">&quot;refund&quot; : &quot;3000+&quot; ,</span><br><span class="line">&quot;refundRate&quot; : &quot;1.4%&quot; ,</span><br><span class="line">&quot;digg&quot; : 6923940 ,</span><br><span class="line">&quot;fansInc&quot; : 14184 ,</span><br><span class="line">&quot;fansIncRate&quot; : &quot;0.15%&quot; ,</span><br><span class="line">&quot;avgUserDuration&quot; : &quot;2m16s&quot; ,</span><br><span class="line">&quot;userNum&quot; : 54213 ,</span><br><span class="line">&quot;shareCount&quot; : 3310 ,</span><br><span class="line">&quot;watchNum&quot; : 4724032 ,</span><br><span class="line">&quot;salesMin&quot; : &quot;200+&quot; ,</span><br><span class="line">&quot;gmvMin&quot; : &quot;1w+&quot; ,</span><br><span class="line">&quot;watchIncMin&quot; : 9991.52 ,</span><br><span class="line">&quot;itemRate&quot; : &quot;74.57%&quot; ,</span><br><span class="line">&quot;insert_time&quot; : &quot;20221123&quot; ,</span><br><span class="line">&quot;uid&quot; : &quot;ss&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>三、代码实现</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">excel_deal</span><span class="params">(path, uid)</span>:</span></span><br><span class="line">    keys = &#123;</span><br><span class="line">        <span class="string">'直播间名称'</span>: <span class="string">'title'</span>,</span><br><span class="line">        <span class="string">'开播时间'</span>: <span class="string">'startLive'</span>,</span><br><span class="line">        <span class="string">'直播时长'</span>: <span class="string">'liveTime'</span>,</span><br><span class="line">        <span class="string">'观看人次'</span>: <span class="string">'totalUser'</span>,</span><br><span class="line">        <span class="string">'直播商品数'</span>: <span class="string">'goodsNum'</span>,</span><br><span class="line">        <span class="string">'销量'</span>: <span class="string">'sales'</span>,</span><br><span class="line">        <span class="string">'销售额'</span>: <span class="string">'gmv'</span>,</span><br><span class="line">        <span class="string">'链接'</span>: <span class="string">'url'</span>,</span><br><span class="line">        <span class="string">'平均在线'</span>: <span class="string">'userCount'</span>,</span><br><span class="line">        <span class="comment"># '千次观看成交金额': '',</span></span><br><span class="line">        <span class="string">'UV价值'</span>: <span class="string">'uvVal'</span>,</span><br><span class="line">        <span class="string">'坑产'</span>: <span class="string">'pitProduction'</span>,</span><br><span class="line">        <span class="string">'客单价'</span>: <span class="string">'unitPrice'</span>,</span><br><span class="line">        <span class="string">'销售转化率'</span>: <span class="string">'salesConRate'</span>,</span><br><span class="line">        <span class="comment"># '商品总访客量': '',</span></span><br><span class="line">        <span class="comment"># '观看-曝光转化率': '',</span></span><br><span class="line">        <span class="comment"># '曝光-购买转化率': '',</span></span><br><span class="line">        <span class="string">'退货件数'</span>: <span class="string">'refund'</span>,</span><br><span class="line">        <span class="string">'退货率'</span>: <span class="string">'refundRate'</span>,</span><br><span class="line">        <span class="string">'点赞数'</span>: <span class="string">'digg'</span>,</span><br><span class="line">        <span class="string">'新增粉丝'</span>: <span class="string">'fansInc'</span>,</span><br><span class="line">        <span class="comment"># '新增粉丝团': '',</span></span><br><span class="line">        <span class="string">'转粉率'</span>: <span class="string">'fansIncRate'</span>,</span><br><span class="line">        <span class="string">'人均停留时长'</span>: <span class="string">'avgUserDuration'</span>,</span><br><span class="line">        <span class="string">'人数峰值'</span>: <span class="string">'userNum'</span>,</span><br><span class="line">        <span class="comment"># '评论数': '',</span></span><br><span class="line">        <span class="string">'分享数'</span>: <span class="string">'shareCount'</span>,</span><br><span class="line">        <span class="string">'观看人数'</span>: <span class="string">'watchNum'</span>,</span><br><span class="line">        <span class="string">'分钟销量'</span>: <span class="string">'salesMin'</span>,</span><br><span class="line">        <span class="string">'分钟销售额'</span>: <span class="string">'gmvMin'</span>,</span><br><span class="line">        <span class="string">'分钟流量'</span>: <span class="string">'watchIncMin'</span>,</span><br><span class="line">        <span class="string">'互动率'</span>: <span class="string">'itemRate'</span>,</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    cols = []  <span class="comment"># 设置读取excel 特定列的数据</span></span><br><span class="line">    clos_list = []  <span class="comment"># 设置读取excel 特定列的数据</span></span><br><span class="line">    <span class="keyword">for</span> k, v <span class="keyword">in</span> keys.items():</span><br><span class="line">        cols.append(k)</span><br><span class="line">        <span class="keyword">if</span> v == <span class="string">""</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            clos_list.append(v)</span><br><span class="line">    <span class="comment"># 创建最终返回的空字典</span></span><br><span class="line">    df_dict = &#123;&#125;</span><br><span class="line">    <span class="comment"># 读取Excel文件</span></span><br><span class="line">    df = pd.read_excel(io=path, usecols=cols, na_values=<span class="string">'#N'</span>)  <span class="comment"># 读取指定列的excel数据</span></span><br><span class="line">    df.fillna(<span class="string">''</span>, inplace=<span class="literal">True</span>)  <span class="comment"># 替换Excel表格内的空单元格，否则在下一步处理中将会报错</span></span><br><span class="line"></span><br><span class="line">    df_list = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> df.index.values:  <span class="comment"># loc为按列名索引 iloc 为按位置索引，使用的是 [[行号], [列名]]</span></span><br><span class="line">        df.rename(columns=keys, inplace=<span class="literal">True</span>)  <span class="comment"># 重新替换列的名字  &#123;"标题" : "title"&#125;</span></span><br><span class="line"></span><br><span class="line">        df_line = df.loc[i, clos_list].to_dict()  <span class="comment"># 将每一行转换成字典后添加到列表</span></span><br><span class="line">        </span><br><span class="line">        df_list.append(df_line)</span><br><span class="line">    df_dict[<span class="string">'data'</span>] = df_list</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> df_dict</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    res = excel_deal(<span class="string">"./2022-10-24-2022-11-23.xlsx"</span>, <span class="string">"ss"</span>)</span><br><span class="line">    print(res)</span><br></pre></td></tr></table></figure>
+<p><strong>四、效果演示</strong></p>
+<p><img src="/2022/11/23/pandas%E8%AF%BB%E5%8F%96excel%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E6%88%90json%E6%A0%BC%E5%BC%8F/2.jpg" style="zoom: 50%;"></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/11/23/pandas%E8%AF%BB%E5%8F%96excel%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E6%88%90json%E6%A0%BC%E5%BC%8F/www5/BoyYongXin/source/_posts/share/微信.png" style="zoom: 50%;"></p>
+]]></content>
+      <categories>
+        <category>pandas</category>
+      </categories>
+      <tags>
+        <tag>pandas</tag>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python监控文件变化的神器-看门狗</title>
+    <url>/2022/11/21/python%E7%9B%91%E6%8E%A7%E6%96%87%E4%BB%B6%E5%8F%98%E5%8C%96%E7%9A%84%E7%A5%9E%E5%99%A8-%E7%9C%8B%E9%97%A8%E7%8B%97/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，代码规范不仅能减少bug，有助于代码审查，降低维护成本，更重要的是在大型项目中，能够提升团队间的合作效率，今天给大家带来篇python代码规范利器-Flake8的文章。</p>
+<a id="more"></a>
+<p><strong>一、简介</strong></p>
+<p>看门狗是一款小软件，可以监控文件和目录是否发生变化，watchdog就是一款可以监控文件系统变化的第三方模块，当被监视的区域发生文件或目录的创建，修改，或者删除时，就可以引发特定的事件，我们只需要编写针对这些事件的函数即可处理这些变化。</p>
+<p>二、安装</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip install watchdog</span><br></pre></td></tr></table></figure>
+<p>三、代码解析、</p>
+<p>官方文档 ：  <a href="https://pypi.org/project/watchdog/" target="_blank" rel="noopener">https://pypi.org/project/watchdog/</a></p>
+<p>我们从官方文档复制 使用代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"><span class="keyword">from</span> watchdog.observers <span class="keyword">import</span> Observer</span><br><span class="line"><span class="keyword">from</span> watchdog.events <span class="keyword">import</span> LoggingEventHandler</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    logging.basicConfig(level=logging.INFO,</span><br><span class="line">                        format=<span class="string">'%(asctime)s - %(message)s'</span>,</span><br><span class="line">                        datefmt=<span class="string">'%Y-%m-%d %H:%M:%S'</span>)</span><br><span class="line">    path = sys.argv[<span class="number">1</span>] <span class="keyword">if</span> len(sys.argv) &gt; <span class="number">1</span> <span class="keyword">else</span> <span class="string">'.'</span></span><br><span class="line">    <span class="comment"># 生成时间处理器对象</span></span><br><span class="line">    event_handler = LoggingEventHandler()</span><br><span class="line">    <span class="comment"># 生成监控器对象</span></span><br><span class="line">    observer = Observer()</span><br><span class="line">    <span class="comment">#  注册事件处理器，配置监控目录</span></span><br><span class="line">    observer.schedule(event_handler, path, recursive=<span class="literal">True</span>)</span><br><span class="line">    <span class="comment"># 监控器启动-=创建线程</span></span><br><span class="line">    observer.start()</span><br><span class="line">    <span class="comment"># 保持主线程运行</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            time.sleep(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        observer.stop()</span><br><span class="line">        <span class="comment"># 等待其他主线程执行结束后，主要线程结束</span></span><br><span class="line">        observer.join()</span><br></pre></td></tr></table></figure>
+<p>可以看到代码中有几个关键步骤，</p>
+<blockquote>
+<p>1.配置各项信息；<br>2.生成事件处理器、监控器；<br>3.注册事件处理器、配置目录、递归执行（即同时监控子文件夹）；<br>4:启动。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">schedule(event_handler, path, recursive=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+<p>该方法用于监视 <code>path</code> 路径，并调用给定的事情 <code>event_handler</code> 。</p>
+<p>最后一个参数 <code>recursive</code> 表示是否递归子目录，即监听子目录，默认为 False</p>
+<p>其实，看门狗的observer是基于<strong><code>threading.Thread</code></strong>对象的，所以observer很多属性都继承了 threading.Thread 的属性。</p>
+<p>如果你不带参数地运行该脚本，就是要监控脚本文件所在的文件夹，如果要监控其他文件夹，记得运行时带文件夹的路径参数，如：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python obserber.py &#x2F;data&#x2F;home&#x2F;ckend&#x2F;</span><br></pre></td></tr></table></figure>
+<p>我们来试着运行看看：</p>
+<p><img src="/2022/11/21/python%E7%9B%91%E6%8E%A7%E6%96%87%E4%BB%B6%E5%8F%98%E5%8C%96%E7%9A%84%E7%A5%9E%E5%99%A8-%E7%9C%8B%E9%97%A8%E7%8B%97/1.jpg" style="zoom: 50%;"></p>
+<p><strong>2、监控文件变化：</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> watchdog.observers <span class="keyword">import</span> Observer</span><br><span class="line"><span class="keyword">from</span> watchdog.events <span class="keyword">import</span> FileSystemEventHandler</span><br><span class="line"><span class="keyword">from</span> loguru <span class="keyword">import</span> logger</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileEventHandler</span><span class="params">(FileSystemEventHandler)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        FileSystemEventHandler.__init__(self)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">on_moved</span><span class="params">(self, event)</span>:</span></span><br><span class="line">        print(<span class="string">"文件移动触发"</span>)</span><br><span class="line">        <span class="keyword">if</span> event.is_directory:</span><br><span class="line">            print(<span class="string">"directory moved from &#123;0&#125; to &#123;1&#125;"</span>.format(event.src_path, event.dest_path))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">"file moved from &#123;0&#125; to &#123;1&#125;"</span>.format(event.src_path, event.dest_path))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">on_created</span><span class="params">(self, event)</span>:</span></span><br><span class="line">        print(<span class="string">"文件创建触发"</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> event.is_directory:</span><br><span class="line">            print(<span class="string">"directory created:&#123;0&#125;"</span>.format(event.src_path))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">"file created:&#123;0&#125;"</span>.format(event.src_path))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">on_deleted</span><span class="params">(self, event)</span>:</span></span><br><span class="line">        print(<span class="string">"文件删除触发"</span>)</span><br><span class="line">        <span class="keyword">if</span> event.is_directory:</span><br><span class="line">            print(<span class="string">"directory deleted:&#123;0&#125;"</span>.format(event.src_path))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">"file deleted:&#123;0&#125;"</span>.format(event.src_path))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">on_modified</span><span class="params">(self, event)</span>:</span></span><br><span class="line">        print(<span class="string">"文件编辑触发"</span>)</span><br><span class="line">        path = os.path.abspath(event.src_path)</span><br><span class="line">        <span class="keyword">if</span> event.is_directory:</span><br><span class="line">            print(<span class="string">"directory modified:&#123;0&#125;"</span>.format(path))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(dir(event))</span><br><span class="line">            logger.debug(<span class="string">"file modified:&#123;0&#125;"</span>.format(path))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line"></span><br><span class="line">    path = sys.argv[<span class="number">1</span>] <span class="keyword">if</span> len(sys.argv) &gt; <span class="number">1</span> <span class="keyword">else</span> <span class="string">'.'</span></span><br><span class="line">    <span class="comment"># 生成时间处理器对象</span></span><br><span class="line">    event_handler = FileEventHandler()</span><br><span class="line">    <span class="comment"># 生成监控器对象</span></span><br><span class="line">    observer = Observer()</span><br><span class="line">    <span class="comment">#  注册事件处理器，配置监控目录</span></span><br><span class="line">    observer.schedule(event_handler, path, recursive=<span class="literal">True</span>)</span><br><span class="line">    <span class="comment"># 监控器启动-=创建线程</span></span><br><span class="line">    observer.start()</span><br><span class="line">    <span class="comment"># 保持主线程运行</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            time.sleep(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        observer.stop()</span><br><span class="line">        <span class="comment"># 等待其他主线程执行结束后，主要线程结束</span></span><br><span class="line">        observer.join()</span><br></pre></td></tr></table></figure>
+<p><code>FileSystemEvent</code> 文件类派生出来的子类包括如下内容</p>
+<ul>
+<li><code>watchdog.events.FileCreatedEvent()</code> ：文件被创建时触发该事件；</li>
+<li><code>watchdog.events.DirCreatedEvent()</code> ：目录被创建时触发该事件；</li>
+<li><code>watchdog.events.FileDeletedEvent()</code> ：文件被删除时触发该事件；</li>
+<li><code>watchdog.events.DirDeletedEvent()</code> ：目录被删除时触发该事件；</li>
+<li><code>watchdog.events.FileModifiedEvent()</code> ：文件被修改时触发该事件；</li>
+<li><code>watchdog.events.DirModifiedEvent()</code> ：目录被修改时触发该事件；</li>
+<li><code>watchdog.events.FileMovedEvent()</code> ：文件被移动或重命名时触发该事件（<code>event.src_path</code> 表示原路径，还有 <code>event.dest_path</code> ）；</li>
+<li><code>watchdog.events.DirMovedEvent()</code> ：目录被移动或重命名时触发该事件（<code>event.src_path</code> 表示原路径，还有 <code>event.dest_path</code> ）；</li>
+</ul>
+<p><code>watchdog</code> 默认提供的一些事件处理类</p>
+<ul>
+<li><code>FileSystemEventHandler</code>：文件，事件处理器的基类，用于处理事件；</li>
+<li><code>PatternMatchingEventHandler</code>：模式匹配文件；</li>
+<li><code>RegexMatchingEventHandler</code>：正则匹配文件；</li>
+<li><code>LoggingEventHandler</code>：记录日志。</li>
+</ul>
+<p><strong>多个事件监听：</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">event_handler1 = MyHandler()</span><br><span class="line">observer = Observer()</span><br><span class="line">watch = observer.schedule(event_handler1, path=<span class="string">'.'</span>, recursive=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">logging.basicConfig(level=logging.INFO, format=<span class="string">'%(asctime)s - %(message)s'</span>, datefmt=<span class="string">'%Y-%m-%d %H:%M:%S'</span>)</span><br><span class="line"></span><br><span class="line">event_handler2 = LoggingEventHandler()</span><br><span class="line">observer.add_handler_for_watch(event_handler2, watch)  <span class="comment"># 添加event handler</span></span><br><span class="line">observer.start()</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">	<span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">		time.sleep(<span class="number">1</span>)</span><br><span class="line"><span class="keyword">except</span> KeyboardInterrupt:</span><br><span class="line">	observer.stop()</span><br><span class="line">	observer.join()</span><br></pre></td></tr></table></figure>
+<p><strong>参考链接：</strong><br>（1）python watchdog 详细讲解</p>
+<p><a href="https://bbs.huaweicloud.com/blogs/325805" target="_blank" rel="noopener">https://bbs.huaweicloud.com/blogs/325805</a></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>watchdog</tag>
+        <tag>文件监控</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python代码规范利器-Flake8</title>
+    <url>/2022/11/20/python%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83%E5%88%A9%E5%99%A8-Flake8/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，代码规范不仅能减少bug，有助于代码审查，降低维护成本，更重要的是在大型项目中，能够提升团队间的合作效率，今天给大家带来篇python代码规范利器-Flake8的文章。</p>
+<a id="more"></a>
+<p><strong>一、简介</strong></p>
+<p>Flake8 是一款辅助检测Python代码是否规范的工具，它是下面三个工具的封装集合：</p>
+<ol>
+<li>PyFlakes</li>
+<li>Pep8</li>
+<li>NedBatchelder’s McCabe script</li>
+</ol>
+<p>Flake8 通过启动单个<code>flake8</code>命令来运行所有工具。它在每个文件的合并输出中显示警告。</p>
+<p><strong>二、安装</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip install flake8</span><br></pre></td></tr></table></figure>
+<p>采坑实录：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">self.headers[&quot;User-Agent&quot;] &#x3D; user_agent()</span><br><span class="line">File &quot;E:\phone_workerspace\anti_python\venv\lib\site-packages\pip\_internal\network\session.py&quot;, line 170,</span><br><span class="line">in user_agent</span><br><span class="line">    if rustc_output.startswith(b&quot;rustc &quot;):</span><br><span class="line">TypeError: startswith first arg must be str or a tuple of str, not bytes</span><br></pre></td></tr></table></figure>
+<p>修改指定错误行如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">if rustc_output.startswith(&quot;rustc &quot;):</span><br></pre></td></tr></table></figure>
+<p>再次安装：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">in __init__</span><br><span class="line">    self.headers[&quot;User-Agent&quot;] &#x3D; user_agent()</span><br><span class="line">  File &quot;E:\phone_workerspace\anti_python\venv\lib\site-packages\pip\_internal\network\session.py&quot;, line 174,</span><br><span class="line">in user_agent</span><br><span class="line">    data[&quot;rustc_version&quot;] &#x3D; rustc_output.split(b&quot; &quot;)[1].decode()</span><br><span class="line">TypeError: must be str or None, not bytes</span><br></pre></td></tr></table></figure>
+<p>修改指定错误行如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">data[&quot;rustc_version&quot;] &#x3D; rustc_output.split(&quot; &quot;)[1]</span><br></pre></td></tr></table></figure>
+<p>ok再次安装成功</p>
+<p><strong>三、使用</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">flake8 my_project</span><br></pre></td></tr></table></figure>
+<p>你可以在命令行上进行配置，也可以使用配置文件，配置文件可以在最高级的用户目录下，或者当前目录下，<code>setup.cfg</code>,<code>tox.ini</code>, 或者<code>.flake8</code> 文件都可以，文件需要以 [flake8] 段落开头：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[flake8]</span><br><span class="line">ignore &#x3D; D203</span><br><span class="line">exclude &#x3D; .git,__pycache__,docs&#x2F;source&#x2F;conf.py,old,build,dist</span><br><span class="line">max-complexity &#x3D; 10</span><br></pre></td></tr></table></figure>
+<p><strong>—exclude</strong>，用来批量检查的时候，忽略指定的文件：</p>
+<p><strong>—ignore</strong>     也是因为有的时候输出太多，以一些告警信息可能是不需要的，将其忽略：</p>
+<p><strong>—max-complexity</strong>，代码复杂度检查，通过这个参数设一个阈值，超过的将显示出来，默认是12</p>
+<p>如果有多个配置文件的话，可以通过flake8 —config=配置文件项目名称，这种方式解决。</p>
+<p><strong>其他配置项：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">配置项列表：</span><br><span class="line"></span><br><span class="line">count 打印错误总数</span><br><span class="line">diff 仅检查修改的文件并报告 diff 中包含的错误</span><br><span class="line">exclude 排除，使用逗号分隔</span><br><span class="line">filename 检查的文件</span><br><span class="line">format 选择用于向用户显示错误的格式化程序，默认情况下，有两种可用的格式化程序：default 和 pylint</span><br><span class="line">hang-closing 切换 pycodestyle 是否应该强制匹配左括号行的缩进</span><br><span class="line">ignore 要忽略的错误代码列表，默认为E121,E123,E126,E226,E24,E704,W503,W504</span><br><span class="line">extend-ignore 添加到要忽略的错误代码列表，无需完全覆盖默认列表</span><br><span class="line">max-line-length 最大长度</span><br><span class="line">select 希望 Flake8 报告的错误代码列表</span><br><span class="line">extend-select 添加到要报告错误的代码列表，无需完全覆盖默认列表</span><br><span class="line">disable-noqa 报告所有错误，即使它与注释在同一行</span><br><span class="line">show-source 打印生成相关错误&#x2F;警告的源代码</span><br><span class="line">statistics 计算每个错误&#x2F;警告代码的出现次数并打印报告</span><br><span class="line">enabled-extensions 启用默认关闭扩展</span><br><span class="line">exit-zero 即使有错误，也强制 Flake8 使用退出状态代码 0</span><br><span class="line">jobs 指定 Flake8 将用于并行运行检查的子进程数</span><br><span class="line">output-file 将所有输出重定向到指定的文件</span><br><span class="line">tee 如果已配置输出文件，还将输出打印到标准输出</span><br><span class="line">append-config 提供额外的配置文件来解析</span><br><span class="line">config 配置文件的路径</span><br><span class="line">isolated 忽略任何配置文件并使用 Flake8</span><br><span class="line">builtins 提供内置函数、对象、名称等的自定义列表</span><br><span class="line">doctests 在 docstrings 中启用 doctests 的 PyFlakes 语法检查</span><br><span class="line">include-in-doctest 指定 PyFlakes 检查哪些文件的 doctest 语法</span><br><span class="line">exclude-from-doctest 指定 PyFlakes 不检查哪些文件的 doctest 语法</span><br></pre></td></tr></table></figure>
+<p><strong>四、实测</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">flake8 mon_celery_pid.py</span><br><span class="line">mon_celery_pid.py:6:1: F401 &#39;flask.request&#39; imported but unused</span><br></pre></td></tr></table></figure>
+<p>他就会把不规范的代码 打印出来</p>
+<p>F401  就是不规范的分类编号，如果想要忽略这种错误就在 配置文件里写上</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ignore &#x3D; E401</span><br></pre></td></tr></table></figure>
+<p>.flake8配置文件写法大致如下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[flake8]</span><br><span class="line">ignore &#x3D; E401,F541,E722,E501</span><br><span class="line">exclude &#x3D;</span><br><span class="line">    # No need to traverse our git directory</span><br><span class="line">    bin,</span><br><span class="line">    conf,</span><br><span class="line">    dayan,</span><br><span class="line">    data,</span><br><span class="line">    .git,</span><br><span class="line">    # There&#39;s no value in checking cache directories</span><br><span class="line">    __pycache__,</span><br><span class="line">    # The conf file is mostly autogenerated, ignore it</span><br><span class="line">    docs&#x2F;source&#x2F;conf.py,</span><br><span class="line">    # The old directory contains Flake8 2.0</span><br><span class="line">    old,</span><br><span class="line">    # This contains our built documentation</span><br><span class="line">    build,</span><br><span class="line">    # This contains builds of flake8 that we don&#39;t want to check</span><br><span class="line">    dist,</span><br><span class="line">    test.py</span><br><span class="line">max-complexity &#x3D; 10</span><br><span class="line">max-line-length &#x3D; 150</span><br></pre></td></tr></table></figure>
+<p><strong>相关阅读</strong></p>
+<p>（1）Python PEP8 编码规范中文版</p>
+<p><a href="https://www.cnblogs.com/bymo/p/9567140.html#_label0" target="_blank" rel="noopener">https://www.cnblogs.com/bymo/p/9567140.html#_label0</a></p>
+<p>（2）用flake8检查python代码</p>
+<p><a href="https://www.pynote.net/archives/2930" target="_blank" rel="noopener">https://www.pynote.net/archives/2930</a></p>
+<p>（3）python代码规范利器-Flake8</p>
+<p><a href="https://zhuanlan.zhihu.com/p/392178725" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/392178725</a></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/11/20/python%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83%E5%88%A9%E5%99%A8-Flake8/www5/BoyYongXin/source/_posts/share/微信.png" style="zoom: 50%;"></p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>flake8</tag>
+        <tag>代码规范</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2022/06/08/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.<br><a id="more"></a></p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>FastApi项目部署之应用生产环境gunicorn + uvicorn + nginx部署</title>
     <url>/2022/06/07/FastApi%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2%E4%B9%8B%E5%BA%94%E7%94%A8%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/</url>
     <content><![CDATA[<p>hello 大家好我是Monday，今天给大家带来一篇fastApi项目部署的相关文章。</p>
@@ -3473,20 +3633,6 @@
 <li>Description定位 <code>d(description=&quot;..&quot;).click()</code></li>
 <li>ClassName定位 <code>d(className=&quot;android.widget.TextView&quot;).click()</code></li>
 </ol>
-]]></content>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2019/12/21/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.<br><a id="more"></a></p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
 ]]></content>
   </entry>
 </search>
