@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"mac"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    comments: {"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="hello 大家好我是Monday，今天给大家带来一篇关于pytest自动化测试框架的使用的文章。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于pytest自动化测试框架的使用">
+<meta property="og:url" content="http://yoursite.com/2022/11/28/%E5%85%B3%E4%BA%8Epytest%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="菜鸟童靴">
+<meta property="og:description" content="hello 大家好我是Monday，今天给大家带来一篇关于pytest自动化测试框架的使用的文章。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz/SpIZia88icgTWTMdoqhFZ3RDehEiaUD6eYSUrcXibtwJhq7ibfKoouamC2SW8lD4GmiccU6I3l9ffQMiaLpJOSTsqQLfA/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1">
+<meta property="article:published_time" content="2022-11-28T15:07:21.000Z">
+<meta property="article:modified_time" content="2022-11-28T17:01:53.483Z">
+<meta property="article:author" content="Monday">
+<meta property="article:tag" content="pytest">
+<meta property="article:tag" content="测试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mmbiz.qpic.cn/mmbiz/SpIZia88icgTWTMdoqhFZ3RDehEiaUD6eYSUrcXibtwJhq7ibfKoouamC2SW8lD4GmiccU6I3l9ffQMiaLpJOSTsqQLfA/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1">
+
+<link rel="canonical" href="http://yoursite.com/2022/11/28/%E5%85%B3%E4%BA%8Epytest%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>关于pytest自动化测试框架的使用 | 菜鸟童靴</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="菜鸟童靴" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">菜鸟童靴</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">个人技术博客</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/BoyYongXin/BoyYongXin.github.io.git" class="github-corner" title="CoderYang GitHub" aria-label="CoderYang GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/11/28/%E5%85%B3%E4%BA%8Epytest%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Monday">
+      <meta itemprop="description" content="涉猎的编程语言为 Python、Java、Js，领域涵盖爬虫、后端、安卓逆向">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="菜鸟童靴">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          关于pytest自动化测试框架的使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-11-28 23:07:21" itemprop="dateCreated datePublished" datetime="2022-11-28T23:07:21+08:00">2022-11-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-11-29 01:01:53" itemprop="dateModified" datetime="2022-11-29T01:01:53+08:00">2022-11-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B5%8B%E8%AF%95/" itemprop="url" rel="index">
+                    <span itemprop="name">测试</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>hello 大家好我是Monday，今天给大家带来一篇关于pytest自动化测试框架的使用的文章。</p>
+<a id="more"></a>
+<h2 id="一、环境安装"><a href="#一、环境安装" class="headerlink" title="一、环境安装"></a>一、环境安装</h2><p>pytest 是 python 中的第三方库，使用之前需要先安装，在命令行中运行以下安装命令 ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pytest</span><br></pre></td></tr></table></figure>
+<p>检查安装是否成功以及安装的版本，命令行命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pytest --version</span><br></pre></td></tr></table></figure>
+<p>执行上述命令，能够输出版本信息，那就说明安装成功啦。</p>
+<h2 id="二、用例的识别与运行"><a href="#二、用例的识别与运行" class="headerlink" title="二、用例的识别与运行"></a>二、用例的识别与运行</h2><p>用例编写规范：</p>
+<ul>
+<li>测试文件以 test_ 开头（以 _test 结尾也可以）</li>
+<li>测试类以 Test 开头，并且不能带有 init 方法</li>
+<li>测试函数以 test_ 开头</li>
+<li>断言使用基本的 assert 即可</li>
+</ul>
+<p>创建一个 python 文件，命名以 test_ 开头（或者以 <em>test 结尾），创建测试方法以 test</em> 开头，测试类需要以 Test 开头。创建文件名为 test_add.py 文件，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(x, y)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> x + y</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_add</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">assert</span> add(<span class="number">1</span>, <span class="number">10</span>) == <span class="number">11</span></span><br><span class="line">    <span class="keyword">assert</span> add(<span class="number">1</span>, <span class="number">1</span>) == <span class="number">2</span></span><br><span class="line">    <span class="keyword">assert</span> add(<span class="number">1</span>, <span class="number">99</span>) == <span class="number">100</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestClass</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_one</span><span class="params">(self)</span>:</span></span><br><span class="line">        x = <span class="string">"this"</span></span><br><span class="line">        <span class="keyword">assert</span> <span class="string">"h"</span> <span class="keyword">in</span> x</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_two</span><span class="params">(self)</span>:</span></span><br><span class="line">        x = <span class="string">"hello"</span></span><br><span class="line">        <span class="keyword">assert</span> hasattr(x, <span class="string">"check"</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="三、测试结果"><a href="#三、测试结果" class="headerlink" title="三、测试结果"></a>三、测试结果</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">pytest test_add.py</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; test session starts &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">platform win32 -- Python 3.7.2, pytest-5.4.1, py-1.8.1, pluggy-0.13.1</span><br><span class="line">rootdir: E:\jsfund_workerspace\crawl_platform_jsfund\test</span><br><span class="line">plugins: anyio-3.3.0, celery-4.4.2</span><br><span class="line">collected 3 items                                                                                                        </span><br><span class="line"></span><br><span class="line">test_add.py ..F                                                                                                    [100%]</span><br><span class="line"></span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; FAILURES &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">__________________________________________________ TestClass.test_two ___________________________________________________</span><br><span class="line"></span><br><span class="line">self &#x3D; &lt;test.test_add.TestClass object at 0x0000021C9C6547F0&gt;</span><br><span class="line"></span><br><span class="line">    def test_two(self):</span><br><span class="line">        x &#x3D; &quot;hello&quot;</span><br><span class="line">&gt;       assert hasattr(x, &quot;check&quot;)</span><br><span class="line">E       AssertionError: assert False</span><br><span class="line">E        +  where False &#x3D; hasattr(&#39;hello&#39;, &#39;check&#39;)</span><br><span class="line"></span><br><span class="line">test_add.py:20: AssertionError</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; short test summary info &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">FAILED test_add.py::TestClass::test_two - AssertionError: assert False</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; 1 failed, 2 passed in 0.10s</span><br></pre></td></tr></table></figure>
+<h2 id="测试方式"><a href="#测试方式" class="headerlink" title="测试方式"></a>测试方式</h2><h3 id="1、pytest-main-执行的参数传递"><a href="#1、pytest-main-执行的参数传递" class="headerlink" title="1、pytest.main 执行的参数传递"></a>1、pytest.main 执行的参数传递</h3><p>pytest.main 方法是执行测试参数传递方式：</p>
+<blockquote>
+<p>所以把参数放在列表中，每个参数就是列表中的一个元素</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pytest.main([&#39;-v&#39;,&#39;-s&#39;])</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>参数 : 显示测试执行的输出信息-s</p>
+<p>参数 : 显示测试的详细参数信息-v</p>
+<p>详细的参数可以使用命令 查看pytest -h</p>
+</blockquote>
+<p><strong>代码示例：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> pytest</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(x, y)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> x + y</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_add</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">assert</span> add(<span class="number">1</span>, <span class="number">10</span>) == <span class="number">11</span></span><br><span class="line">    <span class="keyword">assert</span> add(<span class="number">1</span>, <span class="number">1</span>) == <span class="number">2</span></span><br><span class="line">    <span class="keyword">assert</span> add(<span class="number">1</span>, <span class="number">99</span>) == <span class="number">100</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestClass</span>:</span></span><br><span class="line">    <span class="string">""" @pytest.mark.run(order=2)   执行顺序order=1 &gt; order=2 """</span></span><br><span class="line"><span class="meta">    @pytest.mark.run(order=2)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_one</span><span class="params">(self)</span>:</span></span><br><span class="line">        x = <span class="string">"this"</span></span><br><span class="line">        <span class="keyword">assert</span> <span class="string">"h"</span> <span class="keyword">in</span> x</span><br><span class="line"></span><br><span class="line"><span class="meta">    @pytest.mark.run(order=1)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_two</span><span class="params">(self)</span>:</span></span><br><span class="line">        x = <span class="string">"hello"</span></span><br><span class="line">        <span class="keyword">assert</span> hasattr(x, <span class="string">"check"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pytest.main([<span class="string">'-v'</span>, <span class="string">'-s'</span>, <span class="string">"test_add.py"</span>])</span><br></pre></td></tr></table></figure>
+<h3 id="2、指定执行的测试目录"><a href="#2、指定执行的测试目录" class="headerlink" title="2、指定执行的测试目录"></a>2、指定执行的测试目录</h3><blockquote>
+<p>命令pytest 测试目录路径</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pytest testcase&#x2F;</span><br></pre></td></tr></table></figure>
+<p>pytest 会执行指定目录路径下所有的测试用例</p>
+<h3 id="3、指定执行的测试文件"><a href="#3、指定执行的测试文件" class="headerlink" title="3、指定执行的测试文件"></a>3、指定执行的测试文件</h3><blockquote>
+<p>命令pytest 测试文件路径</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pytest testcase&#x2F;test_demo1.py</span><br></pre></td></tr></table></figure>
+<p>pytest 会执行指定测试文件中所有的测试用例</p>
+<h3 id="4、指定执行的测试类"><a href="#4、指定执行的测试类" class="headerlink" title="4、指定执行的测试类"></a>4、指定执行的测试类</h3><blockquote>
+<p>命令pytest 测试文件::测试类</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pytest testcase&#x2F;test_demo1.py::TestClass</span><br></pre></td></tr></table></figure>
+<p>pytest 会执行指定测试类里面所有的测试用例</p>
+<h3 id="5、指定执行的测试用例"><a href="#5、指定执行的测试用例" class="headerlink" title="5、指定执行的测试用例"></a>5、指定执行的测试用例</h3><blockquote>
+<p>命令pytest 测试文件::测试类::测试方法</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pytest testcase&#x2F;test_demo1.py::TestClass::test_method</span><br></pre></td></tr></table></figure>
+<h2 id="四、pycharm-配置pytest测试"><a href="#四、pycharm-配置pytest测试" class="headerlink" title="四、pycharm 配置pytest测试"></a>四、pycharm 配置pytest测试</h2><p><strong>（1）Mac下</strong><br> PyCharm Community Edition—&gt;Preference—&gt;Tools—&gt;Python Integrated Tools， 把Default test runner换为pytest就可以了</p>
+<p><strong>（2）windows下</strong></p>
+<p>PyCharm Community Edition—&gt;settings—&gt;Tools—&gt;Python Integrated Tools， 把Default test runner换为pytest就可以了</p>
+<p><strong>参考文章：</strong></p>
+<p><strong>（1）pytest 自动化测试框架(一)</strong></p>
+<p><a href="https://developer.aliyun.com/article/776171" target="_blank" rel="noopener">https://developer.aliyun.com/article/776171</a></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz/SpIZia88icgTWTMdoqhFZ3RDehEiaUD6eYSUrcXibtwJhq7ibfKoouamC2SW8lD4GmiccU6I3l9ffQMiaLpJOSTsqQLfA/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/pytest/" rel="tag"># pytest</a>
+              <a href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag"># 测试</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/11/26/Js%E9%80%86%E5%90%91%E4%B9%8Bwasm/" rel="prev" title="Js逆向之wasm">
+      <i class="fa fa-chevron-left"></i> Js逆向之wasm
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/12/01/pandas%E5%A4%84%E7%90%86html%E4%B8%AD%E7%9A%84%E8%A1%A8%E6%A0%BC%E8%BD%AC%E6%8D%A2%E6%88%90json%E8%90%BD%E5%BA%93/" rel="next" title="pandas处理html中的表格转换成json落库">
+      pandas处理html中的表格转换成json落库 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、环境安装"><span class="nav-number">1.</span> <span class="nav-text">一、环境安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、用例的识别与运行"><span class="nav-number">2.</span> <span class="nav-text">二、用例的识别与运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、测试结果"><span class="nav-number">3.</span> <span class="nav-text">三、测试结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试方式"><span class="nav-number">4.</span> <span class="nav-text">测试方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、pytest-main-执行的参数传递"><span class="nav-number">4.1.</span> <span class="nav-text">1、pytest.main 执行的参数传递</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、指定执行的测试目录"><span class="nav-number">4.2.</span> <span class="nav-text">2、指定执行的测试目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、指定执行的测试文件"><span class="nav-number">4.3.</span> <span class="nav-text">3、指定执行的测试文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、指定执行的测试类"><span class="nav-number">4.4.</span> <span class="nav-text">4、指定执行的测试类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、指定执行的测试用例"><span class="nav-number">4.5.</span> <span class="nav-text">5、指定执行的测试用例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、pycharm-配置pytest测试"><span class="nav-number">5.</span> <span class="nav-text">四、pycharm 配置pytest测试</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Monday"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Monday</p>
+  <div class="site-description" itemprop="description">涉猎的编程语言为 Python、Java、Js，领域涵盖爬虫、后端、安卓逆向</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+
+
+  
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+  <span class="author" itemprop="copyrightHolder">Monday</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.1.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.6.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      element.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: 'ddbb59d37878690e0e14# GitHub Application Client ID',
+      clientSecret: '13a61d6d6f9bb6f952b73077da21765a9337b760# GitHub Application Client Secret',
+      repo: 'boyyongxin.github.io# Repository name to store issues',
+      owner: 'CoderYang# GitHub repo owner',
+      admin: ['germey# GitHub repo owner and collaborators, only these guys can initialize gitHub issues'],
+      id: '0e82341adbb695d8db160f353784582b',
+        language: 'zh-CN',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+</body>
+</html>

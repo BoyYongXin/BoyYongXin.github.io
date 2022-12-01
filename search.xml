@@ -1,6 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>pandas处理html中的表格转换成json落库</title>
+    <url>/2022/12/01/pandas%E5%A4%84%E7%90%86html%E4%B8%AD%E7%9A%84%E8%A1%A8%E6%A0%BC%E8%BD%AC%E6%8D%A2%E6%88%90json%E8%90%BD%E5%BA%93/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天给大家介绍下如何利用pandas处理html中的表格转换成json落库。</p>
+<a id="more"></a>
+<h3 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h3><p>我们打开同花顺</p>
+<p><a href="http://q.10jqka.com.cn/thshy/detail/code/881172/" target="_blank" rel="noopener">http://q.10jqka.com.cn/thshy/detail/code/881172/</a></p>
+<p><img src="/2022/12/01/pandas%E5%A4%84%E7%90%86html%E4%B8%AD%E7%9A%84%E8%A1%A8%E6%A0%BC%E8%BD%AC%E6%8D%A2%E6%88%90json%E8%90%BD%E5%BA%93/1.jpg" style="zoom: 50%;"></p>
+<p>我们查看下网页源码发现时table表格的数据</p>
+<p><img src="/2022/12/01/pandas%E5%A4%84%E7%90%86html%E4%B8%AD%E7%9A%84%E8%A1%A8%E6%A0%BC%E8%BD%AC%E6%8D%A2%E6%88%90json%E8%90%BD%E5%BA%93/2.jpg" style="zoom: 50%;"></p>
+<p>这时候我们就可以使用pandas 的to_html 来处理</p>
+<p><strong>代码如下</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">"Accept"</span>: <span class="string">"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"</span>,</span><br><span class="line">    <span class="string">"Accept-Language"</span>: <span class="string">"zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6"</span>,</span><br><span class="line">    <span class="string">"Cache-Control"</span>: <span class="string">"max-age=0"</span>,</span><br><span class="line">    <span class="string">"Connection"</span>: <span class="string">"keep-alive"</span>,</span><br><span class="line">    <span class="string">"Referer"</span>: <span class="string">"http://q.10jqka.com.cn/thshy/"</span>,</span><br><span class="line">    <span class="string">"Upgrade-Insecure-Requests"</span>: <span class="string">"1"</span>,</span><br><span class="line">    <span class="string">"User-Agent"</span>: <span class="string">"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.62"</span></span><br><span class="line">&#125;</span><br><span class="line">cookies = &#123;</span><br><span class="line">    <span class="string">"__bid_n"</span>: <span class="string">"184ad366cf548da7ef4207"</span>,</span><br><span class="line">    <span class="string">"__utmz"</span>: <span class="string">"156575163.1669353336.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)"</span>,</span><br><span class="line">    <span class="string">"spversion"</span>: <span class="string">"20130314"</span>,</span><br><span class="line">    <span class="string">"Hm_lvt_78c58f01938e4d85eaf619eae71b4ed1"</span>: <span class="string">"1669265905,1669353299,1669606035,1669862136"</span>,</span><br><span class="line">    <span class="string">"__utma"</span>: <span class="string">"156575163.52013898.1669353336.1669353336.1669862146.2"</span>,</span><br><span class="line">    <span class="string">"__utmc"</span>: <span class="string">"156575163"</span>,</span><br><span class="line">    <span class="string">"log"</span>: <span class="string">""</span>,</span><br><span class="line">    <span class="string">"Hm_lpvt_78c58f01938e4d85eaf619eae71b4ed1"</span>: <span class="string">"1669899435"</span>,</span><br><span class="line">    <span class="string">"historystock"</span>: <span class="string">"300054%7C*%7C300896%7C*%7CHK1398%7C*%7C002316"</span>,</span><br><span class="line">    <span class="string">"v"</span>: <span class="string">"AwZL9WAEmZnu4039huusLHExV_eNZ0ohHKt-hfAv8ikE86ipWPeaMew7zo7D"</span></span><br><span class="line">&#125;</span><br><span class="line">url = <span class="string">"http://q.10jqka.com.cn/thshy/detail/code/881172/"</span></span><br><span class="line">response = requests.get(url, headers=headers, cookies=cookies, verify=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">response = requests.get(url, headers=headers, cookies=cookies, verify=<span class="literal">False</span>)</span><br><span class="line">text = response.text</span><br><span class="line">df = pd.read_html(text)[<span class="number">0</span>]</span><br><span class="line"><span class="comment"># 将df 转化成字典，获取列名</span></span><br><span class="line"><span class="comment"># ss = df.to_dict('dict')</span></span><br><span class="line"><span class="comment"># keys = []</span></span><br><span class="line"><span class="comment"># for k, v in ss.items():</span></span><br><span class="line"><span class="comment">#     keys.append(k)</span></span><br><span class="line"></span><br><span class="line">keys = df.columns.values <span class="comment"># 直接获取列名</span></span><br><span class="line">keys_repalce = &#123;</span><br><span class="line">    <span class="string">"代码"</span>: <span class="string">"code"</span>,</span><br><span class="line">    <span class="string">"名称"</span>: <span class="string">"name"</span></span><br><span class="line">&#125;</span><br><span class="line">df.columns = keys</span><br><span class="line"><span class="comment"># # 选取指定列 方式一</span></span><br><span class="line"><span class="comment"># select_cols = ['code', 'name']</span></span><br><span class="line"><span class="comment"># df = df[select_cols]</span></span><br><span class="line"><span class="comment"># # 选取指定列 方式二</span></span><br><span class="line"><span class="comment"># df.loc[:, ['code', 'name']]</span></span><br><span class="line">df_list = []</span><br><span class="line">df.rename(columns=keys_repalce, inplace=<span class="literal">True</span>)  <span class="comment"># 重新替换列的名字  &#123;"标题" : "title"&#125;</span></span><br><span class="line">df[<span class="string">"name"</span>] = df[<span class="string">"name"</span>].map(<span class="keyword">lambda</span> x: x.replace(<span class="string">" "</span>, <span class="string">""</span>).strip())  <span class="comment"># 处理列数据</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> df.index.values:  <span class="comment"># loc为按列名索引 iloc 为按位置索引，使用的是 [[行号], [列名]]</span></span><br><span class="line">    df_line = df.loc[i, [<span class="string">'code'</span>, <span class="string">'name'</span>]].to_dict()  <span class="comment"># 选取指定列，将每一行转换成字典后添加到列表</span></span><br><span class="line">    df_list.append(df_line)</span><br><span class="line">print(df_list)</span><br></pre></td></tr></table></figure>
+<p><strong>处理结果如下：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[&#123;&#39;code&#39;: 300054, &#39;name&#39;: &#39;鼎龙股份&#39;&#125;, &#123;&#39;code&#39;: 688019, &#39;name&#39;: &#39;安集科技&#39;&#125;, &#123;&#39;code&#39;: 301319, &#39;name&#39;: &#39;唯特偶&#39;&#125;, &#123;&#39;code&#39;: 688359, &#39;name&#39;: &#39;三孚新科&#39;&#125;, &#123;&#39;code&#39;: 300285, &#39;name&#39;: &#39;国瓷材料&#39;&#125;, &#123;&#39;code&#39;: 300481, &#39;name&#39;: &#39;濮阳惠成&#39;&#125;, &#123;&#39;code&#39;: 688106, &#39;name&#39;: &#39;金宏气体&#39;&#125;, &#123;&#39;code&#39;: 300684, &#39;name&#39;: &#39;中石科技&#39;&#125;, &#123;&#39;code&#39;: 300655, &#39;name&#39;: &#39;晶瑞电材&#39;&#125;, &#123;&#39;code&#39;: 300398, &#39;name&#39;: &#39;飞凯材料&#39;&#125;, &#123;&#39;code&#39;: 300236, &#39;name&#39;: &#39;上海新阳&#39;&#125;, &#123;&#39;code&#39;: 2741, &#39;name&#39;: &#39;光华科技&#39;&#125;, &#123;&#39;code&#39;: 688268, &#39;name&#39;: &#39;华特气体&#39;&#125;, &#123;&#39;code&#39;: 603002, &#39;name&#39;: &#39;宏昌电子&#39;&#125;, &#123;&#39;code&#39;: 300346, &#39;name&#39;: &#39;南大光电&#39;&#125;, &#123;&#39;code&#39;: 300429, &#39;name&#39;: &#39;强力新材&#39;&#125;, &#123;&#39;code&#39;: 300576, &#39;name&#39;: &#39;容大感光&#39;&#125;, &#123;&#39;code&#39;: 688550, &#39;name&#39;: &#39;瑞联新材&#39;&#125;, &#123;&#39;code&#39;: 300537, &#39;name&#39;: &#39;广信材料&#39;&#125;, &#123;&#39;code&#39;: 688150, &#39;name&#39;: &#39;莱特光电&#39;&#125;]</span><br></pre></td></tr></table></figure>
+<p>正常批量insert语句 df_list 就可以了（仅是小编的自己的习惯，转换成字典追加列表在批量入库）</p>
+<p><strong>（1）to_dict  </strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df_list = []</span><br><span class="line">df.rename(columns=keys_repalce, inplace=<span class="literal">True</span>)  <span class="comment"># 重新替换列的名字  &#123;"标题" : "title"&#125;</span></span><br><span class="line">df[<span class="string">"name"</span>] = df[<span class="string">"name"</span>].map(<span class="keyword">lambda</span> x: x.replace(<span class="string">" "</span>, <span class="string">""</span>).strip())  <span class="comment"># 处理列数据</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> df.index.values:  <span class="comment"># loc为按列名索引 iloc 为按位置索引，使用的是 [[行号], [列名]]</span></span><br><span class="line">    df_line = df.loc[i, [<span class="string">'code'</span>, <span class="string">'name'</span>]].to_dict()  <span class="comment"># 选取指定列，将每一行转换成字典后添加到列表</span></span><br><span class="line">    df_list.append(df_line)</span><br><span class="line">print(df_list)</span><br></pre></td></tr></table></figure>
+<p><strong>（2）to_sql</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> create_engine</span><br><span class="line">engine_ts = create_engine(<span class="string">'mysql://xxx:xxxx)@xxxx:xxxx/xx?charset=utf8&amp;use_unicode=1'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 此处省略处理代码，直接看上部分代码重复</span></span><br><span class="line">df.rename(columns=keys_repalce, inplace=<span class="literal">True</span>)  <span class="comment"># 重新替换列的名字  &#123;"标题" : "title"&#125;</span></span><br><span class="line">df[<span class="string">"name"</span>] = df[<span class="string">"name"</span>].map(<span class="keyword">lambda</span> x: x.replace(<span class="string">" "</span>, <span class="string">""</span>).strip())  <span class="comment"># 处理列数据</span></span><br><span class="line"></span><br><span class="line">df.to_sql(<span class="string">'table_name'</span>, engine_ts, index=<span class="literal">False</span>, if_exists=<span class="string">'append'</span>, chunksize=<span class="number">5000</span>)<span class="comment"># 批量入库</span></span><br></pre></td></tr></table></figure>
+<p><strong>（3）to_excel</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df_list = []</span><br><span class="line">df.rename(columns=keys_repalce, inplace=<span class="literal">True</span>)  <span class="comment"># 重新替换列的名字  &#123;"标题" : "title"&#125;</span></span><br><span class="line">df[<span class="string">"name"</span>] = df[<span class="string">"name"</span>].map(<span class="keyword">lambda</span> x: x.replace(<span class="string">" "</span>, <span class="string">""</span>).strip())  <span class="comment"># 处理列数据</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> df.index.values:  <span class="comment"># loc为按列名索引 iloc 为按位置索引，使用的是 [[行号], [列名]]</span></span><br><span class="line">    df_line = df.loc[i, [<span class="string">'code'</span>, <span class="string">'name'</span>]].to_dict()  <span class="comment"># 选取指定列，将每一行转换成字典后添加到列表</span></span><br><span class="line">    df_list.append(df_line)</span><br><span class="line">print(df_list)   </span><br><span class="line">df = pd.DataFrame(df_list,columns=[<span class="string">'code'</span>,<span class="string">'name'</span>])</span><br><span class="line">df.to_excel(<span class="string">'stocks.xlsx'</span>,index=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/12/01/pandas%E5%A4%84%E7%90%86html%E4%B8%AD%E7%9A%84%E8%A1%A8%E6%A0%BC%E8%BD%AC%E6%8D%A2%E6%88%90json%E8%90%BD%E5%BA%93/www5/BoyYongXin/source/_posts/share/微信.png" style="zoom: 50%;"></p>
+]]></content>
+      <categories>
+        <category>pandas</category>
+      </categories>
+      <tags>
+        <tag>pandas</tag>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于pytest自动化测试框架的使用</title>
+    <url>/2022/11/28/%E5%85%B3%E4%BA%8Epytest%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天给大家带来一篇关于pytest自动化测试框架的使用的文章。</p>
+<a id="more"></a>
+<h2 id="一、环境安装"><a href="#一、环境安装" class="headerlink" title="一、环境安装"></a>一、环境安装</h2><p>pytest 是 python 中的第三方库，使用之前需要先安装，在命令行中运行以下安装命令 ：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip install pytest</span><br></pre></td></tr></table></figure>
+<p>检查安装是否成功以及安装的版本，命令行命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pytest --version</span><br></pre></td></tr></table></figure>
+<p>执行上述命令，能够输出版本信息，那就说明安装成功啦。</p>
+<h2 id="二、用例的识别与运行"><a href="#二、用例的识别与运行" class="headerlink" title="二、用例的识别与运行"></a>二、用例的识别与运行</h2><p>用例编写规范：</p>
+<ul>
+<li>测试文件以 test_ 开头（以 _test 结尾也可以）</li>
+<li>测试类以 Test 开头，并且不能带有 init 方法</li>
+<li>测试函数以 test_ 开头</li>
+<li>断言使用基本的 assert 即可</li>
+</ul>
+<p>创建一个 python 文件，命名以 test_ 开头（或者以 <em>test 结尾），创建测试方法以 test</em> 开头，测试类需要以 Test 开头。创建文件名为 test_add.py 文件，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(x, y)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> x + y</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_add</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">assert</span> add(<span class="number">1</span>, <span class="number">10</span>) == <span class="number">11</span></span><br><span class="line">    <span class="keyword">assert</span> add(<span class="number">1</span>, <span class="number">1</span>) == <span class="number">2</span></span><br><span class="line">    <span class="keyword">assert</span> add(<span class="number">1</span>, <span class="number">99</span>) == <span class="number">100</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestClass</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_one</span><span class="params">(self)</span>:</span></span><br><span class="line">        x = <span class="string">"this"</span></span><br><span class="line">        <span class="keyword">assert</span> <span class="string">"h"</span> <span class="keyword">in</span> x</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_two</span><span class="params">(self)</span>:</span></span><br><span class="line">        x = <span class="string">"hello"</span></span><br><span class="line">        <span class="keyword">assert</span> hasattr(x, <span class="string">"check"</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="三、测试结果"><a href="#三、测试结果" class="headerlink" title="三、测试结果"></a>三、测试结果</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pytest test_add.py</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; test session starts &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">platform win32 -- Python 3.7.2, pytest-5.4.1, py-1.8.1, pluggy-0.13.1</span><br><span class="line">rootdir: E:\jsfund_workerspace\crawl_platform_jsfund\test</span><br><span class="line">plugins: anyio-3.3.0, celery-4.4.2</span><br><span class="line">collected 3 items                                                                                                        </span><br><span class="line"></span><br><span class="line">test_add.py ..F                                                                                                    [100%]</span><br><span class="line"></span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; FAILURES &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">__________________________________________________ TestClass.test_two ___________________________________________________</span><br><span class="line"></span><br><span class="line">self &#x3D; &lt;test.test_add.TestClass object at 0x0000021C9C6547F0&gt;</span><br><span class="line"></span><br><span class="line">    def test_two(self):</span><br><span class="line">        x &#x3D; &quot;hello&quot;</span><br><span class="line">&gt;       assert hasattr(x, &quot;check&quot;)</span><br><span class="line">E       AssertionError: assert False</span><br><span class="line">E        +  where False &#x3D; hasattr(&#39;hello&#39;, &#39;check&#39;)</span><br><span class="line"></span><br><span class="line">test_add.py:20: AssertionError</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; short test summary info &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">FAILED test_add.py::TestClass::test_two - AssertionError: assert False</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; 1 failed, 2 passed in 0.10s</span><br></pre></td></tr></table></figure>
+<h2 id="测试方式"><a href="#测试方式" class="headerlink" title="测试方式"></a>测试方式</h2><h3 id="1、pytest-main-执行的参数传递"><a href="#1、pytest-main-执行的参数传递" class="headerlink" title="1、pytest.main 执行的参数传递"></a>1、pytest.main 执行的参数传递</h3><p>pytest.main 方法是执行测试参数传递方式：</p>
+<blockquote>
+<p>所以把参数放在列表中，每个参数就是列表中的一个元素</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pytest.main([&#39;-v&#39;,&#39;-s&#39;])</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>参数 : 显示测试执行的输出信息-s</p>
+<p>参数 : 显示测试的详细参数信息-v</p>
+<p>详细的参数可以使用命令 查看pytest -h</p>
+</blockquote>
+<p><strong>代码示例：</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> pytest</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(x, y)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> x + y</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_add</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">assert</span> add(<span class="number">1</span>, <span class="number">10</span>) == <span class="number">11</span></span><br><span class="line">    <span class="keyword">assert</span> add(<span class="number">1</span>, <span class="number">1</span>) == <span class="number">2</span></span><br><span class="line">    <span class="keyword">assert</span> add(<span class="number">1</span>, <span class="number">99</span>) == <span class="number">100</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestClass</span>:</span></span><br><span class="line">    <span class="string">""" @pytest.mark.run(order=2)   执行顺序order=1 &gt; order=2 """</span></span><br><span class="line"><span class="meta">    @pytest.mark.run(order=2)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_one</span><span class="params">(self)</span>:</span></span><br><span class="line">        x = <span class="string">"this"</span></span><br><span class="line">        <span class="keyword">assert</span> <span class="string">"h"</span> <span class="keyword">in</span> x</span><br><span class="line"></span><br><span class="line"><span class="meta">    @pytest.mark.run(order=1)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_two</span><span class="params">(self)</span>:</span></span><br><span class="line">        x = <span class="string">"hello"</span></span><br><span class="line">        <span class="keyword">assert</span> hasattr(x, <span class="string">"check"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pytest.main([<span class="string">'-v'</span>, <span class="string">'-s'</span>, <span class="string">"test_add.py"</span>])</span><br></pre></td></tr></table></figure>
+<h3 id="2、指定执行的测试目录"><a href="#2、指定执行的测试目录" class="headerlink" title="2、指定执行的测试目录"></a>2、指定执行的测试目录</h3><blockquote>
+<p>命令pytest 测试目录路径</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pytest testcase&#x2F;</span><br></pre></td></tr></table></figure>
+<p>pytest 会执行指定目录路径下所有的测试用例</p>
+<h3 id="3、指定执行的测试文件"><a href="#3、指定执行的测试文件" class="headerlink" title="3、指定执行的测试文件"></a>3、指定执行的测试文件</h3><blockquote>
+<p>命令pytest 测试文件路径</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pytest testcase&#x2F;test_demo1.py</span><br></pre></td></tr></table></figure>
+<p>pytest 会执行指定测试文件中所有的测试用例</p>
+<h3 id="4、指定执行的测试类"><a href="#4、指定执行的测试类" class="headerlink" title="4、指定执行的测试类"></a>4、指定执行的测试类</h3><blockquote>
+<p>命令pytest 测试文件::测试类</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pytest testcase&#x2F;test_demo1.py::TestClass</span><br></pre></td></tr></table></figure>
+<p>pytest 会执行指定测试类里面所有的测试用例</p>
+<h3 id="5、指定执行的测试用例"><a href="#5、指定执行的测试用例" class="headerlink" title="5、指定执行的测试用例"></a>5、指定执行的测试用例</h3><blockquote>
+<p>命令pytest 测试文件::测试类::测试方法</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pytest testcase&#x2F;test_demo1.py::TestClass::test_method</span><br></pre></td></tr></table></figure>
+<h2 id="四、pycharm-配置pytest测试"><a href="#四、pycharm-配置pytest测试" class="headerlink" title="四、pycharm 配置pytest测试"></a>四、pycharm 配置pytest测试</h2><p><strong>（1）Mac下</strong><br> PyCharm Community Edition—&gt;Preference—&gt;Tools—&gt;Python Integrated Tools， 把Default test runner换为pytest就可以了</p>
+<p><strong>（2）windows下</strong></p>
+<p>PyCharm Community Edition—&gt;settings—&gt;Tools—&gt;Python Integrated Tools， 把Default test runner换为pytest就可以了</p>
+<p><strong>参考文章：</strong></p>
+<p><strong>（1）pytest 自动化测试框架(一)</strong></p>
+<p><a href="https://developer.aliyun.com/article/776171" target="_blank" rel="noopener">https://developer.aliyun.com/article/776171</a></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz/SpIZia88icgTWTMdoqhFZ3RDehEiaUD6eYSUrcXibtwJhq7ibfKoouamC2SW8lD4GmiccU6I3l9ffQMiaLpJOSTsqQLfA/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p>
+]]></content>
+      <categories>
+        <category>测试</category>
+      </categories>
+      <tags>
+        <tag>pytest</tag>
+        <tag>测试</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Js逆向之wasm</title>
     <url>/2022/11/26/Js%E9%80%86%E5%90%91%E4%B9%8Bwasm/</url>
     <content><![CDATA[<p>hello 大家好我是Monday，今天给大家带来篇Js逆向之wasm的文章。。</p>
@@ -1254,8 +1357,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>科学上网</tag>
         <tag>mitmproxy</tag>
+        <tag>科学上网</tag>
       </tags>
   </entry>
   <entry>
@@ -2251,8 +2354,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>内网穿透</tag>
         <tag>测试</tag>
+        <tag>内网穿透</tag>
       </tags>
   </entry>
   <entry>
@@ -2280,8 +2383,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>科学上网</tag>
         <tag>mitmproxy</tag>
+        <tag>科学上网</tag>
       </tags>
   </entry>
   <entry>
@@ -2394,8 +2497,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>科学上网</tag>
         <tag>mitmproxy</tag>
+        <tag>科学上网</tag>
       </tags>
   </entry>
   <entry>
@@ -2521,8 +2624,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>github</tag>
         <tag>科学上网</tag>
+        <tag>github</tag>
       </tags>
   </entry>
   <entry>
