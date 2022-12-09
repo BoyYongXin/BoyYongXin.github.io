@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>FastApi自定义响应之StreamingResponse、FileResponse</title>
+    <url>/2022/12/09/FastApi%E8%87%AA%E5%AE%9A%E4%B9%89%E5%93%8D%E5%BA%94%E4%B9%8BStreamingResponse%E3%80%81FileResponse/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天给大家带来一篇FastApi自定义响应之StreamingResponse、FileResponse的文章。</p>
+<a id="more"></a>
+<h2 id="一、StreamingResponse"><a href="#一、StreamingResponse" class="headerlink" title="一、StreamingResponse"></a>一、StreamingResponse</h2><p><strong>作用 ：</strong>采用异步生成器或普通生成器(generator)/迭代器(iterator)流式传输响应数据</p>
+<p><strong>实际代码</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> fastapi <span class="keyword">import</span> FastAPI</span><br><span class="line"><span class="keyword">from</span> fastapi.responses <span class="keyword">import</span> StreamingResponse</span><br><span class="line"></span><br><span class="line">file_path = <span class="string">"test.mp4"</span></span><br><span class="line">app = FastAPI()</span><br><span class="line"><span class="meta">@app.get("/")</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># 这是生成器函数。它是一个“生成器函数”，因为它里面包含了 yield 语句</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">iterfile</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="comment"># 通过使用 with 块，确保在生成器函数完成后关闭类文件对象</span></span><br><span class="line">        <span class="keyword">with</span> open(file_path, <span class="string">"rb"</span>) <span class="keyword">as</span> file_like:</span><br><span class="line">            <span class="comment"># yield from 告诉函数迭代名为 file_like 的东西</span></span><br><span class="line">            <span class="comment"># 对于迭代的每个部分，yield 的内容作为来自这个生成器函数</span></span><br><span class="line">            <span class="keyword">yield</span> <span class="keyword">from</span> file_like</span><br><span class="line">    <span class="keyword">return</span> StreamingResponse(iterfile(), media_type=<span class="string">"video/mp4"</span></span><br></pre></td></tr></table></figure>
+<h2 id="二、FileResponse"><a href="#二、FileResponse" class="headerlink" title="二、FileResponse"></a>二、FileResponse</h2><p><strong>作用</strong>：异步流式传输文件作为响应，重点一定是异步的</p>
+<p><strong>实际代码</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> fastapi <span class="keyword">import</span> FastAPI</span><br><span class="line"><span class="keyword">from</span> fastapi.responses <span class="keyword">import</span> FileResponse</span><br><span class="line"></span><br><span class="line">file_path = <span class="string">"test.mp4"</span></span><br><span class="line">app = FastAPI()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.get("/file", response_class=FileResponse)</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> file_path</span><br></pre></td></tr></table></figure>
+<h3 id="三、FastApi利用FileResponse-做下载模块："><a href="#三、FastApi利用FileResponse-做下载模块：" class="headerlink" title="三、FastApi利用FileResponse 做下载模块："></a><strong>三、FastApi利用FileResponse 做下载模块：</strong></h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> fastapi <span class="keyword">import</span> FastAPI</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> pandas</span><br><span class="line"><span class="keyword">from</span> starlette.responses <span class="keyword">import</span> FileResponse</span><br><span class="line"></span><br><span class="line">app = FastAPI()</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.get("/download", summary="下载文件")</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">download_file</span><span class="params">()</span>:</span></span><br><span class="line">    result = [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">"id"</span>: <span class="number">1</span>,</span><br><span class="line">            <span class="string">"name"</span>: <span class="string">"xxx"</span>,</span><br><span class="line">            <span class="string">"age"</span>: <span class="number">18</span></span><br><span class="line">        &#125;, &#123;</span><br><span class="line">            <span class="string">"id"</span>: <span class="number">2</span>,</span><br><span class="line">            <span class="string">"name"</span>: <span class="string">"bbb"</span>,</span><br><span class="line">            <span class="string">"age"</span>: <span class="number">19</span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">    file = str(datetime.datetime.now().date())+<span class="string">".xlsx"</span></span><br><span class="line">    df = pandas.DataFrame(result)</span><br><span class="line">    df.columns = [<span class="string">"序号"</span>, <span class="string">"姓名"</span>, <span class="string">"年龄"</span>]</span><br><span class="line">    df.to_excel(file, index=<span class="literal">False</span>)</span><br><span class="line">    <span class="keyword">return</span> FileResponse(file, filename=<span class="string">"user.xlsx"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    <span class="keyword">import</span> uvicorn</span><br><span class="line">    uvicorn.run(app, host=<span class="string">"127.0.0.1"</span>, port=<span class="number">8080</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="问题-FileResponse文件下载接口响应后删除临时文件"><a href="#问题-FileResponse文件下载接口响应后删除临时文件" class="headerlink" title="问题: FileResponse文件下载接口响应后删除临时文件"></a>问题: <code>FileResponse</code>文件下载接口响应后删除临时文件</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> fastapi <span class="keyword">import</span> FastAPI</span><br><span class="line"><span class="keyword">from</span> starlette.responses <span class="keyword">import</span> FileResponse</span><br><span class="line"><span class="keyword">from</span> starlette.background <span class="keyword">import</span> BackgroundTasks</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">app = FastAPI()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">del_file</span><span class="params">(file_name)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    下载完成后删除文件</span></span><br><span class="line"><span class="string">    :param file_name:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    os.remove(file_name)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.get("/download")</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">download</span><span class="params">()</span>:</span></span><br><span class="line">    file_name = <span class="string">'d:/test.csv'</span></span><br><span class="line">    response = FileResponse(file_name, filename=file_name)</span><br><span class="line">    task = BackgroundTasks()</span><br><span class="line">    task.add_task(del_file, file_name)</span><br><span class="line">    <span class="keyword">return</span> response</span><br></pre></td></tr></table></figure>
+<p><strong>四、FastApi利用StreamingResponse做下载模块：</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> fastapi <span class="keyword">import</span> FastAPI</span><br><span class="line"><span class="keyword">import</span> io</span><br><span class="line"><span class="keyword">import</span> pandas</span><br><span class="line"><span class="keyword">from</span> starlette.responses <span class="keyword">import</span> StreamingResponse</span><br><span class="line"></span><br><span class="line">app = FastAPI()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.get("/download", summary="下载文件")</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">download_file</span><span class="params">()</span>:</span></span><br><span class="line">    result = [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">"id"</span>: <span class="number">1</span>,</span><br><span class="line">            <span class="string">"name"</span>: <span class="string">"xxx"</span>,</span><br><span class="line">            <span class="string">"age"</span>: <span class="number">18</span></span><br><span class="line">        &#125;, &#123;</span><br><span class="line">            <span class="string">"id"</span>: <span class="number">2</span>,</span><br><span class="line">            <span class="string">"name"</span>: <span class="string">"bbb"</span>,</span><br><span class="line">            <span class="string">"age"</span>: <span class="number">19</span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">    bio = io.BytesIO()</span><br><span class="line">    df = pandas.DataFrame(result)</span><br><span class="line">    writer = pandas.ExcelWriter(bio, engine=<span class="string">'openpyxl'</span>)</span><br><span class="line">    df.columns = [<span class="string">"序号"</span>, <span class="string">"姓名"</span>, <span class="string">"年龄"</span>]</span><br><span class="line">    df.to_excel(writer, sheet_name=<span class="string">'数据列表'</span>, index=<span class="literal">False</span>)</span><br><span class="line">    writer.save()</span><br><span class="line">    bio.seek(<span class="number">0</span>)</span><br><span class="line">    file = str(datetime.datetime.now().date()) + <span class="string">".xlsx"</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> StreamingResponse(bio, headers=&#123;</span><br><span class="line">        <span class="string">'Content-Type'</span>: <span class="string">"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"</span>,</span><br><span class="line">        <span class="string">'Cache-Control'</span>: <span class="string">"no-cache"</span>,</span><br><span class="line">        <span class="string">'content-disposition'</span>: <span class="string">f"attachment; filename=<span class="subst">&#123;file&#125;</span>"</span></span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    <span class="keyword">import</span> uvicorn</span><br><span class="line"></span><br><span class="line">    uvicorn.run(app, host=<span class="string">"127.0.0.1"</span>, port=<span class="number">8080</span>)</span><br></pre></td></tr></table></figure>
+<p>参考链接：</p>
+<p><a href="https://blog.csdn.net/qq_33801641/article/details/120600652" target="_blank" rel="noopener">https://blog.csdn.net/qq_33801641/article/details/120600652</a></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/12/09/FastApi%E8%87%AA%E5%AE%9A%E4%B9%89%E5%93%8D%E5%BA%94%E4%B9%8BStreamingResponse%E3%80%81FileResponse/www5/BoyYongXin/source/_posts/FastApi学习之限制接口单位时间被访问频次/微信.png" style="zoom: 50%;"></p>
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>后端</tag>
+        <tag>fastapi</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>StreamingResponse、FileResponse</title>
+    <url>/2022/12/09/StreamingResponse%E3%80%81FileResponse/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>pandas处理html中的表格转换成json落库</title>
     <url>/2022/12/01/pandas%E5%A4%84%E7%90%86html%E4%B8%AD%E7%9A%84%E8%A1%A8%E6%A0%BC%E8%BD%AC%E6%8D%A2%E6%88%90json%E8%90%BD%E5%BA%93/</url>
     <content><![CDATA[<p>hello 大家好我是Monday，今天给大家介绍下如何利用pandas处理html中的表格转换成json落库。</p>
@@ -1357,8 +1391,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>mitmproxy</tag>
         <tag>科学上网</tag>
+        <tag>mitmproxy</tag>
       </tags>
   </entry>
   <entry>
@@ -2383,8 +2417,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>mitmproxy</tag>
         <tag>科学上网</tag>
+        <tag>mitmproxy</tag>
       </tags>
   </entry>
   <entry>
@@ -2497,8 +2531,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>mitmproxy</tag>
         <tag>科学上网</tag>
+        <tag>mitmproxy</tag>
       </tags>
   </entry>
   <entry>
@@ -2624,8 +2658,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>科学上网</tag>
         <tag>github</tag>
+        <tag>科学上网</tag>
       </tags>
   </entry>
   <entry>
