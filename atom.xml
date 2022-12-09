@@ -100,9 +100,9 @@
       <category term="测试" scheme="http://yoursite.com/categories/%E6%B5%8B%E8%AF%95/"/>
     
     
-      <category term="pytest" scheme="http://yoursite.com/tags/pytest/"/>
-    
       <category term="测试" scheme="http://yoursite.com/tags/%E6%B5%8B%E8%AF%95/"/>
+    
+      <category term="pytest" scheme="http://yoursite.com/tags/pytest/"/>
     
   </entry>
   

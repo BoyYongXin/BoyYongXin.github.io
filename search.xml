@@ -133,8 +133,8 @@
         <category>测试</category>
       </categories>
       <tags>
-        <tag>pytest</tag>
         <tag>测试</tag>
+        <tag>pytest</tag>
       </tags>
   </entry>
   <entry>
@@ -2388,8 +2388,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>测试</tag>
         <tag>内网穿透</tag>
+        <tag>测试</tag>
       </tags>
   </entry>
   <entry>
