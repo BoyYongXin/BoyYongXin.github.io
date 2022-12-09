@@ -333,6 +333,206 @@
       </tags>
   </entry>
   <entry>
+    <title>Pipenv——最好用的python虚拟环境和包管理工具</title>
+    <url>/2022/11/12/Pipenv%E2%80%94%E2%80%94%E6%9C%80%E5%A5%BD%E7%94%A8%E7%9A%84python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E5%92%8C%E5%8C%85%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/</url>
+    <content><![CDATA[<p><strong>前言：</strong></p>
+<p>hello 大家好我是Monday，今天我们给大家带来一篇python虚拟环境和包管理工具Pipenv。</p>
+<a id="more"></a>
+<h2 id="一、安装采坑实录"><a href="#一、安装采坑实录" class="headerlink" title="一、安装采坑实录"></a>一、安装采坑实录</h2><p><strong>1、安装环境：</strong></p>
+<p>（1）python环境 3.7.2</p>
+<p>（2）windows 10</p>
+<p><strong>2、直接安装</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip install pipenv</span><br></pre></td></tr></table></figure>
+<p>各种报错 ，最终报错问题显示是 pip包的问题，排查了半天也没解决，索性直接卸载了原有的pip包</p>
+<p>从官网网镜像中下载pip</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https:&#x2F;&#x2F;pypi.org&#x2F;project&#x2F;pip&#x2F;</span><br></pre></td></tr></table></figure>
+<p>重新安装完pip 包，再次执行安装命令</p>
+<p><img src="/2022/11/12/Pipenv%E2%80%94%E2%80%94%E6%9C%80%E5%A5%BD%E7%94%A8%E7%9A%84python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E5%92%8C%E5%8C%85%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/1.png" style="zoom: 150%;"></p>
+<p><strong>直接找到报错文件位置，修改如下</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">data[&quot;rustc_version&quot;] &#x3D; rustc_output.split(&quot; &quot;)[1]</span><br></pre></td></tr></table></figure>
+<p>再次执行 pip install pipenv,安装成功后</p>
+<p>打开pycharm ，配置settings python 环境如下</p>
+<p><img src="/2022/11/12/Pipenv%E2%80%94%E2%80%94%E6%9C%80%E5%A5%BD%E7%94%A8%E7%9A%84python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E5%92%8C%E5%8C%85%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/2.jpg" style="zoom: 150%;"></p>
+<h2 id="二、小试牛刀"><a href="#二、小试牛刀" class="headerlink" title="二、小试牛刀"></a>二、小试牛刀</h2><p><strong>1、 创建虚拟环境</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir project </span><br><span class="line"></span><br><span class="line">cd project </span><br><span class="line"></span><br><span class="line">pipenv install</span><br></pre></td></tr></table></figure>
+<p>初始化好虚拟环境后，会在项目目录下生成2个文件Pipfile和Pipfile.lock。为pipenv包的配置文件，代替原来的 requirement.txt。</p>
+<p>项目提交时，可将Pipfile 文件和Pipfile.lock文件一并提交，待其他开发克隆下载，根据此Pipfile 运行命令</p>
+<p>pipenv install —dev生成自己的虚拟环境。</p>
+<p>Pipfile.lock 文件是通过hash算法将包的名称和版本，及依赖关系生成哈希值，可以保证包的完整性。</p>
+<p><strong>2、安装requests包，命令如下：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pipenv install requests</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/11/12/Pipenv%E2%80%94%E2%80%94%E6%9C%80%E5%A5%BD%E7%94%A8%E7%9A%84python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E5%92%8C%E5%8C%85%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/2.png" style="zoom: 150%;"></p>
+<p><strong>3、常用使用命令</strong></p>
+<p> （1）查看安装包及依赖关系</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pipenv graph</span><br></pre></td></tr></table></figure>
+<p>（2）通过—dev指明只安装在开发环境中</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pipenv install --dev requests --three</span><br></pre></td></tr></table></figure>
+<p>查看下Pipfile 文件、</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[[source]]</span><br><span class="line">url &#x3D; &quot;https:&#x2F;&#x2F;pypi.org&#x2F;simple&quot;</span><br><span class="line">verify_ssl &#x3D; true</span><br><span class="line">name &#x3D; &quot;pypi&quot;</span><br><span class="line"></span><br><span class="line">[packages]</span><br><span class="line">requests &#x3D; &quot;*&quot;</span><br><span class="line"></span><br><span class="line">[dev-packages]</span><br><span class="line">requests &#x3D; &quot;*&quot;</span><br><span class="line"></span><br><span class="line">[requires]</span><br><span class="line">python_version &#x3D; &quot;3.7&quot;</span><br><span class="line">python_full_version &#x3D; &quot;3.7.2&quot;</span><br></pre></td></tr></table></figure>
+<p>安装包记录是在<code>[dev-packages]</code> 部分，或是<code>[packages]</code> 部分。</p>
+<p>在安装时，指定<code>--dev</code>参数，则只安装<code>[dev-packages]</code>下的包；若安装时不定指定<code>--dev</code>参数，只会安装<code>[packages]</code> 包下面的模块。</p>
+<p>在构建新的python虚拟环境时，会自动下载安装<code>[requires]</code> 下的包。</p>
+<p>（3）pipenv可以像virtualenv一样用命令生成requirements.txt 文件，命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pipenv lock -r --dev &gt; requirements.txt</span><br></pre></td></tr></table></figure>
+<p>（4）pipenv也可以通过requirements.txt安装包</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pipenv install -r requirements.txt</span><br></pre></td></tr></table></figure>
+<p>（5）运行python代码（py文件）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1 pipenv run python xxx.py</span><br></pre></td></tr></table></figure>
+<p>（6）启动虚拟环境的shell环境</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1 pipenv shell</span><br></pre></td></tr></table></figure>
+<p><strong>其他命令行代码</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pipenv --where                 列出本地工程路径</span><br><span class="line">pipenv --venv                  列出虚拟环境路径</span><br><span class="line">pipenv --py                    列出虚拟环境的Python可执行文件</span><br><span class="line">pipenv install                 创建虚拟环境</span><br><span class="line">pipenv isntall [moduel]        安装包</span><br><span class="line">pipenv install [moduel] --dev  安装包到开发环境</span><br><span class="line">pipenv uninstall[module]       卸载包</span><br><span class="line">pipenv uninstall --all         卸载所有包</span><br><span class="line">pipenv graph                   查看包依赖</span><br><span class="line">pipenv lock                    生成lockfile</span><br><span class="line">pipenv run python [pyfile]     运行py文件</span><br><span class="line">pipenv --rm                    删除虚拟环境</span><br></pre></td></tr></table></figure>
+<p><strong>结束语</strong>：</p>
+<p>2022/11/11官方连续发布一系列消息：</p>
+<p>1、取消中风险区|官方:将风险区由“高、中、低”三类调整为“高、低”两类</p>
+<p>2、官方:取消入境航班熔断机制</p>
+<p>3、严禁随意封校停课、停工停产|官方:加大“一刀切”、层层加码问题整治力度</p>
+<p>4、不再判定密接的密接 官方:密接管理措施调整为“5+3”</p>
+<p>一系列激动的消息，让人看到曙光，但最近疫情形势还是很严峻，大家还是要注意好防护，愿疫情早点消散。</p>
+<p>今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/11/12/Pipenv%E2%80%94%E2%80%94%E6%9C%80%E5%A5%BD%E7%94%A8%E7%9A%84python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E5%92%8C%E5%8C%85%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/www5/Hexo/BoyYongXin/source/_posts/share/微信.png" style="zoom: 50%;"></p>
+]]></content>
+      <categories>
+        <category>python基础</category>
+      </categories>
+      <tags>
+        <tag>python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>默克尔树原理以及应用场景</title>
+    <url>/2022/10/30/%E9%BB%98%E5%85%8B%E5%B0%94%E6%A0%91%E5%8E%9F%E7%90%86%E4%BB%A5%E5%8F%8A%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/</url>
+    <content><![CDATA[<p><strong>前言：</strong></p>
+<p>​    hello大家好我是Monday，今天给大家带来一篇关于默克尔树的原理以及应用场景的文章。</p>
+<a id="more"></a>
+<p><strong>一、默克尔树的原理和特点：</strong></p>
+<p>（1）哈希树（默克尔树）中，每个节点都标有一个数据块的加密哈希值</p>
+<p>（2）（默克尔树）叶节点（leaf）包含存储数据或其哈希值，</p>
+<p>（3）默克尔树是从下往上逐层计算，每个中间节点是根据相邻的两个叶子节点组合计算得出的，而根节点是根据两个中间节点组合计算得出的，所以叶节点是基础。因此，底层数据的任何变动，都会传递到其父节点，一直到树的根节点。</p>
+<p>（4）哈希树（默克尔树）的特点<br>叶节点存储的是数据文件，而非叶节点存储的是其子节点的哈希值（Hash，通过SHA1、SHA256等哈希算法计算而来），这些非叶子节点的Hash被称作路径哈希值（可以据其确定某个叶节点到根节点的路径）,<br>叶节点的Hash值是真实数据的Hash值。因为使用了树形结构, 其查询的时间复杂度为 O(logn)，n是节点数量。</p>
+<p>如图1所示：</p>
+<p><img src="/2022/10/30/%E9%BB%98%E5%85%8B%E5%B0%94%E6%A0%91%E5%8E%9F%E7%90%86%E4%BB%A5%E5%8F%8A%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/1.jpg" style="zoom: 100%;"></p>
+<p>​                                                                                图1</p>
+<p><strong>二，应用模式：</strong><br>默克尔树的典型应用场景包括：<br>（1） 快速比较大量数据：当两个默克尔树根相同时，则意味着所代表的数据必然相同（哈希算法决定的）。<br>（2）快速定位修改：例如    图1，如果 D1 中数据被修改，会影响到H1，H(s1) 和 Top Hash。因此，沿着 Top Hash—&gt; H(s1) —&gt;H1，可以快速定位到发生改变的 D1；</p>
+<p>（3）零知识证明：例如如何证明某个数据（D1……D4）中包括给定内容 D1，很简单，构造一个默克尔树，公布H2，H(s1)，H(s2)，Top Hash，D1拥有者可以很容易检测 D1存在，但不知道其它内容。</p>
+<p>相对于 Hash List，默克尔树的明显的一个好处是可以单独拿出一个分支来（作为一个小树）对部分数据进行校验，这个很多使用场合就带来了哈希列表所不能比拟的方便和高效。正是源于这些优点，默克尔树常用于分布式系统或分布式存储中</p>
+<p><strong>举例说明(1)：</strong></p>
+<p><img src="/2022/10/30/%E9%BB%98%E5%85%8B%E5%B0%94%E6%A0%91%E5%8E%9F%E7%90%86%E4%BB%A5%E5%8F%8A%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/2.png" style="zoom: 100%;"></p>
+<p>​    proof可以用来检验数据的完整性和正确性，即一个data block的改动或缺失，就会导致proof的改变。</p>
+<p>同时，merkle树可以用于数据传输，同时从多个机器下载数据的不同部分，可以提高效率。常见的迅雷的p2p下载，即采用这种模式，从多台机器下载，并用merkle tree检验数据的完整性和正确性。</p>
+<p>默克尔树是区块链技术中用于保障数据不被篡改的重要安全手段之一，</p>
+<p><strong>举例说明(2)：</strong></p>
+<p>​    默克尔证明是一种经典技术,用于证明交易存在于区块链的某个区块中,是实现轻客户端的关键技术。我们以Wecross跨链项目中使用的数据互信机制来介绍默克尔证明。</p>
+<p>假设两个用户甲和乙要在两条不同区块链上完成资产交换，那么必须要有一种机制来保证两个用户都真实拥有所宣称的资产，否则任何一方的用户都可以使用伪造的链上资产去兑换对方有效的链上资产。数据互信机制就是要解决这种跨链场景下的数据可信问题，它基于默克尔证明机制来实现，使得一方在不需要获取另一方区块链全量数据的情况下，仍然能够快速证明另一方区块链上特定数据的真实存在性。</p>
+<p><img src="/2022/10/30/%E9%BB%98%E5%85%8B%E5%B0%94%E6%A0%91%E5%8E%9F%E7%90%86%E4%BB%A5%E5%8F%8A%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/3.png" style="zoom: 100%;"></p>
+<p>假设上图是区块 X 的默克尔树结构，如果要验证交易D是否在区块X中，无需获取整个区块X，只需要提供交易D，H_AB，H_C，以及默克尔根则可。具体过程如下：</p>
+<p>根据交易 D 计算哈希，得到 H_D。</p>
+<p>根据 H_C 和 H_D 计算哈希，得到 H_CD。</p>
+<p>根据 H_AB 和 H_CD 计算哈希，得到 H_ABCD。</p>
+<p>对比 H_ABCD 和默克尔根，如果相同，则证明区块 X 存在交易 D,，否则说明不存在。</p>
+<p> <strong>四、Merkle树算法解析及python实现:</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib  <span class="comment"># 用于哈希值计算</span></span><br><span class="line"><span class="comment">#(代码来源于网络)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 默克尔树节点类的定义</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MerkleNode</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, left=None, right=None, data=None)</span>:</span></span><br><span class="line">        self.left = left</span><br><span class="line">        self.right = right</span><br><span class="line">        <span class="comment"># data中保存着哈希值</span></span><br><span class="line">        self.data = data</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 以递归的方式构建默克尔树</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">createTree</span><span class="params">(nodes)</span>:</span></span><br><span class="line">    list_len = len(nodes)</span><br><span class="line">    <span class="keyword">if</span> list_len == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">while</span> list_len % <span class="number">2</span> != <span class="number">0</span>:</span><br><span class="line">            nodes.extend(nodes[<span class="number">-1</span>:])</span><br><span class="line">            list_len = len(nodes)</span><br><span class="line">        secondary = []</span><br><span class="line">        <span class="comment"># 两两合并节点，并计算其哈希值</span></span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> [nodes[x:x + <span class="number">2</span>] <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">0</span>, list_len, <span class="number">2</span>)]:</span><br><span class="line">            d1 = k[<span class="number">0</span>].data.encode()</span><br><span class="line">            d2 = k[<span class="number">1</span>].data.encode()</span><br><span class="line">            md5 = hashlib.md5()</span><br><span class="line">            md5.update(d1 + d2)</span><br><span class="line">            newdata = md5.hexdigest()</span><br><span class="line">            node = MerkleNode(left=k[<span class="number">0</span>], right=k[<span class="number">1</span>], data=newdata)</span><br><span class="line">            secondary.append(node)</span><br><span class="line">        <span class="keyword">if</span> len(secondary) == <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> secondary[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> createTree(secondary)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 利用广度优先搜索算法对节点数据进行遍历</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">BFS</span><span class="params">(root)</span>:</span></span><br><span class="line">    print(<span class="string">'开始广度优先搜索，构建默克尔树...'</span>)</span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    queue = []</span><br><span class="line">    queue.append(root)</span><br><span class="line">    <span class="keyword">while</span> (len(queue) &gt; <span class="number">0</span>):</span><br><span class="line">        e = queue.pop(<span class="number">0</span>)</span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">        <span class="comment"># print("Hash Value:"+str(i),e.data)</span></span><br><span class="line">        <span class="keyword">if</span> e.left != <span class="literal">None</span>:</span><br><span class="line">            queue.append(e.left)</span><br><span class="line">        <span class="keyword">if</span> e.right != <span class="literal">None</span>:</span><br><span class="line">            queue.append(e.right)</span><br><span class="line">        print(<span class="string">"Hash value:"</span> + str(i), e.data)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    blocks = [<span class="string">'node1'</span>, <span class="string">'node2'</span>, <span class="string">'node3'</span>, <span class="string">'node4'</span>]  <span class="comment"># 示例数据，包含4个节点</span></span><br><span class="line">    nodes = []  <span class="comment"># 节点初始化</span></span><br><span class="line">    print(<span class="string">"节点哈希值："</span>)</span><br><span class="line">    <span class="keyword">for</span> element <span class="keyword">in</span> blocks:  <span class="comment"># 遍历示例数据</span></span><br><span class="line">        md5 = hashlib.md5()  <span class="comment"># 摘要算法</span></span><br><span class="line">        md5.update(element.encode())</span><br><span class="line">        d = md5.hexdigest()  <span class="comment"># 计算节点的信息摘要</span></span><br><span class="line">        nodes.append(MerkleNode(data=d))  <span class="comment"># 添加至默克尔树节点中</span></span><br><span class="line">        print(element + <span class="string">":"</span>, d)</span><br><span class="line">    root = createTree(nodes)  <span class="comment"># 创建默克尔根节点</span></span><br><span class="line">    BFS(root)  <span class="comment"># 基于BFS算法构建默克尔树并输出所有的哈希(摘要)</span></span><br></pre></td></tr></table></figure>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号<strong>菜鸟童靴</strong></p>
+]]></content>
+      <categories>
+        <category>技术杂谈</category>
+      </categories>
+      <tags>
+        <tag>哈希树</tag>
+        <tag>区块链</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>互联网下的小秘密</title>
+    <url>/2022/10/13/%E4%BA%92%E8%81%94%E7%BD%91%E4%B8%8B%E7%9A%84%E5%B0%8F%E7%A7%98%E5%AF%86/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天给大家带来一篇互联网下的我们应该知道小秘密。</p>
+<a id="more"></a>
+<p><strong>一、App窃取用户信息已经是见怪不怪了</strong></p>
+<p>1、 有没有这种遇见到情况，当你和你的朋友说完某一个产品或者其他，打开手机某也应用立马就会推荐这个产品</p>
+<p>这种情况是手机应用利用授予的手机麦克风权限，窃听你的聊天信息，后台通过语音识别分析等，推送消息给你。</p>
+<p>2、当我们使用app应用时，比如更换头像，一般都会出现拍照和相册选择，我们一般都会选择相册的照片，当然前提是你授予app读取相册权限，这样问题来了，当你授予了这个权限后，你的相册是不安全的，app应用可以随时随地把你的相册的数据，拿走。</p>
+<p>新闻：“某软件十几分钟访问手机照片和文件近25000次”；</p>
+<p>也许你会想每次我使用完app软件后，都关掉（杀死进程），这样就会很安全,然而这样你就打错特错了。</p>
+<p><em>新闻：“某应用程序1小时内，自启动近7000次，并不停读取通讯录</em>”</p>
+<p>3、当你使用一些聊天软件时，一般都会授予通讯权限，同步使用该软件的通讯录好友信息，在方便的同时，软件可以随时随地的拿走的手机通讯录信息（手机号等）。</p>
+<p><em>新闻： “某应用程序在不被使用的情况下，不停读取通讯录”，</em></p>
+<p>4、是不是在浏览一些网站时，经常会看见什么破解监控摄像头，获取监控视频等，试想一下当你使用一些手机软件时，向你寻求获取摄像头权限，授予后，应用自动打开摄像头，拍摄并获取视频数据，是不是很可怕。</p>
+<p>新闻：“某手机摄像头是隐藏弹出款，用户在不用手机的时候，摄像头自己被弹出”</p>
+<p>5、我在某互联网公司上班时，因为要做手机推送业务，做应用冷启动，当我下载了某一个app后，又卸载后，再次安装</p>
+<p>我发现用户id竟然还是同一个，有猫腻啊，我用了代码层的卸载，清缓存，清数据等等，安装后发现同样的用户id还是没有卸载干净，因为几乎所有的app都会获取手机的设备id，安装文件也会有多个；试想一下，当你发现某个app应用时，你发现了该应用侵犯隐私行为，你想着不用了，把他卸载了就OK了，其实不然，散落的文件还是会继续获取你的隐私</p>
+<p>所以我们经常会收到一些莫名的推销和广告骚扰电话，和信息等，电信诈骗，原因可能就出现在这了。</p>
+<p>有时候你会想，我不授予这权限不就行了 ，哈哈哈，天真，一些App如果不给权限，就会罢工、躺尸，甚至无法使用，表示你不给我走后门，我就不让你上车，你一看，没办法，只好把需要的权限都给它。</p>
+<p>但也有一部分人觉得，反正大家都在数据海洋里裸泳，没什么隐私可言，有什么好怕的。这种想法正是那些贩卖信息的人所希望的。如今，隐私贩卖已经形成一条产业链，如果不提高保护意识，后果难以想象。这些触目惊心的数字都在一次次提醒人们注意保护隐私。</p>
+<p><strong>二、我们所能做的：</strong></p>
+<p><strong>第一、</strong>安装软件时，一定要从官方商城下载应用软件</p>
+<p><strong>其次</strong>，在安装App时，会弹出各种权限申请，此时一定要注意位置信息、手机通讯录等26隐私权限，不常用的不要给。</p>
+<p><strong>此外</strong>，要定期清理手机内存数据，不要把身份证照片、银行卡号等关键信息留在手机内，定期查看手机应用权限。</p>
+<p>一旦发现侵权，要学会用法律的无期保护自己</p>
+<p><strong>三、上网的流量走向</strong></p>
+<p>互联网时代、我们从另外一个角度流量切入，如图所示：</p>
+<p><img src="/2022/10/13/%E4%BA%92%E8%81%94%E7%BD%91%E4%B8%8B%E7%9A%84%E5%B0%8F%E7%A7%98%E5%AF%86/1.png" style="zoom: 50%;"></p>
+<p>正如图所示，只要所有联网设备，流量的每一次使用情况，都会被记录下来，所以。。。。</p>
+<p>通过本文的分析，你会不会豁然开朗，原来是这样子的哦</p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/10/13/%E4%BA%92%E8%81%94%E7%BD%91%E4%B8%8B%E7%9A%84%E5%B0%8F%E7%A7%98%E5%AF%86/www5/Hexo/BoyYongXin/source/_posts/基于web界面的locust对接口进行性能测试/微信.png" style="zoom: 50%;"></p>
+]]></content>
+      <categories>
+        <category>技术杂谈</category>
+      </categories>
+      <tags>
+        <tag>技术杂谈</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一招教你如何识别杀猪盘以免被骗</title>
+    <url>/2022/06/13/%E4%B8%80%E6%8B%9B%E6%95%99%E4%BD%A0%E5%A6%82%E4%BD%95%E8%AF%86%E5%88%AB%E6%9D%80%E7%8C%AA%E7%9B%98%E4%BB%A5%E5%85%8D%E8%A2%AB%E9%AA%97/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，小编虽说是程序员，每天都进行着程序开发，但是更喜欢用技术去解决生活中遇到的问题，</p>
+<p>今天小编给大家带来反炸宣传一篇关于杀猪盘的识别，希望大家能够警惕，多一个心眼，防止被骗。</p>
+<a id="more"></a>
+<p><strong>1、我们拿百度网站做的案例：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https:&#x2F;&#x2F;www.baidu.com&#x2F;</span><br></pre></td></tr></table></figure>
+<p><strong>2、快捷键 windows + R 键 ，输入cmd ，使用ping命令 如下</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">PS E:\桌面&gt; ping  baidu.com</span><br><span class="line"></span><br><span class="line">正在 Ping baidu.com [220.181.38.251] 具有 32 字节的数据:</span><br><span class="line">来自 220.181.38.251 的回复: 字节&#x3D;32 时间&#x3D;44ms TTL&#x3D;48</span><br><span class="line">来自 220.181.38.251 的回复: 字节&#x3D;32 时间&#x3D;26ms TTL&#x3D;48</span><br><span class="line">来自 220.181.38.251 的回复: 字节&#x3D;32 时间&#x3D;73ms TTL&#x3D;48</span><br><span class="line">来自 220.181.38.251 的回复: 字节&#x3D;32 时间&#x3D;50ms TTL&#x3D;48</span><br><span class="line"></span><br><span class="line">220.181.38.251 的 Ping 统计信息:</span><br><span class="line">    数据包: 已发送 &#x3D; 4，已接收 &#x3D; 4，丢失 &#x3D; 0 (0% 丢失)，</span><br><span class="line">往返行程的估计时间(以毫秒为单位):</span><br><span class="line">    最短 &#x3D; 26ms，最长 &#x3D; 73ms，平均 &#x3D; 48ms</span><br><span class="line">PS E:\桌面&gt;</span><br></pre></td></tr></table></figure>
+<p>得到这个IP地址220.181.38.251,打开</p>
+<p><strong>3、打开站长工具：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https:&#x2F;&#x2F;ip.cn&#x2F;ip&#x2F;%20220.181.38.251.html</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/06/13/%E4%B8%80%E6%8B%9B%E6%95%99%E4%BD%A0%E5%A6%82%E4%BD%95%E8%AF%86%E5%88%AB%E6%9D%80%E7%8C%AA%E7%9B%98%E4%BB%A5%E5%85%8D%E8%A2%AB%E9%AA%97/1.png" style="zoom: 50%;"></p>
+<p>境内ip，我们再拿着网站的baidu.com域名，到站长工具<a href="https://icp.chinaz.com/baidu.com" target="_blank" rel="noopener">https://icp.chinaz.com/baidu.com</a></p>
+<p>去查下备案：</p>
+<p><img src="/2022/06/13/%E4%B8%80%E6%8B%9B%E6%95%99%E4%BD%A0%E5%A6%82%E4%BD%95%E8%AF%86%E5%88%AB%E6%9D%80%E7%8C%AA%E7%9B%98%E4%BB%A5%E5%85%8D%E8%A2%AB%E9%AA%97/2.jpg" style="zoom: 50%;"></p>
+<p><img src="/2022/06/13/%E4%B8%80%E6%8B%9B%E6%95%99%E4%BD%A0%E5%A6%82%E4%BD%95%E8%AF%86%E5%88%AB%E6%9D%80%E7%8C%AA%E7%9B%98%E4%BB%A5%E5%85%8D%E8%A2%AB%E9%AA%97/1.2.jpg" style="zoom: 50%;"></p>
+<p>通过这两种方式就可以，知道网站的安全性，如果没有备案信息或者ip地址所属地区不在境内，大家就要多个心眼了，</p>
+<p><strong>4、手机app如何获取域名和IP</strong></p>
+<p>生活手机使用的越来越多，很多杀猪盘很多都是app软件安装，那么如何获取IP和域名呢</p>
+<p>安装抓包软件charles,配置好，打开手机App抓包</p>
+<p><img src="/2022/06/13/%E4%B8%80%E6%8B%9B%E6%95%99%E4%BD%A0%E5%A6%82%E4%BD%95%E8%AF%86%E5%88%AB%E6%9D%80%E7%8C%AA%E7%9B%98%E4%BB%A5%E5%85%8D%E8%A2%AB%E9%AA%97/5.jpg" style="zoom: 50%;"></p>
+<p><strong>图片中圈起来的就是域名和IP了</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">xxxx.com&#x2F;xx.xx.xx.xx:80</span><br></pre></td></tr></table></figure>
+<p><strong>检验公式：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1、查看ip是否在境内</span><br><span class="line"></span><br><span class="line">2、如果在境内，核对域名备案和公司宣传是否一致</span><br></pre></td></tr></table></figure>
+<p><strong>文末彩蛋：</strong></p>
+<p>经典面试题，经常会问：说一说浏览器输入网址，都发生的什么？</p>
+<p>其中DNS解析：</p>
+<p>DNS服务器，接收到请求之后，会根据用户IP找到最匹配的一项，并且计算距离这个用户最近的Edge服务器，将这个最优点的IP返回给用户。</p>
+<p>这种方法并不是最优的。因为地理位置上最近的两个点，延迟可能反而很高。比如欧洲某些国家到美国东海岸的延时可能相当小。</p>
+<p>CDN是一种重要的优化方法，它与DNS相结合，使用户能够以最小的延迟访问节点。</p>
+<p><strong>我们可以用站长工具ping,获取不同地区更多的服务地址</strong></p>
+<p><img src="/2022/06/13/%E4%B8%80%E6%8B%9B%E6%95%99%E4%BD%A0%E5%A6%82%E4%BD%95%E8%AF%86%E5%88%AB%E6%9D%80%E7%8C%AA%E7%9B%98%E4%BB%A5%E5%85%8D%E8%A2%AB%E9%AA%97/3.jpg" style="zoom: 50%;"></p>
+<p><img src="/2022/06/13/%E4%B8%80%E6%8B%9B%E6%95%99%E4%BD%A0%E5%A6%82%E4%BD%95%E8%AF%86%E5%88%AB%E6%9D%80%E7%8C%AA%E7%9B%98%E4%BB%A5%E5%85%8D%E8%A2%AB%E9%AA%97/4.jpg" style="zoom: 50%;"></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/06/13/%E4%B8%80%E6%8B%9B%E6%95%99%E4%BD%A0%E5%A6%82%E4%BD%95%E8%AF%86%E5%88%AB%E6%9D%80%E7%8C%AA%E7%9B%98%E4%BB%A5%E5%85%8D%E8%A2%AB%E9%AA%97/微信.png" style="zoom: 50%;"></p>
+]]></content>
+      <categories>
+        <category>技术杂谈</category>
+      </categories>
+      <tags>
+        <tag>技术杂谈，杀猪盘</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hello World</title>
     <url>/2022/06/08/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.<br><a id="more"></a></p>
@@ -1391,8 +1591,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>科学上网</tag>
         <tag>mitmproxy</tag>
+        <tag>科学上网</tag>
       </tags>
   </entry>
   <entry>
@@ -2417,8 +2617,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>科学上网</tag>
         <tag>mitmproxy</tag>
+        <tag>科学上网</tag>
       </tags>
   </entry>
   <entry>
@@ -2531,8 +2731,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>科学上网</tag>
         <tag>mitmproxy</tag>
+        <tag>科学上网</tag>
       </tags>
   </entry>
   <entry>
@@ -2658,8 +2858,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>github</tag>
         <tag>科学上网</tag>
+        <tag>github</tag>
       </tags>
   </entry>
   <entry>
