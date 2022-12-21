@@ -68,21 +68,6 @@
   </entry>
   
   <entry>
-    <title>StreamingResponse、FileResponse</title>
-    <link href="http://yoursite.com/2022/12/09/StreamingResponse%E3%80%81FileResponse/"/>
-    <id>http://yoursite.com/2022/12/09/StreamingResponse%E3%80%81FileResponse/</id>
-    <published>2022-12-09T07:23:28.000Z</published>
-    <updated>2022-12-09T07:23:28.626Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
     <title>pandas处理html中的表格转换成json落库</title>
     <link href="http://yoursite.com/2022/12/01/pandas%E5%A4%84%E7%90%86html%E4%B8%AD%E7%9A%84%E8%A1%A8%E6%A0%BC%E8%BD%AC%E6%8D%A2%E6%88%90json%E8%90%BD%E5%BA%93/"/>
     <id>http://yoursite.com/2022/12/01/pandas%E5%A4%84%E7%90%86html%E4%B8%AD%E7%9A%84%E8%A1%A8%E6%A0%BC%E8%BD%AC%E6%8D%A2%E6%88%90json%E8%90%BD%E5%BA%93/</id>
@@ -126,9 +111,9 @@
       <category term="测试" scheme="http://yoursite.com/categories/%E6%B5%8B%E8%AF%95/"/>
     
     
-      <category term="pytest" scheme="http://yoursite.com/tags/pytest/"/>
-    
       <category term="测试" scheme="http://yoursite.com/tags/%E6%B5%8B%E8%AF%95/"/>
+    
+      <category term="pytest" scheme="http://yoursite.com/tags/pytest/"/>
     
   </entry>
   
@@ -485,6 +470,31 @@
     <summary type="html">
     
       &lt;p&gt;hello 大家好我是Monday，继上篇介绍SpringBoot集成Druid数据库连接池后，今天我们开启SpringBoot的学习的系列文章之SpringBoot访问数据库操作&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="SpringBoot" scheme="http://yoursite.com/categories/SpringBoot/"/>
+    
+    
+      <category term="java" scheme="http://yoursite.com/tags/java/"/>
+    
+      <category term="SpringBoot" scheme="http://yoursite.com/tags/SpringBoot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SpringBoot如何自定义配置文件</title>
+    <link href="http://yoursite.com/2022/05/13/SpringBoot%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/"/>
+    <id>http://yoursite.com/2022/05/13/SpringBoot%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</id>
+    <published>2022-05-13T03:31:26.000Z</published>
+    <updated>2022-05-25T13:15:57.326Z</updated>
+    
+    <content type="html"><![CDATA[<p>hello 大家好我是Monday，今天我们开启SpringBoot的学习的系列文章之SpringBoot如何自定义配置文件。</p><a id="more"></a><h3 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a><strong>1. 前言</strong></h3><p>SpringBoot最核心的就是自动配置类，而自动配置类需要读取配置文件的信息，来自动创建实例，因此配置文件就显得非常重要了。因此本文主要介绍SpringBoot的配置文件、以及自动配置类和配置文件之间的关系，即SpringBoot的运行原理。</p><h3 id="2-SpringBoot-配置文件"><a href="#2-SpringBoot-配置文件" class="headerlink" title="2. SpringBoot 配置文件"></a><strong>2. SpringBoot 配置文件</strong></h3><p>SpringBoot<strong>默认加载</strong>的配置文件是在classpath根目录的<strong>application.properties</strong>或者</p><p><strong>application.yml</strong>配置文件。</p><p><strong>—注意：</strong></p><blockquote><p>[1] 文件名不能写错，因为默认的文件名写死在SpringBoot配置代码中。<br>[2] SpringBoot支持properties和yml两个格式的配置文件。</p></blockquote><h3 id="3、-多个环境配置文件"><a href="#3、-多个环境配置文件" class="headerlink" title="3、- 多个环境配置文件"></a><strong>3、- 多个环境配置文件</strong></h3><p><strong>(1)、在现实的开发环境中我们可能需要多个不同环境(开发,调试,生产)的配置文件可以使用 application-{profile}.properties进行配置如</strong></p><ul><li>application-dev.properties : 开发环境</li><li>application-test.properties : 测试环境</li><li>application-prod.properties : 生产环境</li></ul><p><strong>(2)、使用 : 在application.properties中配置</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spring.profiles.active&#x3D;dev 表示启动 开发环境</span><br></pre></td></tr></table></figure><p>我们在application-dev.properties，填写上如下信息</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">## 设置server参数</span><br><span class="line">## 端口</span><br><span class="line">server.port&#x3D;8081</span><br></pre></td></tr></table></figure><p><strong>(3)、启动程序发现端口变成了 dev 下配置的</strong></p><p><img src="/2022/05/13/SpringBoot%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/1.jpg" style="zoom: 50%;"></p><h3 id="4、程序如何读取配置文件"><a href="#4、程序如何读取配置文件" class="headerlink" title="4、程序如何读取配置文件"></a>4、程序如何读取配置文件</h3><p><strong>（1）我们在application-dev.properties，填写上如下信息</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">application-dev.username&#x3D;root</span><br><span class="line">application-dev.password&#x3D;root</span><br></pre></td></tr></table></figure><p><strong>（2）新建config文件并创建DevProperties.java文件</strong></p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demo.config;</span><br><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.context.properties.ConfigurationProperties;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@ConfigurationProperties</span>(value = <span class="string">"application-dev"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DevProperties</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUsername</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> username;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getPassword</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><strong>注意：</strong></p><p>@ConfigurationProperties(value = “application-dev”)表示的配置文件里属性的前缀都是application-dev开头<br>配置类上记得加上@Data和@Component注解（或者在启动类上加上@EnableConfigurationProperties(value =DevProperties.class)）</p><p>如果有内部类对象，记得加上@Data，不然无法映射数据<br>.properties类型文件映射规则，短横线(-)后面的首个字母会变成大写，同时注意有内部类时的写法</p><p><strong>（3）如何读取配置文件，LoadPropertiesService.java文件创建,具体代码</strong></p><p>使用方法也很简单，直接使用spring的注解@Autowired引入即可</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demo.controller;</span><br><span class="line"><span class="keyword">import</span> com.example.demo.config.DevProperties;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.context.properties.EnableConfigurationProperties;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestController;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Service;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="meta">@EnableConfigurationProperties</span>(DevProperties<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">@<span class="title">RestController</span></span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">LoadPropertiesService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    DevProperties devProperties;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/testProperties"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">testProperties</span><span class="params">()</span></span>&#123;</span><br><span class="line">        String str = devProperties.getUsername();</span><br><span class="line">        String str2 = devProperties.getPassword();</span><br><span class="line">        System.out.println(str);</span><br><span class="line">        System.out.println(str2);</span><br><span class="line">        <span class="keyword">return</span> str+str2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><strong>测试：</strong></p><p><img src="/2022/05/13/SpringBoot%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/2.jpg" style="zoom: 150%;"></p><p><strong>注意：</strong></p><p>类型转换少，配置类可以直接定义常规类型<br>配置分类方便，一个地方维护，不用一个key到处写<br>更符合面向对象的写法<br>Spring Boot注解读取application.properties或者application-{profile}.properties文件时默认编码是ISO_8859_1，读取yaml配置文件时使用的是UTF-8的编码方式，如果有中文配置请使用.yml格式，或者使用我接下来的读取方式。</p><p><strong>参考文献：</strong></p><p>SpringBoot【配置文件&amp;运行原理篇】 :  <a href="https://zhuanlan.zhihu.com/p/102942848" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/102942848</a></p><p>Spring Boot读取配置文件常用方式 ： <a href="https://blog.csdn.net/Alian_1223/article/details/118891954" target="_blank" rel="noopener">https://blog.csdn.net/Alian_1223/article/details/118891954</a></p><p><strong>结束语</strong>：</p><p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p><p><img src="/2022/05/13/SpringBoot%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/微信.png" style="zoom: 50%;"></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;hello 大家好我是Monday，今天我们开启SpringBoot的学习的系列文章之SpringBoot如何自定义配置文件。&lt;/p&gt;
     
     </summary>
     
