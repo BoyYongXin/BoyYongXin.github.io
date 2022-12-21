@@ -1,6 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>使用Nexus搭建PyPi私服及上传</title>
+    <url>/2022/12/21/%E4%BD%BF%E7%94%A8Nexus%E6%90%AD%E5%BB%BAPyPi%E7%A7%81%E6%9C%8D%E5%8F%8A%E4%B8%8A%E4%BC%A0/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天给大家带来一篇关于简单介绍使用 使用Nexus搭建PyPi私服及上传</p>
+<p>的文章。</p>
+<a id="more"></a>
+<h3 id="1-下载nexus压缩包"><a href="#1-下载nexus压缩包" class="headerlink" title="1.下载nexus压缩包"></a>1.下载nexus压缩包</h3><h3 id="一、下载nexus压缩包"><a href="#一、下载nexus压缩包" class="headerlink" title="一、下载nexus压缩包"></a>一、下载nexus压缩包</h3><p><strong>（1）官方地址</strong></p>
+<p><a href="https://www.sonatype.com/nexus-repository-oss" target="_blank" rel="noopener">https://www.sonatype.com/nexus-repository-oss</a> </p>
+<p><strong>（2）下载地址</strong></p>
+<p><a href="https://help.sonatype.com/repomanager3/product-information/download" target="_blank" rel="noopener">https://help.sonatype.com/repomanager3/product-information/download</a></p>
+<p><strong>（3）其他下载源</strong></p>
+<p>链接：<a href="https://pan.baidu.com/s/1Cdo4kNpcv__cHmhtD1RMig" target="_blank" rel="noopener">https://pan.baidu.com/s/1Cdo4kNpcv__cHmhtD1RMig</a><br>提取码：3pqx</p>
+<p><strong>以下测试，我已windows电脑作为开发环境</strong></p>
+<h3 id="二、安装nexus压缩包"><a href="#二、安装nexus压缩包" class="headerlink" title="二、安装nexus压缩包"></a>二、安装nexus压缩包</h3><p><img src="/2022/12/21/%E4%BD%BF%E7%94%A8Nexus%E6%90%AD%E5%BB%BAPyPi%E7%A7%81%E6%9C%8D%E5%8F%8A%E4%B8%8A%E4%BC%A0/1.jpg" style="zoom: 150%;"></p>
+<p>（1）解压nexus-3.44.0-01-win64.zip压缩包</p>
+<p>（2）进入nexus-3.44.0-01-win64\nexus-3.44.0-01\bin目录下用命令行执行下面命令</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.\nexus.exe &#x2F;run</span><br></pre></td></tr></table></figure>
+<p><strong>端口号设置在文件：</strong>解压目录\nexus-3.44.0-01\etc\nexus-default.properties<br>里面的application-port属性</p>
+<p>（3）在浏览器输入：localhost:8081<br><strong>admin初始密码在文件</strong>：解压目录\sonatype-work\nexus3\admin.password</p>
+<p>该版本第一次登陆会要求修改admin密码</p>
+<p>登录后的页面如下：</p>
+<p><img src="/2022/12/21/%E4%BD%BF%E7%94%A8Nexus%E6%90%AD%E5%BB%BAPyPi%E7%A7%81%E6%9C%8D%E5%8F%8A%E4%B8%8A%E4%BC%A0/2.jpg" style="zoom: 150%;"></p>
+<h3 id="三、配置pypi的仓库"><a href="#三、配置pypi的仓库" class="headerlink" title="三、配置pypi的仓库"></a>三、配置pypi的仓库</h3><p><strong>大概具体步骤如下：</strong></p>
+<p>建立官方代理仓库 mypypi-proxy</p>
+<p>填写远程索引地址时用 <a href="https://pypi.python.org/" target="_blank" rel="noopener">https://pypi.python.org/</a> ， 不要用 <a href="https://pypi.python.org/pypi" target="_blank" rel="noopener">https://pypi.python.org/pypi</a> .</p>
+<p>建立 hosted 仓库，用于内部使用 mypypi-hosted</p>
+<p>建立 group 仓库把官方代理和 hosted 仓库包含进来 mypypi-group</p>
+<p>其中：代理库的代理配置，也可以换成阿里云的地址：<a href="http://mirrors.aliyun.com/pypi，" target="_blank" rel="noopener">http://mirrors.aliyun.com/pypi，</a></p>
+<p>总共三个仓库：</p>
+<p><img src="/2022/12/21/%E4%BD%BF%E7%94%A8Nexus%E6%90%AD%E5%BB%BAPyPi%E7%A7%81%E6%9C%8D%E5%8F%8A%E4%B8%8A%E4%BC%A0/3.jpg" style="zoom: 150%;"></p>
+<p><strong>他们的区别是</strong>：</p>
+<p><strong>proxy – 远程仓库的代理</strong>，当用户向这个仓库请求一个 artifact，他会先在本地查找，如果找不到的话，就会从远程仓库下载，然后返回给用户<br><strong>hosted – 宿主仓库</strong>，用户可以 deploy 到 hosted 中，也可以手工上传构件到 hosted 里，在 central repository 是获取不到的，就需要手工上传到hosted里<br><strong>group – 仓库组</strong>，将上述多个仓库聚合，对用户暴露统一的地址</p>
+<p><strong>代理仓库的配置：</strong></p>
+<p><img src="/2022/12/21/%E4%BD%BF%E7%94%A8Nexus%E6%90%AD%E5%BB%BAPyPi%E7%A7%81%E6%9C%8D%E5%8F%8A%E4%B8%8A%E4%BC%A0/4.jpg" style="zoom: 150%;"></p>
+<p><strong>使用</strong><br>到 <a href="http://localhost:8081/#admin/repository/repositories" target="_blank" rel="noopener">http://localhost:8081/#admin/repository/repositories</a> 找到自己的仓库，点进去copy仓库的url</p>
+<p>在客户端使pip安装</p>
+<p>注意：要在仓库地址后面加/simple</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip install requests -i http:&#x2F;&#x2F;localhost:8081&#x2F;repository&#x2F;mypypi-proxy&#x2F;simple</span><br></pre></td></tr></table></figure>
+<p>访问 <a href="http://localhost:8081/#browse/search/pypi" target="_blank" rel="noopener">http://localhost:8081/#browse/search/pypi</a> 就能查到从官方仓库下载下的模块</p>
+<h3 id="四、先打包本地项目-主要是两步，打包、发布"><a href="#四、先打包本地项目-主要是两步，打包、发布" class="headerlink" title="四、先打包本地项目 主要是两步，打包、发布"></a>四、先打包本地项目 主要是两步，打包、发布</h3><h4 id="上传配置"><a href="#上传配置" class="headerlink" title="上传配置"></a>上传配置</h4><p>在用户根目录下添加.pypirc文件。</p>
+<ul>
+<li>windows 用户目录：C:\Users\XXX.pypirc</li>
+<li>linux用户目录：/home/XXX/.pypirc</li>
+</ul>
+<blockquote>
+<p>在用户根目录下添加.pypirc文件，添加如下配置：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[distutils]</span><br><span class="line">index-servers &#x3D;</span><br><span class="line">    pypi</span><br><span class="line">    pypitest</span><br><span class="line">    nexus</span><br><span class="line">    nexustest</span><br><span class="line"> </span><br><span class="line">[pypi]</span><br><span class="line">repository:https:&#x2F;&#x2F;pypi.python.org&#x2F;pypi</span><br><span class="line">username:your_username</span><br><span class="line">password:your_password</span><br><span class="line"> </span><br><span class="line">[pypitest]</span><br><span class="line">repository:https:&#x2F;&#x2F;testpypi.python.org&#x2F;pypi</span><br><span class="line">username:your_username</span><br><span class="line">password:your_password</span><br><span class="line"> </span><br><span class="line"># 要选择所建三个仓库中的hosted仓库</span><br><span class="line">[nexus]</span><br><span class="line">repository&#x3D;http:&#x2F;&#x2F;127.0.0.1:8081&#x2F;repository&#x2F;mypypi-hosted&#x2F;</span><br><span class="line">username&#x3D;your_username</span><br><span class="line">password&#x3D;your_password</span><br><span class="line"> </span><br><span class="line">[nexustest]</span><br><span class="line">repository&#x3D;http:&#x2F;&#x2F;127.0.0.1:8081&#x2F;repository&#x2F;mypypi-hosted&#x2F;</span><br><span class="line">username&#x3D;your_username</span><br><span class="line">password&#x3D;your_password</span><br></pre></td></tr></table></figure>
+<p><strong>（1）安装python的twine包</strong></p>
+<p><a href="https://pypi.org/project/twine/" target="_blank" rel="noopener">https://pypi.org/project/twine/</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip install twine</span><br></pre></td></tr></table></figure>
+<p><strong>(2）上传命令</strong></p>
+<figure class="highlight crystal"><table><tr><td class="code"><pre><span class="line">twine upload -r nexus dist/*  <span class="comment"># -r 可以选择仓库地址</span></span><br><span class="line">twine upload --repository-url &lt;url&gt; dist/*</span><br><span class="line">&lt;url&gt; 需要替换成我们刚刚搭建的 nexus hosted 私服的 url，在 nexus components 页面有 copy 按钮，点击复制即可。</span><br><span class="line">根据提示填写具有管理员权限的用户名、密码即可。</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/12/21/%E4%BD%BF%E7%94%A8Nexus%E6%90%AD%E5%BB%BAPyPi%E7%A7%81%E6%9C%8D%E5%8F%8A%E4%B8%8A%E4%BC%A0/5.jpg" style="zoom: 150%;"></p>
+<p>界面上传：</p>
+<p><img src="/2022/12/21/%E4%BD%BF%E7%94%A8Nexus%E6%90%AD%E5%BB%BAPyPi%E7%A7%81%E6%9C%8D%E5%8F%8A%E4%B8%8A%E4%BC%A0/6.jpg" style="zoom: 150%;"></p>
+<p>上传结果：</p>
+<p><img src="/2022/12/21/%E4%BD%BF%E7%94%A8Nexus%E6%90%AD%E5%BB%BAPyPi%E7%A7%81%E6%9C%8D%E5%8F%8A%E4%B8%8A%E4%BC%A0/7.jpg" style="zoom: 150%;"></p>
+<p><strong>（3）下载地址要使用group仓库，后面也要加/simple</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip install xxx -i http:&#x2F;&#x2F;localhost:8081&#x2F;repository&#x2F;mypypi-group&#x2F;simple --trusted-host 127.0.0.1</span><br></pre></td></tr></table></figure>
+<p>先打包本地项目参考之前文章</p>
+<p><a href="https://mp.weixin.qq.com/s/X07JGIwlypGyjy-h3CMiHQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/X07JGIwlypGyjy-h3CMiHQ</a> </p>
+<p><strong>参考链接：</strong></p>
+<p>（1）使用 Nexus 搭建 PyPi 私服及上传：</p>
+<p><a href="https://blog.csdn.net/m0_37607365/article/details/79998955" target="_blank" rel="noopener">https://blog.csdn.net/m0_37607365/article/details/79998955</a></p>
+<p>（2）setup规范 ：</p>
+<p><a href="https://packaging.python.org/tutorials/distributing-packages/#setup-py" target="_blank" rel="noopener">https://packaging.python.org/tutorials/distributing-packages/#setup-py</a><br>（3）twine使方法：</p>
+<p> <a href="https://pypi.org/project/twine/" target="_blank" rel="noopener">https://pypi.org/project/twine/</a></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2022/12/21/%E4%BD%BF%E7%94%A8Nexus%E6%90%AD%E5%BB%BAPyPi%E7%A7%81%E6%9C%8D%E5%8F%8A%E4%B8%8A%E4%BC%A0/微信.png" style="zoom: 50%;"></p>
+]]></content>
+      <categories>
+        <category>技术杂谈</category>
+      </categories>
+      <tags>
+        <tag>setuptools打包</tag>
+        <tag>Nexus</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>FastApi自定义响应之StreamingResponse、FileResponse</title>
     <url>/2022/12/09/FastApi%E8%87%AA%E5%AE%9A%E4%B9%89%E5%93%8D%E5%BA%94%E4%B9%8BStreamingResponse%E3%80%81FileResponse/</url>
     <content><![CDATA[<p>hello 大家好我是Monday，今天给大家带来一篇FastApi自定义响应之StreamingResponse、FileResponse的文章。</p>
@@ -133,8 +213,8 @@
         <category>测试</category>
       </categories>
       <tags>
-        <tag>测试</tag>
         <tag>pytest</tag>
+        <tag>测试</tag>
       </tags>
   </entry>
   <entry>
@@ -1591,8 +1671,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>mitmproxy</tag>
         <tag>科学上网</tag>
+        <tag>mitmproxy</tag>
       </tags>
   </entry>
   <entry>
@@ -2588,8 +2668,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>内网穿透</tag>
         <tag>测试</tag>
+        <tag>内网穿透</tag>
       </tags>
   </entry>
   <entry>
@@ -2617,8 +2697,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>mitmproxy</tag>
         <tag>科学上网</tag>
+        <tag>mitmproxy</tag>
       </tags>
   </entry>
   <entry>
@@ -2731,8 +2811,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>mitmproxy</tag>
         <tag>科学上网</tag>
+        <tag>mitmproxy</tag>
       </tags>
   </entry>
   <entry>
@@ -2858,8 +2938,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>科学上网</tag>
         <tag>github</tag>
+        <tag>科学上网</tag>
       </tags>
   </entry>
   <entry>
