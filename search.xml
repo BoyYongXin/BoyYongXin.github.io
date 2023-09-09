@@ -1,6 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>复制网页内容不被允许怎么办</title>
+    <url>/2023/09/09/%E5%A4%8D%E5%88%B6%E7%BD%91%E9%A1%B5%E5%86%85%E5%AE%B9%E4%B8%8D%E8%A2%AB%E5%85%81%E8%AE%B8%E6%80%8E%E4%B9%88%E5%8A%9E/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>python如何提取pdf中表格数据</title>
+    <url>/2023/09/09/python%E5%A6%82%E4%BD%95%E6%8F%90%E5%8F%96pdf%E4%B8%AD%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天给大家带来篇如何提取pdf中表格数据的文章。</p>
+<a id="more"></a>
+<h4 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h4><p>从PDF文件中提取表格都是一个老大难的问题。无论你使用的是PyPDF2还是其他什么第三方库，提取出来的表格都会变成纯文本，效果并不好。公司之前有很多的研报pdf解析，都是通过买的第三方服务来解析的，偶然间发现</p>
+<p>python第三方库<code>PyMuPDF</code>1.23.8版本 已经支持提取PDF中的表格了。还可以把表格转换为Pandas的DataFrame供你分析。让我们赶紧安装使用下吧；</p>
+<p><code>PyMuPDF</code>的使用非常简单，首先我们来安装：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip install pymupdf&#x3D;&#x3D;1.23.0 pandas openpyxl</span><br></pre></td></tr></table></figure>
+<p>首先我们从网址<a href="https://www.shclearing.com.cn/sjtj/tjyb/" target="_blank" rel="noopener">上海清算所_研究与统计 (shclearing.com.cn)</a>，</p>
+<p><a href="https://www.shclearing.com.cn/sjtj/tjyb/" target="_blank" rel="noopener">https://www.shclearing.com.cn/sjtj/tjyb/</a> 下载债券期末托管的pdf，pdf中表格如下：</p>
+<p><img src="/2023/09/09/python%E5%A6%82%E4%BD%95%E6%8F%90%E5%8F%96pdf%E4%B8%AD%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE/1.jpg" style="zoom: 50%;"></p>
+<p>确定好解析文件后，让我们开始编写代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> fitz</span><br><span class="line">root_path = <span class="string">"./表四 债券期末托管情况2023-07-31.pdf"</span></span><br><span class="line">doc = fitz.open(root_path)</span><br><span class="line">page = doc[<span class="number">0</span>] <span class="comment"># 下标从0开始,第五页对应4</span></span><br><span class="line">tables = page.find_tables()</span><br><span class="line">df = tables[<span class="number">0</span>].to_pandas()</span><br><span class="line">print(df)</span><br><span class="line">df.to_excel(<span class="string">'table.xlsx'</span>, index=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="/2023/09/09/python%E5%A6%82%E4%BD%95%E6%8F%90%E5%8F%96pdf%E4%B8%AD%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE/2.png" style="zoom: 50%;"></p>
+<p>保存table.xlsx 效果如下</p>
+<p><img src="/2023/09/09/python%E5%A6%82%E4%BD%95%E6%8F%90%E5%8F%96pdf%E4%B8%AD%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE/3.jpg" style="zoom: 50%;"></p>
+<p>下面我们将解析过程中的df数据转换成json列表</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">df.columns = df.iloc[<span class="number">0</span>]</span><br><span class="line"><span class="comment"># print(df)</span></span><br><span class="line">print(df.columns.values)</span><br><span class="line"><span class="keyword">if</span> <span class="string">"表四 债券期末托管情况"</span> <span class="keyword">in</span> list(df.columns.values):</span><br><span class="line">    df.columns = df.iloc[<span class="number">2</span>]</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    df.columns = df.iloc[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">df = df.iloc[<span class="number">2</span>:]</span><br><span class="line">keys_repalce_info = &#123;</span><br><span class="line">    <span class="string">"本月末"</span>: <span class="string">"current_month_value"</span>,</span><br><span class="line">    <span class="string">""</span>: <span class="string">"bond_type"</span>,</span><br><span class="line">    <span class="string">"本月净增"</span>: <span class="string">"current_month_end_value"</span>,</span><br><span class="line">    <span class="string">"本年净增"</span>: <span class="string">"current_year_value"</span>,</span><br><span class="line">    <span class="string">"上年末"</span>: <span class="string">"last_year_end_value"</span></span><br><span class="line">&#125;</span><br><span class="line">keys_repalce = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> df.columns.values:</span><br><span class="line">    keys_repalce[name] = keys_repalce_info[name]</span><br><span class="line"></span><br><span class="line">df.rename(columns=keys_repalce, inplace=<span class="literal">True</span>)  <span class="comment"># 重新替换列的名字  &#123;"标题" : "title"&#125;</span></span><br><span class="line">df_list = []</span><br><span class="line">out_put = list(keys_repalce.values())</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> df.index.values:  <span class="comment"># loc为按列名索引 iloc 为按位置索引，使用的是 [[行号], [列名]]</span></span><br><span class="line">    df_line = df.loc[i, out_put].to_dict()  <span class="comment"># 选取指定列，将每一行转换成字典后添加到列表</span></span><br><span class="line">    <span class="comment"># df_line = df.loc[i,].to_dict()  # 选取指定列，将每一行转换成字典后添加到列表</span></span><br><span class="line"></span><br><span class="line">    df_line[<span class="string">"CURRENT_MONTH_VALUE"</span>] = df_line.get(<span class="string">"current_month_value"</span>, <span class="string">""</span>).replace(<span class="string">","</span>, <span class="string">""</span>)</span><br><span class="line">    df_line[<span class="string">"CURRENT_MONTH_END_VALUE"</span>] = df_line.get(<span class="string">"current_month_end_value"</span>, <span class="string">""</span>).replace(<span class="string">","</span>, <span class="string">""</span>)</span><br><span class="line">    df_line[<span class="string">"LAST_YEAR_END_VALUE"</span>] = df_line.get(<span class="string">"last_year_end_value"</span>, <span class="string">""</span>).replace(<span class="string">","</span>, <span class="string">""</span>)</span><br><span class="line">    df_line[<span class="string">"CURRENT_YEAR_VALUE"</span>] = df_line.get(<span class="string">"current_year_value"</span>, <span class="string">""</span>).replace(<span class="string">","</span>, <span class="string">""</span>)</span><br><span class="line">    df_list.append(df_line)</span><br><span class="line">print(df_list)</span><br></pre></td></tr></table></figure>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+]]></content>
+      <categories>
+        <category>python基础</category>
+      </categories>
+      <tags>
+        <tag>python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>gpt入门langchain之Agent介绍</title>
+    <url>/2023/06/30/Agent%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天给大家介绍gpt入门langchain之Agent介绍。</p>
+<a id="more"></a>
+<p><strong>1、前言：</strong></p>
+<p>Agent模块可以说是LangChain的最重要的模块之一了，在LangChain框架中负责决策制定以及工具组的串联，可以根据用户的输入决定调用哪个工具。正确的使用Agent，才能够更好的使用LangChain+LLM的强大能力。</p>
+<p><strong>2、什么是Agents？</strong></p>
+<p>我们来看官网介绍：</p>
+<p>Some applications will require not just a predetermined chain of calls to LLMs/other tools, but potentially an unknown chain that depends on the user’s input. In these types of chains, there is a “agent” which has access to a suite of tools. Depending on the user input, the agent can then decide which, if any, of these tools to call.</p>
+<p>We split the documentation into the following sections:</p>
+<p>有些应用不仅需要一个预先确定的调用LLM/其他工具的链，还可能需要一个取决于用户输入的未知链。在这些类型的链中，有一个 “代理”，它可以访问一整套的工具。根据用户的输入，代理可以决定调用这些工具中的哪一个（如果有的话）</p>
+<p>有些应用需要根据用户的输入，灵活地调用LLM和其他工具的链条。代理人接口为这类应用提供了灵活性。一个代理可以访问一套工具，并根据用户的输入来决定使用哪些工具。代理人可以使用多个工具，并将一个工具的输出作为下一个工具的输入。</p>
+<p><strong>3、关于 Agents 有以下几个核心概念：</strong></p>
+<p><strong>Tools</strong></p>
+<p>How language models interact with other resources.</p>
+<p>语言模型如何与其他资源互动。</p>
+<p><strong>Agents</strong></p>
+<p>The language model that drives decision making.</p>
+<p>推动决策的语言模型。</p>
+<p><strong>Toolkits</strong></p>
+<p>Sets of tools that when used together can accomplish a specific task.</p>
+<p>一套工具在一起使用时可以完成一项特定的任务。</p>
+<p><strong>Agent Executor</strong></p>
+<p>The logic for running agents with tools.</p>
+<p>用工具运行代理的逻辑。</p>
+<p><strong>4、开始实操：</strong></p>
+<p><strong>（1）注册 Serpapi</strong></p>
+<p>在 Serpapi网站注册账号[3]，可以使用 GitHub 账号或者 Google 账号。注册完成后可以在首页获取<code>SERPAPI_API_KEY</code>，保存备用。</p>
+<p>这里我直接使用的github账号；</p>
+<p><strong>（2）官网代码</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> env <span class="keyword">import</span> getEnv</span><br><span class="line"><span class="keyword">from</span> src.hack.config <span class="keyword">import</span> openai_api_key, serper_api_key</span><br><span class="line"><span class="keyword">from</span> langchain.agents <span class="keyword">import</span> load_tools</span><br><span class="line"><span class="keyword">from</span> langchain.agents <span class="keyword">import</span> initialize_agent</span><br><span class="line"><span class="keyword">from</span> langchain.agents <span class="keyword">import</span> AgentType</span><br><span class="line"><span class="keyword">from</span> langchain.llms <span class="keyword">import</span> OpenAI</span><br><span class="line"></span><br><span class="line">os.environ[<span class="string">'SERPAPI_API_KEY'</span>] = serper_api_key</span><br><span class="line">os.environ[<span class="string">'OPENAI_API_KEY'</span>] = openai_api_key</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载将要用来控制 Agents 的语言模型</span></span><br><span class="line">llm = OpenAI(temperature=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载一些要使用的工具</span></span><br><span class="line">tools = load_tools([<span class="string">"serpapi"</span>, <span class="string">"llm-math"</span>], llm=llm)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化 Agents</span></span><br><span class="line">agent = initialize_agent(tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试一下！</span></span><br><span class="line">agent.run(<span class="string">"Who is Leo DiCaprio's girlfriend? What is her current age raised to the 0.43 power?"</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>（3）执行结果：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">&gt; Entering new AgentExecutor chain...</span><br><span class="line"> I need to find out who Leo DiCaprio&#39;s girlfriend is and then calculate her age raised to the 0.43 power.</span><br><span class="line">Action: Search</span><br><span class="line">Action Input: &quot;Leo DiCaprio girlfriend&quot;</span><br><span class="line">Observation: Camila Morrone</span><br><span class="line">Thought: I need to find out Camila Morrone&#39;s age</span><br><span class="line">Action: Search</span><br><span class="line">Action Input: &quot;Camila Morrone age&quot;</span><br><span class="line">Observation: 25 years</span><br><span class="line">Thought: I need to calculate 25 raised to the 0.43 power</span><br><span class="line">Action: Calculator</span><br><span class="line">Action Input: 25^0.43</span><br><span class="line">Observation: Answer: 3.991298452658078</span><br><span class="line"></span><br><span class="line">Thought: I now know the final answer</span><br><span class="line">Final Answer: Camila Morrone is Leo DiCaprio&#39;s girlfriend and her current age raised to the 0.43 power is 3.991298452658078.</span><br><span class="line"></span><br><span class="line">&gt; Finished chain.</span><br><span class="line"></span><br><span class="line">&quot;Camila Morrone is Leo DiCaprio&#39;s girlfriend and her current age raised to the 0.43 power is 3.991298452658078.&quot;</span><br></pre></td></tr></table></figure>
+<p><strong>（4）从结果返回意思来看：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">action 就是调用的tool</span><br><span class="line"></span><br><span class="line">action input是 执行tool所需要的输入</span><br><span class="line"></span><br><span class="line">Observation是返回结果</span><br></pre></td></tr></table></figure>
+<p><strong>相对应：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Action: Search</span><br><span class="line">Action Input: &quot;Leo DiCaprio girlfriend&quot;</span><br><span class="line">Observation: Camila Morrone</span><br></pre></td></tr></table></figure>
+<p><strong>（5）上面代码块给出的就是LLM的思考过程：</strong></p>
+<ul>
+<li><p>观察：从问题中获取到关键信息：29岁</p>
+</li>
+<li><p>问题拆分：I need to find out who Leo DiCaprio’s girlfriend is and then calculate her age raised to the 0.43 power.</p>
+<p>（1） Leo DiCaprio’s girlfriend is </p>
+<p>（2） Leo DiCaprio’s girlfriend age</p>
+<p>（2） Leo DiCaprio’s girlfriend age raised to the 0.43 power</p>
+</li>
+</ul>
+<ul>
+<li><p>思考：我需要知道Leo DiCaprio女朋友是谁 ，那么我需要选用哪个工具呢？</p>
+</li>
+<li><p>行为确认：LLM需要使用 谷歌搜索serpapi  Tool执行计算操作，输入为：”Leo DiCaprio girlfriend”</p>
+</li>
+<li><p>观察：结果为Camila Morrone</p>
+</li>
+</ul>
+<ul>
+<li><p>思考：我需要知道Leo DiCaprio女朋友年龄 ，那么我需要选用哪个工具呢？</p>
+</li>
+<li><p>行为确认：LLM需要使用 谷歌搜索serpapi  Tool执行计算操作，输入为：”Camila Morrone age”</p>
+</li>
+<li><p>观察：结果为25 years</p>
+</li>
+</ul>
+<ul>
+<li><p>思考：我需要I need to calculate 25 raised to the 0.43 power ，那么我需要选用哪个工具呢？</p>
+</li>
+<li><p>行为确认：LLM需要使用计算器Tool执行计算操作 ，输入为：25^0.43</p>
+</li>
+<li><p>观察：结果为3.991298452658078</p>
+</li>
+</ul>
+<ul>
+<li><p>思考：我已经拿到最终结果，不需要继续执行后续的操作；</p>
+</li>
+<li><p>最终结果：”Camila Morrone is Leo DiCaprio’s girlfriend and her current age raised to the 0.43 power is 3.991298452658078.”</p>
+</li>
+<li><p>Chain的执行成功，并输出结果</p>
+</li>
+</ul>
+<p>如果我们的任务有很多，如何提高执行效率？当当当——-异步执行；</p>
+<p><strong>（6）批量任务异步实行代码：</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> List, Tuple, Any, Union</span><br><span class="line"><span class="keyword">from</span> langchain.schema <span class="keyword">import</span> AgentAction, AgentFinish</span><br><span class="line"><span class="keyword">from</span> langchain.agents <span class="keyword">import</span> Tool, AgentExecutor, BaseMultiActionAgent</span><br><span class="line"><span class="keyword">from</span> langchain <span class="keyword">import</span> OpenAI, SerpAPIWrapper</span><br><span class="line"><span class="keyword">from</span> src.hack.config <span class="keyword">import</span> openai_api_key, serper_api_key</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">os.environ[<span class="string">'SERPAPI_API_KEY'</span>] = serper_api_key</span><br><span class="line">os.environ[<span class="string">'OPENAI_API_KEY'</span>] = openai_api_key</span><br><span class="line"></span><br><span class="line">questions = [</span><br><span class="line">    <span class="string">"Who won the US Open men's final in 2019? What is his age raised to the 0.334 power?"</span>,</span><br><span class="line">    <span class="string">"Who is Olivia Wilde's boyfriend? What is his current age raised to the 0.23 power?"</span>,</span><br><span class="line">    <span class="string">"Who won the most recent formula 1 grand prix? What is their age raised to the 0.23 power?"</span>,</span><br><span class="line">    <span class="string">"Who won the US Open women's final in 2019? What is her age raised to the 0.34 power?"</span>,</span><br><span class="line">    <span class="string">"Who is Beyonce's husband? What is his age raised to the 0.19 power?"</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">task_run</span><span class="params">(questions)</span>:</span></span><br><span class="line">    llm = OpenAI(temperature=<span class="number">0</span>)</span><br><span class="line">    tools = load_tools([<span class="string">"serpapi"</span>, <span class="string">"llm-math"</span>], llm=llm)</span><br><span class="line">    agent = initialize_agent(</span><br><span class="line">        tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=<span class="literal">True</span></span><br><span class="line">    )</span><br><span class="line">    s = time.perf_counter()</span><br><span class="line">    <span class="comment"># If running this outside of Jupyter, use asyncio.run or loop.run_until_complete</span></span><br><span class="line">    tasks = [agent.arun(q) <span class="keyword">for</span> q <span class="keyword">in</span> questions]</span><br><span class="line">    <span class="keyword">await</span> asyncio.gather(*tasks)</span><br><span class="line">    elapsed = time.perf_counter() - s</span><br><span class="line">    print(<span class="string">f"Concurrent executed in <span class="subst">&#123;elapsed:<span class="number">0.2</span>f&#125;</span> seconds."</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">loop = asyncio.get_event_loop()</span><br><span class="line">loop.run_until_complete(task_run(questions))</span><br><span class="line"><span class="comment"># print('再看下运行情况：', task_run)</span></span><br><span class="line"><span class="comment"># loop.close()</span></span><br></pre></td></tr></table></figure>
+<p>【1】官网介绍：</p>
+<p><a href="https://docs.langchain.com/docs/components/agents/" target="_blank" rel="noopener">https://docs.langchain.com/docs/components/agents/</a></p>
+<p><a href="https://python.langchain.com/docs/modules/agents.html" target="_blank" rel="noopener">https://python.langchain.com/docs/modules/agents.html</a></p>
+<p>【2】 Serpapi网站注册账号</p>
+<p><a href="https://serpapi.com/" target="_blank" rel="noopener">https://serpapi.com/</a></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+]]></content>
+      <categories>
+        <category>gpt</category>
+      </categories>
+      <tags>
+        <tag>langchain、 gpt</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>pandas直接处理文件io流</title>
+    <url>/2023/06/06/pandas%E7%9B%B4%E6%8E%A5%E5%A4%84%E7%90%86%E6%96%87%E4%BB%B6io%E6%B5%81/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，不定期一个小技巧，今天给大家介绍下如何利用pandas 去处理excel文件数据io流，内容不多，</p>
+<p>拿来即用。</p>
+<a id="more"></a>
+<p><strong>前言：</strong></p>
+<p>​    需求背景是从一个网站上下文excel文件，把文件数据处理好落库</p>
+<p><strong>方式一：</strong></p>
+<p>先把数据下载落地成本地excel文件，在用pandas读取文件，并处理,,相关代码如下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">with open(&quot;.&#x2F;ss4.xlsx&quot;, mode&#x3D;&quot;wb&quot;) as f:</span><br><span class="line">	f.write(response.content)</span><br><span class="line"># 读取Excel文件</span><br><span class="line">df &#x3D; pd.read_excel(io&#x3D;&quot;.&#x2F;ss4.xlsx&quot;, usecols&#x3D;cols, na_values&#x3D;&#39;#N&#39;)  # 读取指定列的excel数据</span><br></pre></td></tr></table></figure>
+<p><strong>方式二：</strong></p>
+<p>直接在获取的过程中，将请求结果转换成io流，并以io流的形式传递给pandas，相关代码如下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import io</span><br><span class="line">response &#x3D; requests.get(url, headers&#x3D;headers, cookies&#x3D;json.loads(cookies), params&#x3D;params)</span><br><span class="line">file_stream &#x3D; io.BytesIO(response.content)</span><br><span class="line">excel_file &#x3D; pd.ExcelFile(file_stream)</span><br><span class="line">sheet_list &#x3D; excel_file.sheet_names  # 获取excel的所有sheet</span><br><span class="line"></span><br><span class="line"># 遍历所有工作表并输出数据</span><br><span class="line">for index, sheet in enumerate(sheet_list):</span><br><span class="line">    df &#x3D; pd.read_excel(io&#x3D;excel_file, sheet_name&#x3D;sheet)</span><br><span class="line">    # 替换Excel表格内的空单元格，否则在下一步处理中将会报错</span><br><span class="line">    df.fillna(&quot;&quot;, inplace&#x3D;True)</span><br><span class="line">    column_list &#x3D; df.columns</span><br></pre></td></tr></table></figure>
+<p>好嘞，今天的分享就到这里了，小小水文一篇。</p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="/2023/06/06/pandas%E7%9B%B4%E6%8E%A5%E5%A4%84%E7%90%86%E6%96%87%E4%BB%B6io%E6%B5%81/www5/BoyYongXin/source/_posts/share/微信.png" style="zoom: 50%;"></p>
+]]></content>
+      <categories>
+        <category>pandas</category>
+      </categories>
+      <tags>
+        <tag>pandas</tag>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>基金从业资格证备考</title>
     <url>/2023/03/22/%E5%9F%BA%E9%87%91%E4%BB%8E%E4%B8%9A%E8%B5%84%E6%A0%BC%E8%AF%81%E5%A4%87%E8%80%83/</url>
     <content><![CDATA[<p>hello 大家好我是Monday，因为工作需要，我用了一个月，下班的空暇时间，搞定基金从业资格（科目一76分，科目二81分）。资料和攻略如下：</p>
