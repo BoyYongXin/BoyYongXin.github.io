@@ -1,0 +1,10 @@
+%先把本地微信进程全部kill%
+TASKKILL /F /IM WeChat.exe
+%开启多个微信客户端，下面是开启5个%
+start "" "D:\Tencent\WeChat\WeChat.exe"
+start "" "D:\Tencent\WeChat\WeChat.exe"
+start "" "D:\Tencent\WeChat\WeChat.exe"
+start "" "D:\Tencent\WeChat\WeChat.exe"
+start "" "D:\Tencent\WeChat\WeChat.exe"
+% 注意D:\Tencent\WeChat\WeChat.exe 是你的微信exe执行目录%
+% 保存.bat 后缀的文件，双击即可%

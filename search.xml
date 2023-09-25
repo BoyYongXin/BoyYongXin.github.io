@@ -1,9 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Python之html2text:将HTML转换为Markdown文档示例详解</title>
+    <url>/2023/09/25/Python%E4%B9%8Bhtml2text-%E5%B0%86HTML%E8%BD%AC%E6%8D%A2%E4%B8%BAMarkdown%E6%96%87%E6%A1%A3%E7%A4%BA%E4%BE%8B%E8%AF%A6%E8%A7%A3/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，本文将详细介绍如何使用Python库中的html2text模块来实现将HTML转换为Markdown的操作，并提供示例详解。</p>
+<a id="more"></a>
+<h4 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h4><p>在Web开发、数据分析、网络爬虫等领域中，我们经常会遇到需要处理HTML文档的情况。但是对于需要将HTML转换为Markdown格式的需求来说，需要一些特定的工具和技术。</p>
+<h4 id="具体操作："><a href="#具体操作：" class="headerlink" title="具体操作："></a><strong>具体操作：</strong></h4><p><strong>1.安装html2text模块</strong></p>
+<p>使用Python进行HTML到Markdown转换，首先需要安装html2text模块。可以使用以下命令进行安装：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip install html2text</span><br></pre></td></tr></table></figure>
+<p><strong>2、我们以抓取tushare网站的接口文档为例（该网站网页使用的是Markdown）</strong></p>
+<p><a href="https://tushare.pro/document/2?doc_id=158" target="_blank" rel="noopener">https://tushare.pro/document/2?doc_id=158</a></p>
+<p><strong>3、正常我们直接requests请求获得的html数据</strong></p>
+<p><strong>4、我们使用html2text 处理一下，代码如下</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"><span class="keyword">import</span> html2text <span class="keyword">as</span> ht</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">htmlToMarkDown</span><span class="params">(html)</span>:</span></span><br><span class="line">    text_maker = ht.HTML2Text()</span><br><span class="line">    text_maker.bypass_tables = <span class="literal">False</span></span><br><span class="line">    text = text_maker.handle(html)</span><br><span class="line">    <span class="keyword">return</span> text</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gain_document_detail</span><span class="params">(document_url)</span>:</span></span><br><span class="line">    headers = &#123;&#125;</span><br><span class="line">    response = requests.get(url=document_url, headers=headers, verify=<span class="literal">False</span>)</span><br><span class="line">    text = response.content.decode(<span class="string">"utf-8"</span>)</span><br><span class="line">    <span class="comment"># print(text)</span></span><br><span class="line">    text_html = etree.HTML(text)</span><br><span class="line">    content_etree = text_html.xpath(<span class="string">'//div[contains(@class, "'</span></span><br><span class="line">                                    <span class="string">'content col-md")]'</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> content_etree:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">""</span></span><br><span class="line">    res = etree.tostring(content_etree[<span class="number">0</span>], encoding=<span class="string">"unicode"</span>). \</span><br><span class="line">        strip()</span><br><span class="line">    text2 = htmlToMarkDown(res)</span><br><span class="line">    <span class="keyword">return</span> text2</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">document_url = <span class="string">f"https://tushare.pro/document/2?doc_id=158"</span></span><br><span class="line">text = gain_document_detail(document_url)</span><br><span class="line">res = re.search(<span class="string">r".*?(\*\*数据示例\*\*.*)$"</span>, text, re.S | re.M)</span><br><span class="line"><span class="keyword">if</span> res:</span><br><span class="line">    text = text.replace(res.group(<span class="number">1</span>), <span class="string">""</span>)</span><br><span class="line">print(text)</span><br></pre></td></tr></table></figure>
+<p><strong>5、运行结果部门截图如下：</strong></p>
+<p><img src="/2023/09/25/Python%E4%B9%8Bhtml2text-%E5%B0%86HTML%E8%BD%AC%E6%8D%A2%E4%B8%BAMarkdown%E6%96%87%E6%A1%A3%E7%A4%BA%E4%BE%8B%E8%AF%A6%E8%A7%A3/1.jpg" style="zoom: 50%;"></p>
+<p><strong>6、更多操作详见官网</strong></p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童学</strong>“</p>
+]]></content>
+      <categories>
+        <category>python基础</category>
+      </categories>
+      <tags>
+        <tag>python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用pm2进程管理工具管理python项目</title>
+    <url>/2023/09/22/%E4%BD%BF%E7%94%A8pm2%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%E7%AE%A1%E7%90%86python%E9%A1%B9%E7%9B%AE/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，今天给大家带来一篇关于使用pm2来作为python程序的进程管理的文章。</p>
+<a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>说到进程管理，后端和运维的同学都不陌生。生产项目以及一些脚本任务都需要进行进程管理。现在市场上用得最多的当属supervisor了，但是它只能运行在 linux 的系统上，也就是说supervisor不能再windows上运行。</p>
+<p>我们这里说的是另外一个进程管理工具PM2，PM2不仅仅适用于linux 系统，同样适用于windows系统。这点对于开发者来说也是个福音，下面我们来说说PM2的简单使用。</p>
+<h1 id="一、PM2的安装"><a href="#一、PM2的安装" class="headerlink" title="一、PM2的安装"></a>一、PM2的安装</h1><p>安装PM2，需要用到nodejs和npm，首先我们来安装nodejs和npm。</p>
+<ol>
+<li>安装nodejs和npm</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">shell复制代码# 下载指定版本的nodejs，这里我们安装node14.17版本</span><br><span class="line">wget https://nodejs.org/dist/v14.17.3/node-v14.17.3-linux-x64.tar.xz</span><br><span class="line"><span class="meta">#</span><span class="bash"> 加压安装包</span></span><br><span class="line">tar xvf node-v14.17.3-linux-x64.tar.xz</span><br><span class="line"><span class="meta">#</span><span class="bash"> 重命名</span></span><br><span class="line">mv node-v14.17.3-linux-x64 node</span><br><span class="line"><span class="meta">#</span><span class="bash"> 移动到/usr/<span class="built_in">local</span></span></span><br><span class="line">mv node /usr/local</span><br><span class="line"><span class="meta">#</span><span class="bash"> 制作软连接</span></span><br><span class="line">ln -s /usr/local/node/bin/node /usr/bin/node</span><br><span class="line">ln -s /usr/local/node/bin/npm /usr/bin/npm</span><br></pre></td></tr></table></figure>
+<p>安装好nodejs和npm后，运行下<code>node -v</code>测试下是否安装成功。</p>
+<ol>
+<li>安装pm2</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install pm2 -g</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 制作软连接</span></span><br><span class="line">ln -s /usr/local/node/bin/pm2 /usr/bin/pm2</span><br></pre></td></tr></table></figure>
+<p>安装好之后，输入<code>pm2 -v</code>查看版本。</p>
+<h2 id="二、PM2的使用"><a href="#二、PM2的使用" class="headerlink" title="二、PM2的使用"></a>二、PM2的使用</h2><h6 id="1、启动应用"><a href="#1、启动应用" class="headerlink" title="1、启动应用"></a>1、启动应用</h6><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 支持不同文件格式</span></span><br><span class="line">  pm2 start app.js</span><br><span class="line">  pm2 start bashscript.sh</span><br><span class="line">  pm2 start python-app.py</span><br><span class="line">  pm2 start binary-file</span><br><span class="line">  pm2 start "npm run start"</span><br><span class="line">  pm2 start "ls -la"</span><br><span class="line">  pm2 start app.py</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置启动应用的显示名称</span></span><br><span class="line">  pm2 start app.js --name &lt;app_name&gt;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 监控应用目录，一旦有文件发生更改就立刻重启应用</span></span><br><span class="line">  pm2 start app.js --watch</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置应用重启时，能使用内存的最大值</span></span><br><span class="line">  pm2 start app.js --max-memory-restart &lt;200MB&gt;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动时，传递参数给 app 应用</span></span><br><span class="line">  pm2 start app.js -- arg1 arg2 arg3</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 禁止自动重启应用</span></span><br><span class="line">  pm2 start app.js --no-autorestart</span><br></pre></td></tr></table></figure>
+<h6 id="2、重启、重载、停止、删除"><a href="#2、重启、重载、停止、删除" class="headerlink" title="2、重启、重载、停止、删除"></a>2、重启、重载、停止、删除</h6><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pm2 restart app_name|app_id|all</span><br><span class="line">pm2 reload app_name|app_id|all</span><br><span class="line">pm2 stop app_name|app_id|all</span><br><span class="line">pm2 delete app_name|app_id|all</span><br><span class="line"></span><br><span class="line">pm2 restart app.js</span><br><span class="line">pm2 restart app1 app3 app4</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 重置 restart 的计时器</span></span><br><span class="line">pm2 reset all</span><br></pre></td></tr></table></figure>
+<h6 id="3、查看运行状态"><a href="#3、查看运行状态" class="headerlink" title="3、查看运行状态"></a>3、查看运行状态</h6><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看所有进程信息（app_name、app_id等）</span></span><br><span class="line">  pm2 [list|ls|status]</span><br><span class="line">	</span><br><span class="line"><span class="meta">#</span><span class="bash"> 对应用进行排序查看</span></span><br><span class="line">  pm2 list --sort name:desc</span><br><span class="line"><span class="meta">	#</span><span class="bash"> Or</span></span><br><span class="line">  pm2 list --sort [name|id|pid|memory|cpu|status|uptime][:asc|desc]	</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看某个应用详情</span></span><br><span class="line">  pm2 describe app_name|app_id</span><br><span class="line">  pm2 show api</span><br></pre></td></tr></table></figure>
+<h6 id="4、显示仪表盘"><a href="#4、显示仪表盘" class="headerlink" title="4、显示仪表盘"></a>4、显示仪表盘</h6><p>在终端上显示仪表盘，展示所有应用的信息：cpu、内存、日志、运行状态等。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pm2 monit</span><br></pre></td></tr></table></figure>
+<h6 id="5、查看-PM2-所有命令说明"><a href="#5、查看-PM2-所有命令说明" class="headerlink" title="5、查看 PM2 所有命令说明"></a>5、查看 PM2 所有命令说明</h6><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">查看所有命令</span><br><span class="line">pm2 --help</span><br><span class="line">pm2 -h</span><br></pre></td></tr></table></figure>
+<h3 id="三、启动自己的项目"><a href="#三、启动自己的项目" class="headerlink" title="三、启动自己的项目"></a>三、启动自己的项目</h3><p>fastapi项目启动入口如下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import sys</span><br><span class="line">sys.path.append(&quot;.&quot;)</span><br><span class="line">from src.webapp import app</span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    import uvicorn</span><br><span class="line">    uvicorn.run(&#39;bin.webapp:app&#39;, reload&#x3D;True, host&#x3D;&#39;0.0.0.0&#39;, port&#x3D;10005)</span><br></pre></td></tr></table></figure>
+<p>使用PM2命令启动项目：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pm2 start &#39;gunicorn -b 0.0.0.0:10005 -w 32 -t 180 -k uvicorn.workers.UvicornWorker bin.webapp:app&#39;</span><br></pre></td></tr></table></figure>
+<h3 id="四、配置pm2启动脚本"><a href="#四、配置pm2启动脚本" class="headerlink" title="四、配置pm2启动脚本"></a>四、配置pm2启动脚本</h3><p>我们在运行一个python应用时，通常要指定python虚拟环境、传递额外参数、设置日志路径等。如果都将配置在命令行上写，不仅不方便输入，而且不便于管理。这时我们可以用到以配置文件启动的方式来处理。</p>
+<h4 id="以json配置文件启动"><a href="#以json配置文件启动" class="headerlink" title="以json配置文件启动"></a>以json配置文件启动</h4><p>命令：<code>pm2 start config.json</code> 还是以上述test.py为例，我们此时启动该程序要求：</p>
+<ul>
+<li>指定程序路径</li>
+<li>指定python虚拟环境</li>
+<li>指定日志输出路径</li>
+<li>不要自动重启</li>
+</ul>
+<p>为了满足上述需求，我们首先来看看json配置文件的主要参数</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 主要参数</span></span><br><span class="line">name:   任务名称</span><br><span class="line">script: 脚本路径</span><br><span class="line">cwd:    程序目录</span><br><span class="line">args:   额外参数</span><br><span class="line">interpreter： 虚拟环境</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 其他参数</span></span><br><span class="line">watch： 是否监控文件改动重启</span><br><span class="line">error_file： 错误日志路径</span><br><span class="line">out_file： 正常输入日志路径</span><br><span class="line">autorestart：是否要自动重启</span><br></pre></td></tr></table></figure>
+<p>根据参数，我们来写运行配置文件<code>pm2.json</code></p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"test_pm2_101"</span>,</span><br><span class="line">    <span class="attr">"cwd"</span>: <span class="string">"/Users/ethan/Desktop/test/pm2_test"</span>,</span><br><span class="line">    <span class="attr">"script"</span>: <span class="string">"/Users/ethan/Desktop/test/pm2_test/test.py"</span>,</span><br><span class="line">    <span class="attr">"interpreter"</span>: <span class="string">"/Users/ethan/miniconda3/envs/data_manage/bin/python"</span>,</span><br><span class="line">    <span class="attr">"out_file"</span>: <span class="string">"/Users/ethan/Desktop/test/pm2_test/log.log"</span>,</span><br><span class="line">    <span class="attr">"error_file"</span>: <span class="string">"/Users/ethan/Desktop/test/pm2_test/error.log"</span>,</span><br><span class="line">    <span class="attr">"autorestart"</span> : <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="设置pm2自启动"><a href="#设置pm2自启动" class="headerlink" title="设置pm2自启动"></a>设置pm2自启动</h4><p>最后讲一下pm2的自启动设置，没设置前，服务器重启后，pm2是不会自动重启的，因此我们的应用需重新启动了。</p>
+<p>设置方法很简单，输入<code>pm2 startup</code>，然后根据提示设置即可。</p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz/SpIZia88icgTWTMdoqhFZ3RDehEiaUD6eYSUrcXibtwJhq7ibfKoouamC2SW8lD4GmiccU6I3l9ffQMiaLpJOSTsqQLfA/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p>
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>进程管理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>pc端如何打开多个微信客户端</title>
+    <url>/2023/09/14/pc%E7%AB%AF%E5%A6%82%E4%BD%95%E6%89%93%E5%BC%80%E5%A4%9A%E4%B8%AA%E5%BE%AE%E4%BF%A1%E5%AE%A2%E6%88%B7%E7%AB%AF/</url>
+    <content><![CDATA[<p>hello 大家好我是Monday，一台电脑登录多个微信也是很多人的常态，今天小编就和你分享小编最常用的<strong>电脑版微信多开的方法</strong>。</p>
+<a id="more"></a>
+<h4 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h4><p>你有几个微信呢？小编有两个微信。相信大多数的上班族都会有两到三个微信，工作和生活互不干扰，拥有多个微信我想这是最简单的了。</p>
+<p>一台电脑登录多个微信也是很多人的常态，今天小编就和你分享小编最常用的<strong>电脑版微信多开的方法</strong>。</p>
+<p><strong>简单方便代码电脑版微信多开</strong></p>
+<p>1，桌面新建一个TXT文本，将以下代码复制进去。其中红色框内内容是需要修改内容，改为你的微信安装路径即可。</p>
+<p><img src="/2023/09/14/pc%E7%AB%AF%E5%A6%82%E4%BD%95%E6%89%93%E5%BC%80%E5%A4%9A%E4%B8%AA%E5%BE%AE%E4%BF%A1%E5%AE%A2%E6%88%B7%E7%AB%AF/1.jpg" style="zoom: 50%;"></p>
+<p>需要多开几个微信，你就复制几行 start +路径代码。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">%先把本地微信进程全部kill%</span><br><span class="line">%TASKKILL &#x2F;F &#x2F;IM WeChat.exe%</span><br><span class="line">%开启多个微信客户端，下面是开启5个%</span><br><span class="line">start &quot;&quot; &quot;D:\Tencent\WeChat\WeChat.exe&quot;</span><br><span class="line">start &quot;&quot; &quot;D:\Tencent\WeChat\WeChat.exe&quot;</span><br><span class="line">start &quot;&quot; &quot;D:\Tencent\WeChat\WeChat.exe&quot;</span><br><span class="line">start &quot;&quot; &quot;D:\Tencent\WeChat\WeChat.exe&quot;</span><br><span class="line">start &quot;&quot; &quot;D:\Tencent\WeChat\WeChat.exe&quot;</span><br><span class="line"></span><br><span class="line">% 注意D:\Tencent\WeChat\WeChat.exe 是你的微信exe执行目录%</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">% 保存.bat 后缀的文件，双击即可%</span><br></pre></td></tr></table></figure>
+<p>保存.bat 后缀的文件，下图为双开文件。</p>
+<p><img src="/2023/09/14/pc%E7%AB%AF%E5%A6%82%E4%BD%95%E6%89%93%E5%BC%80%E5%A4%9A%E4%B8%AA%E5%BE%AE%E4%BF%A1%E5%AE%A2%E6%88%B7%E7%AB%AF/2.jpg" style="zoom: 150%;"></p>
+<p>双击即可</p>
+<p><img src="/2023/09/14/pc%E7%AB%AF%E5%A6%82%E4%BD%95%E6%89%93%E5%BC%80%E5%A4%9A%E4%B8%AA%E5%BE%AE%E4%BF%A1%E5%AE%A2%E6%88%B7%E7%AB%AF/3.jpg" style="zoom: 150%;"></p>
+<p>好嘞，今天的分享就到这里了，小小水文一篇。</p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+]]></content>
+      <categories>
+        <category>技术杂谈</category>
+      </categories>
+      <tags>
+        <tag>技术杂谈</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>复制网页内容不被允许怎么办</title>
     <url>/2023/09/09/%E5%A4%8D%E5%88%B6%E7%BD%91%E9%A1%B5%E5%86%85%E5%AE%B9%E4%B8%8D%E8%A2%AB%E5%85%81%E8%AE%B8%E6%80%8E%E4%B9%88%E5%8A%9E/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<p><strong>前言：</strong></p>
+<p>hello 大家好我是Monday，今天给大家带来水文一篇，速复制不被允许的网页内容的方法。</p>
+<a id="more"></a>
+<h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><p>我们平时浏览网页和查找资料时，总会需要复制一些文字内容，用来引用、收藏、摘抄啊什么的。</p>
+<p>但也会遇到一些<strong>网站上的内容文本无法复制？！</strong>一般就是网站本身<strong>有禁止复制限制</strong>。如下图所示</p>
+<p><img src="/2023/09/09/%E5%A4%8D%E5%88%B6%E7%BD%91%E9%A1%B5%E5%86%85%E5%AE%B9%E4%B8%8D%E8%A2%AB%E5%85%81%E8%AE%B8%E6%80%8E%E4%B9%88%E5%8A%9E/1.jpg" style="zoom: 50%;"></p>
+<p>好不容易找到的资料，再一个个字手打效率太低了……</p>
+<p>下面分享两种方法<strong>，教大家轻松</strong>解除网页复制限制，一键搞定，简单实用！</p>
+<h4 id="（1）方法一："><a href="#（1）方法一：" class="headerlink" title="（1）方法一："></a>（1）方法一：</h4><p>打开网页链接———-右键———-检查———-点击设置———勾上进制JavaScript</p>
+<p><img src="/2023/09/09/%E5%A4%8D%E5%88%B6%E7%BD%91%E9%A1%B5%E5%86%85%E5%AE%B9%E4%B8%8D%E8%A2%AB%E5%85%81%E8%AE%B8%E6%80%8E%E4%B9%88%E5%8A%9E/3.jpg" style="zoom: 50%;"></p>
+<p>我们就可以自由的复制网页信息了</p>
+<h4 id="（2）方法二"><a href="#（2）方法二" class="headerlink" title="（2）方法二"></a>（2）方法二</h4><p>打开禁止复制的网页，按下快捷键Ctrl+S；</p>
+<p>在弹出的保存对话框中选择“网页，仅HTML”；</p>
+<p>双击保存好的网页文件，这时你会发现原本无法复制的内容已经可以正常拷贝了；</p>
+<h4 id="（3）方法三"><a href="#（3）方法三" class="headerlink" title="（3）方法三"></a>（3）方法三</h4><p>和扩展效果一样，油猴脚本的优势是<strong>更加轻量</strong>。可以解除禁止复制、选择文本、右键菜单的限制。</p>
+<p>以上三种方法，我们就可在禁止复制的网页，随意copy了</p>
+<p><strong>结束语</strong>：</p>
+<p>​    今天的分享就到这里了，欢迎大家关注微信公众号”<strong>菜鸟童靴</strong>“</p>
+]]></content>
+      <categories>
+        <category>技术杂谈</category>
+      </categories>
+      <tags>
+        <tag>技术杂谈</tag>
+      </tags>
   </entry>
   <entry>
     <title>python如何提取pdf中表格数据</title>
@@ -1883,8 +2014,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>mitmproxy</tag>
         <tag>科学上网</tag>
+        <tag>mitmproxy</tag>
       </tags>
   </entry>
   <entry>
@@ -2909,8 +3040,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>mitmproxy</tag>
         <tag>科学上网</tag>
+        <tag>mitmproxy</tag>
       </tags>
   </entry>
   <entry>
@@ -3023,8 +3154,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>mitmproxy</tag>
         <tag>科学上网</tag>
+        <tag>mitmproxy</tag>
       </tags>
   </entry>
   <entry>
@@ -3150,8 +3281,8 @@
         <category>技术杂谈</category>
       </categories>
       <tags>
-        <tag>科学上网</tag>
         <tag>github</tag>
+        <tag>科学上网</tag>
       </tags>
   </entry>
   <entry>
